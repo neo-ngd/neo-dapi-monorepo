@@ -20,7 +20,7 @@ export class PostMessageConnection implements IJsonRpcConnection {
   constructor(
     private postMessage: PostMessage,
     private addMessageListener: AddMessageListener,
-    private topic: string = '@neo-ngd/json-rpc',
+    private topic: string = '@neongd/json-rpc',
     private logger: Logger | null = null,
   ) {}
 
