@@ -24,14 +24,14 @@ export default [
   {
     input,
     external,
-    plugins: [typescript(), nodePolyfills()],
+    plugins: [typescript()],
     output: { dir: path.dirname(pkg.main), format: 'cjs', sourcemap: true },
   },
   // ES module (for bundlers) build.
   {
     input,
     external,
-    plugins: [typescript(), nodePolyfills()],
+    plugins: [typescript()],
     output: { dir: path.dirname(pkg.module), format: 'es', sourcemap: true },
   },
 ];
