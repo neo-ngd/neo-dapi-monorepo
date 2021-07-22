@@ -1,7 +1,7 @@
 export interface IEvents {
   on(event: string, listener: any): void;
   once(event: string, listener: any): void;
-  off(event: string, listener: any): void;
+  removeListener(event: string, listener: any): void;
 }
 
 export interface RequestArguments<T = any> {

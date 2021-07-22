@@ -44,8 +44,8 @@ export class JsonRpcNeoProvider implements INeoProvider {
     this.events.once(event, listener);
   }
 
-  off(event: string, listener: any): void {
-    this.events.off(event, listener);
+  removeListener(event: string, listener: any): void {
+    this.events.removeListener(event, listener);
   }
 
   request<R = any, P = any>(args: RequestArguments<P>): Promise<R> {

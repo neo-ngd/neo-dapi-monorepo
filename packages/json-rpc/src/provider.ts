@@ -47,10 +47,6 @@ export class JsonRpcProvider implements IJsonRpcProvider {
     this.events.once(event, listener);
   }
 
-  off(event: string, listener: any): void {
-    this.events.off(event, listener);
-  }
-
   removeListener(event: string, listener: any): void {
     this.events.removeListener(event, listener);
   }
@@ -151,9 +147,9 @@ export class JsonRpcProvider implements IJsonRpcProvider {
 
   private async close() {
     await this.connection.close();
-    this.connection.off('payload', this.onConnectionPayload);
-    this.connection.off('close', this.onConnectionClose);
-    this.connection.off('error', this.onConnectionError);
+    this.connection.removeListener('payload', this.onConnectionPayload);
+    this.connection.removeListener('close', this.onConnectionClose);
+    this.connection.removeListener('error', this.onConnectionError);
     this.events.emit('disconnect');
   }
 }
