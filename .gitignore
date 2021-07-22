@@ -1,0 +1,9 @@
+# Output
+dist/
+
+# OSX
+.DS_Store
+
+# node.js
+node_modules/
+yarn-error.log
