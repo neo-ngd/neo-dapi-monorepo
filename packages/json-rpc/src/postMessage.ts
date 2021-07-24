@@ -58,12 +58,12 @@ export class PostMessageConnection implements IJsonRpcConnection {
     if (this.logger) {
       this.logger.log('postMessage', safeJsonStringify({ topic: this.topic, payload: payload }));
     }
-    await this.postMessage(safeJsonStringify({ topic: this.topic, payload: payload }));
+    this.postMessage(safeJsonStringify({ topic: this.topic, payload: payload }));
   }
 
   // ---------- Private ----------------------------------------------- /
 
-  public onMessage(message: string) {
+  private onMessage(message: string) {
     if (this.logger) {
       this.logger.log('onMessage', message);
     }

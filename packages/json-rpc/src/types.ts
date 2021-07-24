@@ -68,7 +68,7 @@ export interface IJsonRpcProvider extends IEvents {
   reject(id: number, error: ErrorResponse, context?: any): Promise<void>;
 }
 
-export type PostMessage = (message: string) => Promise<void>;
+export type PostMessage = (message: string) => void;
 
 export type MessageListener = (message: string) => void;
 

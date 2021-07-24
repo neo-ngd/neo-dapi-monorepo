@@ -5,6 +5,7 @@ import {
   formatJsonRpcRequest,
   formatJsonRpcResult,
 } from './formatters';
+import { HttpConnection } from './http';
 import {
   ErrorResponse,
   IJsonRpcConnection,
@@ -15,24 +16,29 @@ import {
   JsonRpcResponse,
   RequestArguments,
 } from './types';
+import { isHttpUrl } from './url';
 import {
   isJsonRpcError,
   isJsonRpcNotification,
   isJsonRpcRequest,
   isJsonRpcResponse,
 } from './validators';
+import { WsConnection } from './ws';
 
 export class JsonRpcProvider implements IJsonRpcProvider {
+  public connection: IJsonRpcConnection;
+
   private events = new EventEmitter();
 
-  constructor(public connection: IJsonRpcConnection) {
+  constructor(connection: string | IJsonRpcConnection) {
+    this.connection = this.parseConnection(connection);
     this.onConnectionPayload = this.onConnectionPayload.bind(this);
     this.onConnectionClose = this.onConnectionClose.bind(this);
     this.onConnectionError = this.onConnectionError.bind(this);
   }
 
-  async connect(connection: IJsonRpcConnection = this.connection): Promise<void> {
-    await this.open(connection);
+  async connect(connection: IJsonRpcConnection | string = this.connection): Promise<void> {
+    await this.open(this.parseConnection(connection));
   }
 
   async disconnect(): Promise<void> {
@@ -70,7 +76,15 @@ export class JsonRpcProvider implements IJsonRpcProvider {
     return this.respondStrict(formatJsonRpcError(id, error));
   }
 
-  // ---------- Protected ----------------------------------------------- //
+  // ---------- Private ----------------------------------------------- //
+
+  private parseConnection(connection: string | IJsonRpcConnection) {
+    return typeof connection === 'string'
+      ? isHttpUrl(connection)
+        ? new HttpConnection(connection)
+        : new WsConnection(connection)
+      : connection;
+  }
 
   private async requestStrict<Result = any, Params = any>(
     request: JsonRpcRequest<Params>,

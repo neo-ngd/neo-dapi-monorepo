@@ -33,6 +33,7 @@
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.1",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.2",
     "@rollup/plugin-typescript": "^8.2.3",
     "@types/jest": "^26.0.24",

@@ -1,5 +1,5 @@
 import { INTERNAL_ERROR, SERVER_ERROR } from './constants';
-import { getError, getErrorByCode, isReservedErrorCode } from './errors';
+import { getError, getErrorByCode, isReservedErrorCode, isServerErrorCode } from './errors';
 import {
   ErrorResponse,
   JsonRpcError,
@@ -55,7 +55,7 @@ export function formatJsonRpcError(id: number, error?: string | ErrorResponse): 
 }
 
 export function formatErrorMessage(error?: string | ErrorResponse): ErrorResponse {
-  if (typeof error === 'undefined') {
+  if (!error) {
     return getError(INTERNAL_ERROR);
   }
   if (typeof error === 'string') {
@@ -66,6 +66,9 @@ export function formatErrorMessage(error?: string | ErrorResponse): ErrorRespons
   }
   if (isReservedErrorCode(error.code)) {
     error = getErrorByCode(error.code);
+  }
+  if (!isServerErrorCode(error.code)) {
+    throw new Error('Error code is not in server code range');
   }
   return error;
 }
