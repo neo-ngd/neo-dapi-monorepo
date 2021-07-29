@@ -5,4 +5,4 @@ export * from './formatters';
 export * from './validators';
 export * from './postMessage';
 export * from './url';
-export * from './provider';
+export * from './proxy';
