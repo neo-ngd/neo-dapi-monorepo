@@ -22,8 +22,7 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   async enable(): Promise<ProviderAccounts> {
-    const accounts = await this.request({ method: 'getAccount' });
-    return accounts as ProviderAccounts;
+    return this.request({ method: 'getAccount' });
   }
 
   on(event: 'connect', listener: (info: ProviderInfo) => void): void;
@@ -52,7 +51,7 @@ export class JsonRpcNeoProvider implements INeoProvider {
     return this.proxy.request<R, P>(args);
   }
 
-  private registerEventListeners(): void {
+  private registerEventListeners() {
     this.proxy.on('disconnect', () => {
       this.proxy.connect();
     });
