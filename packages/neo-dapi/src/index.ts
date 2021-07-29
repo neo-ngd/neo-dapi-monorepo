@@ -1,12 +1,9 @@
-import { INeoProvider } from '@neongd/neo-provider';
-import { GetProviderResult, INeoDapi } from './types';
+import { GET_PROVIDER_METHOD, GetProviderResult, INeoProvider } from '@neongd/neo-provider';
 
-export * from './types';
-
-export class NeoDapi implements INeoDapi {
-  constructor(private neoProvider: INeoProvider) {}
+export class NeoDapi {
+  constructor(private provider: INeoProvider) {}
 
   async getProvider(): Promise<GetProviderResult> {
-    return this.neoProvider.request({ method: 'getProvider' });
+    return this.provider.request({ method: GET_PROVIDER_METHOD });
   }
 }
