@@ -12,8 +12,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "watch": "lerna run --parallel watch",
-    "release": "yarn build && lerna publish",
-    "release:canary": "yarn build && lerna publish --canary"
+    "publish": "lerna publish",
+    "release": "run-s build publish",
+    "release:canary": "run-s build 'publish --canary'"
   },
   "repository": {
     "type": "git",
