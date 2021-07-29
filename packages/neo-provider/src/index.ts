@@ -53,9 +53,7 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   private registerEventListeners(): void {
-    this.jsonRpcProvider.on('connect', () => this.events.emit('connect'));
     this.jsonRpcProvider.on('disconnect', () => {
-      this.events.emit('disconnect');
       this.jsonRpcProvider.connect();
     });
     this.jsonRpcProvider.on('notification', (notification: JsonRpcNotification) =>
@@ -67,11 +65,6 @@ export class JsonRpcNeoProvider implements INeoProvider {
     const providerEvents = ['connect', 'disconnect', 'message', 'chainChanged', 'accountsChanged'];
     if (providerEvents.includes(notification.method)) {
       this.events.emit(notification.method, notification.params);
-    } else {
-      this.events.emit('message', {
-        type: notification.method,
-        data: notification.params,
-      } as ProviderMessage);
     }
   }
 }
