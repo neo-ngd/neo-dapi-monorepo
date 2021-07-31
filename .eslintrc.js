@@ -1,10 +1,17 @@
 module.exports = {
+  env: {
+    node: true,
+  },
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
   },
-  extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
   plugins: ['import'],
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],

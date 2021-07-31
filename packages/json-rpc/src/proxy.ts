@@ -89,10 +89,10 @@ export class JsonRpcProxy implements IJsonRpcProxy {
   private async requestStrict<Result = any, Params = any>(
     request: JsonRpcRequest<Params>,
   ): Promise<Result> {
-    return new Promise(async (resolve, reject) => {
-      if (!this.connection.connected) {
-        await this.open();
-      }
+    if (!this.connection.connected) {
+      await this.open();
+    }
+    return new Promise((resolve, reject) => {
       this.events.on(`${request.id}`, (response: JsonRpcResponse) => {
         if (isJsonRpcError(response)) {
           reject(response.error);
@@ -100,8 +100,7 @@ export class JsonRpcProxy implements IJsonRpcProxy {
           resolve(response.result);
         }
       });
-
-      await this.connection.send(request);
+      this.connection.send(request);
     });
   }
 
