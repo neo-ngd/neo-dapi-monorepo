@@ -1,6 +1,4 @@
-import { Argument, Signer, TransactionAttribute } from '../types';
-
-export const INVOKE_MULTI_METHOD = 'invokeMulti';
+import { Argument, Signer, TransactionAttribute } from '../../types';
 
 interface Invoke {
   scriptHash: string;

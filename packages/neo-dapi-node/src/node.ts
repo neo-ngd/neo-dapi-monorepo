@@ -1,12 +1,6 @@
 import { INeoProvider } from '@neongd/neo-provider';
-import {
-  GET_BLOCK_COUNT_METHOD,
-  GET_BLOCK_METHOD,
-  GetBlockCountResult,
-  GetBlockParams,
-  GetBlockResult,
-} from './methods';
-import { Block } from './methods/types';
+import { GetBlockCountResult, GetBlockParams, GetBlockResult } from './methods';
+import { Block, MethodName } from './types';
 
 export class NeoDapiNode {
   constructor(private provider: INeoProvider) {}
@@ -16,7 +10,7 @@ export class NeoDapiNode {
   }
 
   async getBlockCount(): Promise<GetBlockCountResult> {
-    return this.provider.request({ method: GET_BLOCK_COUNT_METHOD });
+    return this.provider.request({ method: MethodName.GetBlock });
   }
 
   async getBlock(index: number): Promise<string>;
@@ -26,6 +20,6 @@ export class NeoDapiNode {
   async getBlock(hash: string, verbose: false): Promise<string>;
   async getBlock(hash: string, verbose: true): Promise<Block>;
   async getBlock(...params: GetBlockParams): Promise<GetBlockResult> {
-    return this.provider.request({ method: GET_BLOCK_METHOD, params });
+    return this.provider.request({ method: MethodName.GetBlockCount, params });
   }
 }

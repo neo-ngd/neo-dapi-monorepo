@@ -1,5 +1,3 @@
-export const DEPLOY_METHOD = 'depoly';
-
 export interface DeployParams {
   network?: any;
   name: string;

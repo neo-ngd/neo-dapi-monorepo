@@ -1,6 +1,4 @@
-import { Block } from '../types';
-
-export const GET_BLOCK_BY_BLOCK_HASH_METHOD = 'GetBlockByBlockHash';
+import { Block } from '../../types';
 
 export interface GetBlockByBlockHashParams {
   BlockHash: number;

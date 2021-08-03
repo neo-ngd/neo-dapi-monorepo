@@ -1,6 +1,4 @@
-import { Argument, Signer, TransactionAttribute } from '../types';
-
-export const INVOKE_METHOD = 'invoke';
+import { Argument, Signer, TransactionAttribute } from '../../types';
 
 export interface InvokeParams {
   scriptHash: string;

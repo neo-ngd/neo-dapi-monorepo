@@ -1,5 +1,3 @@
-export const VERIFY_MESSAGE_METHOD = 'verifyMessage';
-
 export interface VerifyMessageParams {
   message: string;
   publicKey: string;

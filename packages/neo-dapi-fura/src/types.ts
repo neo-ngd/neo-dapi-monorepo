@@ -1,3 +1,9 @@
+export enum MethodName {
+  GetBlockByBlockHash = 'GetBlockByBlockHash',
+  GetBlockByBlockHeight = 'GetBlockByBlockHeight',
+  GetBlockCount = 'GetBlockCount',
+}
+
 export interface Witness {
   invocation: string;
   verification: string;

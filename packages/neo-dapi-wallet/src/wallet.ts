@@ -1,18 +1,7 @@
 import { INeoProvider } from '@neongd/neo-provider';
 import {
-  DEPLOY_METHOD,
   DeployParams,
   DeployResult,
-  GET_ACCOUNT_METHOD,
-  GET_APPLICATION_LOG_METHOD,
-  GET_BALANCE_METHOD,
-  GET_BLOCK_HEIGHT_METHOD,
-  GET_BLOCK_METHOD,
-  GET_NETWORKS_METHOD,
-  GET_PROVIDER_METHOD,
-  GET_PUBLIC_KEY_METHOD,
-  GET_STORAGE_METHOD,
-  GET_TRANSACTION_METHOD,
   GetAccountResult,
   GetApplicationLogParams,
   GetApplicationLogResult,
@@ -29,10 +18,6 @@ import {
   GetStorageResult,
   GetTransactionParams,
   GetTransactionResult,
-  INVOKE_METHOD,
-  INVOKE_MULTI_METHOD,
-  INVOKE_READ_METHOD,
-  INVOKE_READ_MULTI_METHOD,
   InvokeMultiParams,
   InvokeMultiResult,
   InvokeParams,
@@ -41,18 +26,15 @@ import {
   InvokeReadParams,
   InvokeReadResult,
   InvokeResult,
-  PICK_ADDRESS_METHOD,
   PickAddressResult,
-  SEND_METHOD,
   SendParams,
   SendResult,
-  SIGN_MESSAGE_METHOD,
   SignMessageParams,
   SignMessageResult,
-  VERIFY_MESSAGE_METHOD,
   VerifyMessageParams,
   VerifyMessageResult,
 } from './methods';
+import { MethodName } from './types';
 
 export class NeoDapiWallet {
   constructor(private provider: INeoProvider) {}
@@ -62,78 +44,78 @@ export class NeoDapiWallet {
   }
 
   async getProvider(): Promise<GetProviderResult> {
-    return this.provider.request({ method: GET_PROVIDER_METHOD });
+    return this.provider.request({ method: MethodName.GetProvider });
   }
 
   async getAccount(): Promise<GetAccountResult> {
-    return this.provider.request({ method: GET_ACCOUNT_METHOD });
+    return this.provider.request({ method: MethodName.GetAccount });
   }
 
   async getPublicKey(): Promise<GetPublicKeyResult> {
-    return this.provider.request({ method: GET_PUBLIC_KEY_METHOD });
+    return this.provider.request({ method: MethodName.GetPublicKey });
   }
 
   async getNetworks(): Promise<GetNetworksResult> {
-    return this.provider.request({ method: GET_NETWORKS_METHOD });
+    return this.provider.request({ method: MethodName.GetNetworks });
   }
 
   async getBalance(params: GetBalanceParams): Promise<GetBalanceResult> {
-    return this.provider.request({ method: GET_BALANCE_METHOD, params });
+    return this.provider.request({ method: MethodName.GetBalance, params });
   }
 
   async getBlockHeight(params: GetBlockHeightParams): Promise<GetBlockHeightResult> {
-    return this.provider.request({ method: GET_BLOCK_HEIGHT_METHOD, params });
+    return this.provider.request({ method: MethodName.GetBlockHeight, params });
   }
 
   async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
-    return this.provider.request({ method: GET_BLOCK_METHOD, params });
+    return this.provider.request({ method: MethodName.GetBlock, params });
   }
 
   async getTransaction(params: GetTransactionParams): Promise<GetTransactionResult> {
-    return this.provider.request({ method: GET_TRANSACTION_METHOD, params });
+    return this.provider.request({ method: MethodName.GetTransaction, params });
   }
 
   async getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult> {
-    return this.provider.request({ method: GET_APPLICATION_LOG_METHOD, params });
+    return this.provider.request({ method: MethodName.GetApplicationLog, params });
   }
 
   async getStorage(params: GetStorageParams): Promise<GetStorageResult> {
-    return this.provider.request({ method: GET_STORAGE_METHOD, params });
+    return this.provider.request({ method: MethodName.GetStorage, params });
   }
 
   async pickAddress(): Promise<PickAddressResult> {
-    return this.provider.request({ method: PICK_ADDRESS_METHOD });
+    return this.provider.request({ method: MethodName.PickAddress });
   }
 
   async verifyMessage(params: VerifyMessageParams): Promise<VerifyMessageResult> {
-    return this.provider.request({ method: VERIFY_MESSAGE_METHOD, params });
+    return this.provider.request({ method: MethodName.VerifyMessage, params });
   }
 
   async invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
-    return this.provider.request({ method: INVOKE_READ_METHOD, params });
+    return this.provider.request({ method: MethodName.InvokeRead, params });
   }
 
   async invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult> {
-    return this.provider.request({ method: INVOKE_READ_MULTI_METHOD, params });
+    return this.provider.request({ method: MethodName.InvokeReadMulti, params });
   }
 
   async deploy(params: DeployParams): Promise<DeployResult> {
-    return this.provider.request({ method: DEPLOY_METHOD, params });
+    return this.provider.request({ method: MethodName.Deploy, params });
   }
 
   async invoke(params: InvokeParams): Promise<InvokeResult> {
-    return this.provider.request({ method: INVOKE_METHOD, params });
+    return this.provider.request({ method: MethodName.Invoke, params });
   }
 
   async invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult> {
-    return this.provider.request({ method: INVOKE_MULTI_METHOD, params });
+    return this.provider.request({ method: MethodName.InvokeMulti, params });
   }
 
   async send(params: SendParams): Promise<SendResult> {
-    return this.provider.request({ method: SEND_METHOD, params });
+    return this.provider.request({ method: MethodName.Send, params });
   }
 
   async signMessage(params: SignMessageParams): Promise<SignMessageResult> {
-    return this.provider.request({ method: SIGN_MESSAGE_METHOD, params });
+    return this.provider.request({ method: MethodName.SignMessage, params });
   }
 }

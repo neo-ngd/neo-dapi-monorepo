@@ -1,6 +1,4 @@
-import { Argument } from '../types';
-
-export const GET_APPLICATION_LOG_METHOD = 'getApplicationLog';
+import { Argument } from '../../types';
 
 export interface GetApplicationLogParams {
   txid: string;

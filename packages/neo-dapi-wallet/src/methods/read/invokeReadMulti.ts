@@ -1,6 +1,4 @@
-import { Argument, Signer } from '../types';
-
-export const INVOKE_READ_MULTI_METHOD = 'invokeReadMulti';
+import { Argument, Signer } from '../../types';
 
 interface Invoke {
   scriptHash: string;

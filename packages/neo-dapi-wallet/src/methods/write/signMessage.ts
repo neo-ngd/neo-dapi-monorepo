@@ -1,5 +1,3 @@
-export const SIGN_MESSAGE_METHOD = 'signMessage';
-
 export interface SignMessageParams {
   message: string;
 }

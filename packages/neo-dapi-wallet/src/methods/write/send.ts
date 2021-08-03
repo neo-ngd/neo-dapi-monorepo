@@ -1,5 +1,3 @@
-export const SEND_METHOD = 'send';
-
 export interface SendParams {
   fromAddress: string;
   toAddress: string;

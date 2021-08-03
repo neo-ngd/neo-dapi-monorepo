@@ -1,5 +1,3 @@
-export const GET_BALANCE_METHOD = 'getBalance';
-
 interface BalanceRequest {
   address: string;
   assets?: string[];

@@ -1,6 +1,4 @@
-import { Block } from '../types';
-
-export const GET_BLOCK_METHOD = 'getBlock';
+import { Block } from '../../types';
 
 export interface GetBlockParams {
   blockheight: number;

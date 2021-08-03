@@ -1,3 +1,41 @@
+export enum MethodName {
+  GetAccount = 'getAccount',
+  GetApplicationLog = 'getApplicationLog',
+  GetBalance = 'getBalance',
+  GetBlock = 'getBlock',
+  GetBlockHeight = 'getBlockHeight',
+  GetNetworks = 'getNetworks',
+  GetProvider = 'getProvider',
+  GetPublicKey = 'getPublicKey',
+  GetStorage = 'getStorage',
+  GetTransaction = 'getTransaction',
+  InvokeRead = 'invokeRead',
+  InvokeReadMulti = 'invokeReadMulti',
+  PickAddress = 'pickAddress',
+  VerifyMessage = 'verifyMessage',
+  Deploy = 'deploy',
+  Invoke = 'invoke',
+  InvokeMulti = 'invokeMulti',
+  Send = 'send',
+  SignMessage = 'signMessage',
+}
+
+export enum ArgumentDataType {
+  STRING = 'String',
+  BOOLEAN = 'Boolean',
+  HASH160 = 'Hash160',
+  HASH256 = 'Hash256',
+  INTEGER = 'Integer',
+  BYTEARRAY = 'ByteArray',
+  ARRAY = 'Array',
+  ADDRESS = 'Address',
+}
+
+export interface Argument {
+  type: ArgumentDataType;
+  value: any;
+}
+
 export interface Signer {
   account: string;
   scopes: string;

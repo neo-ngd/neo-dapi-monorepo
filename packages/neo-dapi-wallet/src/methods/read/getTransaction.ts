@@ -1,6 +1,4 @@
-import { Transaction } from '../types';
-
-export const GET_TRANSACTION_METHOD = 'getTransaction';
+import { Transaction } from '../../types';
 
 export interface GetTransactionParams {
   txid: string;

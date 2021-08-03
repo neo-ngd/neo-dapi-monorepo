@@ -1,6 +1,4 @@
-import { Argument, Signer } from '../types';
-
-export const INVOKE_READ_METHOD = 'invokeRead';
+import { Argument, Signer } from '../../types';
 
 export interface InvokeReadParams {
   scriptHash: string;

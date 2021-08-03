@@ -1,5 +1,3 @@
-export const GET_STORAGE_METHOD = 'getStorage';
-
 export interface GetStorageParams {
   scriptHash: string;
   key: string;
