@@ -8,7 +8,7 @@ export class NeoDapi {
   wallet: NeoDapiWallet;
   fura: NeoDapiFura;
 
-  constructor(private provider: INeoProvider) {
+  constructor(provider: INeoProvider) {
     this.node = new NeoDapiNode(provider);
     this.wallet = new NeoDapiWallet(provider);
     this.fura = new NeoDapiFura(provider);
