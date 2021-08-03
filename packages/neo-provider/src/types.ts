@@ -4,24 +4,6 @@ export interface IEvents {
   removeListener(event: string, listener: any): void;
 }
 
-export interface INeoProvider extends IEvents {
-  enable(): Promise<ProviderAccount>;
-
-  on(event: 'connect', listener: () => void): void;
-  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
-  on(event: 'message', listener: (message: ProviderMessage) => void): void;
-  on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
-  on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
-
-  once(event: 'connect', listener: () => void): void;
-  once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
-  once(event: 'message', listener: (message: ProviderMessage) => void): void;
-  once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
-  once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
-
-  request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
-}
-
 export interface ProviderRpcError extends Error {
   message: string;
   code: number;
@@ -57,4 +39,22 @@ export type ProviderListener =
 export interface RequestArguments<T = any> {
   method: string;
   params?: T;
+}
+
+export interface INeoProvider extends IEvents {
+  enable(): Promise<ProviderAccount>;
+
+  on(event: 'connect', listener: () => void): void;
+  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  on(event: 'message', listener: (message: ProviderMessage) => void): void;
+  on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
+
+  once(event: 'connect', listener: () => void): void;
+  once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  once(event: 'message', listener: (message: ProviderMessage) => void): void;
+  once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
+
+  request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
 }

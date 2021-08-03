@@ -1,9 +1,16 @@
-import { GET_PROVIDER_METHOD, GetProviderResult, INeoProvider } from '@neongd/neo-provider';
+import { NeoDapiFura } from '@neongd/neo-dapi-fura';
+import { NeoDapiNode } from '@neongd/neo-dapi-node';
+import { NeoDapiWallet } from '@neongd/neo-dapi-wallet';
+import { INeoProvider } from '@neongd/neo-provider';
 
 export class NeoDapi {
-  constructor(private provider: INeoProvider) {}
+  node: NeoDapiNode;
+  wallet: NeoDapiWallet;
+  fura: NeoDapiFura;
 
-  async getProvider(): Promise<GetProviderResult> {
-    return this.provider.request({ method: GET_PROVIDER_METHOD });
+  constructor(private provider: INeoProvider) {
+    this.node = new NeoDapiNode(provider);
+    this.wallet = new NeoDapiWallet(provider);
+    this.fura = new NeoDapiFura(provider);
   }
 }

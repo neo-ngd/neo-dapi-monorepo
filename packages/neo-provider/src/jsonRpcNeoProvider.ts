@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { JsonRpcNotification, JsonRpcProxy } from '@neongd/json-rpc';
+import { IJsonRpcProxy, JsonRpcNotification, JsonRpcProxy } from '@neongd/json-rpc';
 import {
   INeoProvider,
   ProviderAccount,
@@ -16,7 +16,14 @@ export * from './types';
 export class JsonRpcNeoProvider implements INeoProvider {
   private events = new EventEmitter();
 
-  constructor(public proxy: JsonRpcProxy) {
+  private proxy: IJsonRpcProxy;
+
+  constructor(proxy: IJsonRpcProxy | string) {
+    if (typeof proxy === 'string') {
+      this.proxy = new JsonRpcProxy(proxy);
+    } else {
+      this.proxy = proxy;
+    }
     this.registerEventListeners();
   }
 
