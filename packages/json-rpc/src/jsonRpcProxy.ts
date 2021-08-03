@@ -5,7 +5,7 @@ import {
   formatJsonRpcRequest,
   formatJsonRpcResult,
 } from './formatters';
-import { HttpConnection } from './http';
+import { HttpConnection } from './httpConnection';
 import {
   ErrorResponse,
   IJsonRpcConnection,
@@ -23,7 +23,7 @@ import {
   isJsonRpcRequest,
   isJsonRpcResponse,
 } from './validators';
-import { WsConnection } from './ws';
+import { WsConnection } from './wsConnection';
 
 export class JsonRpcProxy implements IJsonRpcProxy {
   public connection: IJsonRpcConnection;

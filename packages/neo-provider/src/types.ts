@@ -4,6 +4,24 @@ export interface IEvents {
   removeListener(event: string, listener: any): void;
 }
 
+export interface INeoProvider extends IEvents {
+  enable(): Promise<ProviderAccount>;
+
+  on(event: 'connect', listener: () => void): void;
+  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  on(event: 'message', listener: (message: ProviderMessage) => void): void;
+  on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
+
+  once(event: 'connect', listener: () => void): void;
+  once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  once(event: 'message', listener: (message: ProviderMessage) => void): void;
+  once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
+
+  request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
+}
+
 export interface ProviderRpcError extends Error {
   message: string;
   code: number;
@@ -15,47 +33,28 @@ export interface ProviderMessage {
   data?: any;
 }
 
-export interface ProviderInfo {
-  chainId: string;
+export type ProviderNetwork = string;
+
+export interface ProviderAccount {
+  address: string;
+  label?: string;
 }
-
-export interface RequestArguments<T = any> {
-  method: string;
-  params?: T;
-}
-
-export type ProviderChainId = string;
-
-export type ProviderAccounts = string[];
 
 export type ProviderEvent =
   | 'connect'
   | 'disconnect'
   | 'message'
-  | 'chainChanged'
-  | 'accountsChanged';
+  | 'networkChanged'
+  | 'accountChanged';
 
 export type ProviderListener =
-  | ((info: ProviderInfo) => void)
+  | (() => void)
   | ((error: ProviderRpcError) => void)
   | ((message: ProviderMessage) => void)
-  | ((chainId: ProviderChainId) => void)
-  | ((accounts: ProviderAccounts) => void);
+  | ((network: ProviderNetwork) => void)
+  | ((account: ProviderAccount) => void);
 
-export interface INeoProvider extends IEvents {
-  enable(): Promise<ProviderAccounts>;
-
-  on(event: 'connect', listener: (info: ProviderInfo) => void): void;
-  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
-  on(event: 'message', listener: (message: ProviderMessage) => void): void;
-  on(event: 'chainChanged', listener: (chainId: ProviderChainId) => void): void;
-  on(event: 'accountsChanged', listener: (accounts: ProviderAccounts) => void): void;
-
-  once(event: 'connect', listener: (info: ProviderInfo) => void): void;
-  once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
-  once(event: 'message', listener: (message: ProviderMessage) => void): void;
-  once(event: 'chainChanged', listener: (chainId: ProviderChainId) => void): void;
-  once(event: 'accountsChanged', listener: (accounts: ProviderAccounts) => void): void;
-
-  request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
+export interface RequestArguments<T = any> {
+  method: string;
+  params?: T;
 }

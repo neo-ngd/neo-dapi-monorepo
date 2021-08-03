@@ -2,12 +2,11 @@ import { EventEmitter } from 'events';
 import { JsonRpcNotification, JsonRpcProxy } from '@neongd/json-rpc';
 import {
   INeoProvider,
-  ProviderAccounts,
-  ProviderChainId,
+  ProviderAccount,
   ProviderEvent,
-  ProviderInfo,
   ProviderListener,
   ProviderMessage,
+  ProviderNetwork,
   ProviderRpcError,
   RequestArguments,
 } from './types';
@@ -21,24 +20,24 @@ export class JsonRpcNeoProvider implements INeoProvider {
     this.registerEventListeners();
   }
 
-  async enable(): Promise<ProviderAccounts> {
+  async enable(): Promise<ProviderAccount> {
     return this.request({ method: 'getAccount' });
   }
 
-  on(event: 'connect', listener: (info: ProviderInfo) => void): void;
+  on(event: 'connect', listener: () => void): void;
   on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;
-  on(event: 'chainChanged', listener: (chainId: ProviderChainId) => void): void;
-  on(event: 'accountsChanged', listener: (accounts: ProviderAccounts) => void): void;
+  on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
   on(event: ProviderEvent, listener: ProviderListener): void {
     this.events.on(event, listener);
   }
 
-  once(event: 'connect', listener: (info: ProviderInfo) => void): void;
+  once(event: 'connect', listener: () => void): void;
   once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   once(event: 'message', listener: (message: ProviderMessage) => void): void;
-  once(event: 'chainChanged', listener: (chainId: ProviderChainId) => void): void;
-  once(event: 'accountsChanged', listener: (accounts: ProviderAccounts) => void): void;
+  once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
+  once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
   once(event: ProviderEvent, listener: ProviderListener): void {
     this.events.once(event, listener);
   }
@@ -61,7 +60,7 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   private onNotification(notification: JsonRpcNotification) {
-    const providerEvents = ['connect', 'disconnect', 'message', 'chainChanged', 'accountsChanged'];
+    const providerEvents = ['connect', 'disconnect', 'message', 'networkChanged', 'accountChanged'];
     if (providerEvents.includes(notification.method)) {
       this.events.emit(notification.method, notification.params);
     }

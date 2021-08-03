@@ -3,6 +3,6 @@ export * from './constants';
 export * from './errors';
 export * from './formatters';
 export * from './validators';
-export * from './postMessage';
+export * from './postMessageConnection';
 export * from './url';
-export * from './proxy';
+export * from './jsonRpcProxy';
