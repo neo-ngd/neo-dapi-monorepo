@@ -3,8 +3,6 @@ import { IJsonRpcProxy, JsonRpcNotification, JsonRpcProxy } from '@neongd/json-r
 import {
   INeoProvider,
   ProviderAccount,
-  ProviderEvent,
-  ProviderListener,
   ProviderMessage,
   ProviderNetwork,
   ProviderRpcError,
@@ -32,20 +30,20 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   on(event: 'connect', listener: () => void): void;
-  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  on(event: 'disconnect', listener: (error?: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;
   on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
   on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
-  on(event: ProviderEvent, listener: ProviderListener): void {
+  on(event: string, listener: any): void {
     this.events.on(event, listener);
   }
 
   once(event: 'connect', listener: () => void): void;
-  once(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
+  once(event: 'disconnect', listener: (error?: ProviderRpcError) => void): void;
   once(event: 'message', listener: (message: ProviderMessage) => void): void;
   once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
   once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
-  once(event: ProviderEvent, listener: ProviderListener): void {
+  once(event: string, listener: any): void {
     this.events.once(event, listener);
   }
 
