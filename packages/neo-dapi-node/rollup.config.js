@@ -13,6 +13,7 @@ export default [
   // browser-friendly UMD build
   {
     input,
+    external,
     plugins: [
       typescript(),
       json(), // so Rollup can import json files
