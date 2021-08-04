@@ -36,10 +36,6 @@ export class HttpConnection implements IJsonRpcConnection {
     this.events.once(event, listener);
   }
 
-  public off(event: string, listener: any): void {
-    this.events.off(event, listener);
-  }
-
   public removeListener(event: string, listener: any): void {
     this.events.removeListener(event, listener);
   }
