@@ -1,7 +1,7 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "0.0.3",
-  "description": "Neo Dapi types and toolings1",
+  "version": "0.0.4-alpha.1",
+  "description": "Neo Dapi types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/index.js",
@@ -40,5 +40,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "adb9e0f43af37453884180144512c1a4df685cbb"
 }

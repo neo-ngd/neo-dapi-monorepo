@@ -14,7 +14,7 @@
     "watch": "lerna run --parallel watch",
     "publish": "lerna publish",
     "release": "run-s build 'publish --force-publish'",
-    "release:alpha": "run-s build 'publish --dist-tag alpha --no-git-tag-version'"
+    "release:alpha": "run-s build 'publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
