@@ -10,7 +10,7 @@ export class NeoDapiNode {
   }
 
   async getBlockCount(): Promise<GetBlockCountResult> {
-    return this.provider.request({ method: MethodName.GetBlock });
+    return this.provider.request({ method: MethodName.GetBlockCount });
   }
 
   async getBlock(index: number): Promise<string>;
@@ -20,6 +20,6 @@ export class NeoDapiNode {
   async getBlock(hash: string, verbose: false): Promise<string>;
   async getBlock(hash: string, verbose: true): Promise<Block>;
   async getBlock(...params: GetBlockParams): Promise<GetBlockResult> {
-    return this.provider.request({ method: MethodName.GetBlockCount, params });
+    return this.provider.request({ method: MethodName.GetBlock, params });
   }
 }
