@@ -1,7 +1,7 @@
 {
   "name": "@neongd/neo-dapi",
   "version": "0.0.3",
-  "description": "Neo Dapi types and toolings",
+  "description": "Neo Dapi types and toolings1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "browser": "dist/umd/index.js",
