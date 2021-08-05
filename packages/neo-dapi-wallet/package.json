@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi-wallet",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Neo Dapi Wallet types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
-    "@neongd/neo-provider": "^0.0.2"
+    "@neongd/neo-provider": "^0.0.3"
   },
   "publishConfig": {
     "access": "public"
