@@ -14,7 +14,7 @@
     "watch": "lerna run --parallel watch",
     "publish": "lerna publish",
     "release": "run-s build publish",
-    "release:canary": "run-s build 'publish --canary'"
+    "release:alpha": "run-s build 'publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
