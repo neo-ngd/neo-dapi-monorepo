@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi-node",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "Neo Dapi Node types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
-    "@neongd/neo-provider": "^0.0.1"
+    "@neongd/neo-provider": "^0.0.2"
   },
   "publishConfig": {
     "access": "public"
