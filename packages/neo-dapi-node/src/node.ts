@@ -10,7 +10,7 @@ export class NeoDapiNode {
   }
 
   async getBlockCount(): Promise<GetBlockCountResult> {
-    return this.provider.request({ method: MethodName.GetBlockCount });
+    return this.provider.request({ method: MethodName.GetBlockCount, params: [] });
   }
 
   async getBlock(index: number): Promise<string>;
