@@ -6,7 +6,6 @@ export const INTERNAL_ERROR = 'INTERNAL_ERROR';
 export const SERVER_ERROR = 'SERVER_ERROR';
 
 export const RESERVED_ERROR_CODES = [-32700, -32600, -32601, -32602, -32603];
-export const SERVER_ERROR_CODE_RANGE = [-32000, -32099];
 
 export const STANDARD_ERROR_MAP = {
   [PARSE_ERROR]: { code: -32700, message: 'Parse error' },

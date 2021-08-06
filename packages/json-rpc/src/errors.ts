@@ -1,17 +1,8 @@
-import {
-  INTERNAL_ERROR,
-  RESERVED_ERROR_CODES,
-  SERVER_ERROR_CODE_RANGE,
-  STANDARD_ERROR_MAP,
-} from './constants';
+import { INTERNAL_ERROR, RESERVED_ERROR_CODES, STANDARD_ERROR_MAP } from './constants';
 import { ErrorResponse } from './types';
 
 export function isReservedErrorCode(code: number): boolean {
   return RESERVED_ERROR_CODES.includes(code);
-}
-
-export function isServerErrorCode(code: number): boolean {
-  return code <= SERVER_ERROR_CODE_RANGE[0] && code >= SERVER_ERROR_CODE_RANGE[1];
 }
 
 export function isValidErrorCode(code: number): boolean {
