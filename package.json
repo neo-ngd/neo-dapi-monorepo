@@ -12,9 +12,10 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "watch": "lerna run --parallel watch",
-    "publish": "lerna publish",
-    "release": "run-s build 'publish --force-publish'",
-    "release:alpha": "run-s build 'publish --dist-tag alpha'"
+    "version": "lerna version",
+    "publish": "lerna publish from-package",
+    "release": "run-s build 'version --force-publish' publish",
+    "prerelease": "run-s build 'version prerelease --yes' 'publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
