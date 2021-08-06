@@ -68,7 +68,7 @@ export class PostMessageConnection implements IJsonRpcConnection {
       this.logger.log('onMessage', message);
     }
     const data = safeJsonParse(message);
-    if (data && data.topic === this.topic && isJsonRpcPayload(data.payload)) {
+    if (data != null && data.topic === this.topic && isJsonRpcPayload(data.payload)) {
       this.events.emit('payload', data.payload);
     }
   }

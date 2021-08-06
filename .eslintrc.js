@@ -6,6 +6,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2020,
+    project: './tsconfig.json',
   },
   extends: [
     'eslint:recommended',
@@ -20,6 +21,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/strict-boolean-expressions': ['warn'],
     '@typescript-eslint/no-var-requires': 'off',
     'import/order': [
       'error',
@@ -40,4 +42,5 @@ module.exports = {
       },
     ],
   },
+  ignorePatterns: ['.eslintrc.js', '*.config.js'],
 };

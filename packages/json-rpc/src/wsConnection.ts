@@ -4,7 +4,7 @@ import { IJsonRpcConnection, JsonRpcPayload } from './types';
 import { isWsUrl } from './url';
 import { isJsonRpcPayload } from './validators';
 
-const WS = global.WebSocket ? global.WebSocket : require('ws');
+const WS = typeof WebSocket !== 'undefined' ? WebSocket : require('ws');
 
 export class WsConnection implements IJsonRpcConnection {
   public events = new EventEmitter();

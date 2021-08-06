@@ -10,7 +10,7 @@ function getUrlProtocol(url: string): string | undefined {
 
 function matchRegexProtocol(url: string, regex: string): boolean {
   const protocol = getUrlProtocol(url);
-  if (!protocol) return false;
+  if (protocol == null) return false;
   return new RegExp(regex).test(protocol);
 }
 

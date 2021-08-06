@@ -20,7 +20,7 @@ export function formatJsonRpcRequest<T = any>(
   id?: number,
 ): JsonRpcRequest<T> {
   return {
-    id: id || payloadId(),
+    id: id != null ? id : payloadId(),
     jsonrpc: '2.0',
     method,
     params,
@@ -55,7 +55,7 @@ export function formatJsonRpcError(id: number, error?: string | ErrorResponse): 
 }
 
 export function formatErrorMessage(error?: string | ErrorResponse): ErrorResponse {
-  if (!error) {
+  if (error == null) {
     return getError(INTERNAL_ERROR);
   }
   if (typeof error === 'string') {
