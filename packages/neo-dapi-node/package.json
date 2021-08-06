@@ -11,12 +11,8 @@
     "build": "run-p build:types build:code",
     "build:code": "rollup -c",
     "build:types": "tsc -p tsconfig.build.json",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "lint": "eslint . --ext ts,js",
-    "lint:fix": "eslint . --ext ts,js --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "lint": "eslint . --ext ts,js --fix",
+    "test": "jest --passWithNoTests",
     "watch": "run-p 'build:types -- -w' 'build:code -- -w'"
   },
   "repository": {

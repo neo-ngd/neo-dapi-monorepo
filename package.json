@@ -4,18 +4,16 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build --stream",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "lint": "eslint . --ext ts,js",
-    "lint:fix": "eslint . --ext ts,js --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "build": "lerna run --stream build",
+    "lint": "lerna run lint",
+    "test": "lerna run test",
     "watch": "lerna run --parallel watch",
-    "version": "lerna version",
-    "publish": "lerna publish from-package",
-    "release": "run-s build 'version --force-publish' publish",
-    "release:alpha": "run-s build 'version prerelease --yes' 'publish --dist-tag alpha'"
+    "check": "run-s lint build test",
+    "version": "run-s check",
+    "lerna-version": "lerna version",
+    "lerna-publish": "lerna publish from-package",
+    "release": "run-s 'lerna-version --force-publish' lerna-publish",
+    "release:alpha": "run-s 'lerna-version prerelease --yes' 'lerna-publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
