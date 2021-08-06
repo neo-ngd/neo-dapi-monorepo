@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { safeJsonParse, safeJsonStringify } from 'safe-json-utils';
+import { parse, stringify } from './json';
 import { IJsonRpcConnection, JsonRpcPayload } from './types';
 import { isWsUrl } from './url';
 import { isJsonRpcPayload } from './validators';
@@ -56,7 +56,7 @@ export class WsConnection implements IJsonRpcConnection {
     if (!this.socket) {
       this.socket = await this.register();
     }
-    this.socket.send(safeJsonStringify(payload));
+    this.socket.send(stringify(payload));
   }
 
   // ---------- Private ----------------------------------------------- //
@@ -105,7 +105,7 @@ export class WsConnection implements IJsonRpcConnection {
   }
 
   private onPayload(data: any) {
-    const payload: JsonRpcPayload = typeof data === 'string' ? safeJsonParse(data) : data;
+    const payload: JsonRpcPayload = typeof data === 'string' ? parse(data, {}) : data;
     if (isJsonRpcPayload(payload)) {
       this.events.emit('payload', payload);
     }

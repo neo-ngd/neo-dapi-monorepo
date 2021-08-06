@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { safeJsonParse, safeJsonStringify } from 'safe-json-utils';
+import { parse, stringify } from './json';
 import {
   AddMessageListener,
   Disposer,
@@ -56,9 +56,9 @@ export class PostMessageConnection implements IJsonRpcConnection {
 
   async send(payload: JsonRpcPayload, _context?: any): Promise<void> {
     if (this.logger) {
-      this.logger.log('postMessage', safeJsonStringify({ topic: this.topic, payload: payload }));
+      this.logger.log('postMessage', stringify({ topic: this.topic, payload: payload }));
     }
-    this.postMessage(safeJsonStringify({ topic: this.topic, payload: payload }));
+    this.postMessage(stringify({ topic: this.topic, payload: payload }));
   }
 
   // ---------- Private ----------------------------------------------- /
@@ -67,7 +67,7 @@ export class PostMessageConnection implements IJsonRpcConnection {
     if (this.logger) {
       this.logger.log('onMessage', message);
     }
-    const data = safeJsonParse(message);
+    const data = parse(message, null);
     if (data != null && data.topic === this.topic && isJsonRpcPayload(data.payload)) {
       this.events.emit('payload', data.payload);
     }

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import axios, { AxiosInstance } from 'axios';
-import { safeJsonParse } from 'safe-json-utils';
 import { formatJsonRpcError } from './formatters';
+import { parse } from './json';
 import { IJsonRpcConnection, JsonRpcPayload } from './types';
 import { isHttpUrl } from './url';
 import { isJsonRpcPayload } from './validators';
@@ -100,7 +100,7 @@ export class HttpConnection implements IJsonRpcConnection {
   }
 
   private onPayload(data: any) {
-    const payload: JsonRpcPayload = typeof data === 'string' ? safeJsonParse(data) : data;
+    const payload: JsonRpcPayload = typeof data === 'string' ? parse(data, {}) : data;
     if (isJsonRpcPayload(payload)) {
       this.events.emit('payload', payload);
     }
