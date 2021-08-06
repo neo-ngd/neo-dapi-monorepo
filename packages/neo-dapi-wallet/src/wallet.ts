@@ -1,14 +1,12 @@
 import { INeoProvider } from '@neongd/neo-provider';
 import {
-  DeployParams,
-  DeployResult,
   GetAccountResult,
   GetApplicationLogParams,
   GetApplicationLogResult,
   GetBalanceParams,
   GetBalanceResult,
-  GetBlockHeightParams,
-  GetBlockHeightResult,
+  GetBlockCountParams,
+  GetBlockCountResult,
   GetBlockParams,
   GetBlockResult,
   GetNetworksResult,
@@ -26,13 +24,6 @@ import {
   InvokeReadParams,
   InvokeReadResult,
   InvokeResult,
-  PickAddressResult,
-  SendParams,
-  SendResult,
-  SignMessageParams,
-  SignMessageResult,
-  VerifyMessageParams,
-  VerifyMessageResult,
 } from './methods';
 import { MethodName } from './types';
 
@@ -63,8 +54,8 @@ export class NeoDapiWallet {
     return this.provider.request({ method: MethodName.GetBalance, params });
   }
 
-  async getBlockHeight(params: GetBlockHeightParams): Promise<GetBlockHeightResult> {
-    return this.provider.request({ method: MethodName.GetBlockHeight, params });
+  async getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult> {
+    return this.provider.request({ method: MethodName.GetBlockCount, params });
   }
 
   async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
@@ -83,14 +74,6 @@ export class NeoDapiWallet {
     return this.provider.request({ method: MethodName.GetStorage, params });
   }
 
-  async pickAddress(): Promise<PickAddressResult> {
-    return this.provider.request({ method: MethodName.PickAddress });
-  }
-
-  async verifyMessage(params: VerifyMessageParams): Promise<VerifyMessageResult> {
-    return this.provider.request({ method: MethodName.VerifyMessage, params });
-  }
-
   async invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
     return this.provider.request({ method: MethodName.InvokeRead, params });
   }
@@ -99,23 +82,11 @@ export class NeoDapiWallet {
     return this.provider.request({ method: MethodName.InvokeReadMulti, params });
   }
 
-  async deploy(params: DeployParams): Promise<DeployResult> {
-    return this.provider.request({ method: MethodName.Deploy, params });
-  }
-
   async invoke(params: InvokeParams): Promise<InvokeResult> {
     return this.provider.request({ method: MethodName.Invoke, params });
   }
 
   async invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult> {
     return this.provider.request({ method: MethodName.InvokeMulti, params });
-  }
-
-  async send(params: SendParams): Promise<SendResult> {
-    return this.provider.request({ method: MethodName.Send, params });
-  }
-
-  async signMessage(params: SignMessageParams): Promise<SignMessageResult> {
-    return this.provider.request({ method: MethodName.SignMessage, params });
   }
 }

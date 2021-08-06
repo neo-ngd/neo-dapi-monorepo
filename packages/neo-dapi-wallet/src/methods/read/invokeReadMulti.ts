@@ -15,6 +15,6 @@ export interface InvokeReadMultiParams {
 export interface InvokeReadMultiResult {
   script: string;
   state: string;
-  gasconsumed: string;
+  gasConsumed: string;
   stack: Argument[];
 }

@@ -9,7 +9,7 @@ export interface GetBalanceParams {
 }
 
 interface Balance {
-  assethash: string;
+  assetHash: string;
   amount: string;
 }
 

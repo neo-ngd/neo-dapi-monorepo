@@ -3,7 +3,7 @@ export enum MethodName {
   GetApplicationLog = 'getApplicationLog',
   GetBalance = 'getBalance',
   GetBlock = 'getBlock',
-  GetBlockHeight = 'getBlockHeight',
+  GetBlockCount = 'getBlockCount',
   GetNetworks = 'getNetworks',
   GetProvider = 'getProvider',
   GetPublicKey = 'getPublicKey',
@@ -11,13 +11,8 @@ export enum MethodName {
   GetTransaction = 'getTransaction',
   InvokeRead = 'invokeRead',
   InvokeReadMulti = 'invokeReadMulti',
-  PickAddress = 'pickAddress',
-  VerifyMessage = 'verifyMessage',
-  Deploy = 'deploy',
   Invoke = 'invoke',
   InvokeMulti = 'invokeMulti',
-  Send = 'send',
-  SignMessage = 'signMessage',
 }
 
 export enum ArgumentDataType {
@@ -39,8 +34,8 @@ export interface Argument {
 export interface Signer {
   account: string;
   scopes: string;
-  allowedcontracts?: string[];
-  allowedgroups?: string[];
+  allowedContracts?: string[];
+  allowedGroups?: string[];
 }
 
 export interface TransactionAttribute {
@@ -59,30 +54,30 @@ export interface Transaction {
   version: number;
   nonce: number;
   sender: string;
-  sysfee: string;
-  netfee: string;
-  validuntilblock: number;
+  sysFee: string;
+  netFee: string;
+  validUntilBlock: number;
   signers: Signer[];
   attributes: TransactionAttribute[];
   script: string;
   witnesses: Witness[];
-  blockhash: string;
+  blockHash: string;
   confirmations: number;
-  blocktime: number;
+  blockTime: number;
 }
 
 export interface Block {
   hash: string;
   size: number;
   version: number;
-  previousblockhash: string;
-  merkleroot: string;
+  previousBlockHash: string;
+  merkleRoot: string;
   time: number;
   index: number;
   primary: number;
-  nextconsensus: string;
+  nextConsensus: string;
   witnesses: Witness[];
   tx: Transaction[];
   confirmations: number;
-  nextblockhash: string;
+  nextBlockHash: string;
 }

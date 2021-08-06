@@ -1,7 +1,7 @@
 import { Block } from '../../types';
 
 export interface GetBlockParams {
-  blockHeight: number;
+  blockIndex: number;
   network?: string;
 }
 

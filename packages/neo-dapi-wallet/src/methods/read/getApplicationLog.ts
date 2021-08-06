@@ -7,15 +7,15 @@ export interface GetApplicationLogParams {
 
 interface ExecutionDetails {
   trigger: string;
-  vmstate: string;
-  gasconsumed: string;
+  vmState: string;
+  gasConsumed: string;
   stack: Argument[];
   notifications: Notification[];
 }
 
 interface Notification {
   contract: string;
-  eventname: string;
+  eventName: string;
   state: {
     type: 'Array';
     value: Argument[];
@@ -24,6 +24,6 @@ interface Notification {
 
 export interface GetApplicationLogResult {
   txid: string;
-  blockindex: number;
+  blockIndex: number;
   executions: ExecutionDetails[];
 }

@@ -11,6 +11,6 @@ export interface InvokeReadParams {
 export interface InvokeReadResult {
   script: string;
   state: string;
-  gasconsumed: string;
+  gasConsumed: string;
   stack: Argument[];
 }
