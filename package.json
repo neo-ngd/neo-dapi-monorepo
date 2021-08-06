@@ -8,12 +8,10 @@
     "lint": "lerna run lint",
     "test": "lerna run test",
     "watch": "lerna run --parallel watch",
-    "check": "run-s lint build test",
-    "version": "run-s check",
-    "lerna-version": "lerna version",
-    "lerna-publish": "lerna publish from-package",
-    "release": "run-s 'lerna-version --force-publish' lerna-publish",
-    "release:alpha": "run-s 'lerna-version prerelease --yes' 'lerna-publish --dist-tag alpha'"
+    "version": "lerna version",
+    "publish": "lerna publish from-package",
+    "release": "run-s 'version --force-publish' lint build test publish",
+    "release:alpha": "run-s 'version prerelease --yes' lint build test 'publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
