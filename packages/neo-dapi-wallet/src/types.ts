@@ -54,8 +54,8 @@ export interface Transaction {
   version: number;
   nonce: number;
   sender: string;
-  sysFee: string;
-  netFee: string;
+  systemFee: string;
+  networkFee: string;
   validUntilBlock: number;
   signers: Signer[];
   attributes: TransactionAttribute[];
