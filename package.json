@@ -15,7 +15,7 @@
     "version": "lerna version",
     "publish": "lerna publish from-package",
     "release": "run-s build 'version --force-publish' publish",
-    "prerelease": "run-s build 'version prerelease --yes' 'publish --dist-tag alpha'"
+    "release:alpha": "run-s build 'version prerelease --yes' 'publish --dist-tag alpha'"
   },
   "repository": {
     "type": "git",
