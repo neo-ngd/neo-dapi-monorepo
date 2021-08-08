@@ -15,7 +15,7 @@
     "publish:alpha": "lerna publish from-package --dist-tag alpha",
     "release": "run-s new-version publish",
     "release:alpha": "run-s new-version:alpha publish:alpha",
-    "start": "learn run start --parallel"
+    "start": "lerna run start --parallel"
   },
   "repository": {
     "type": "git",
