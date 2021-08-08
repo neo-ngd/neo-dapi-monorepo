@@ -8,7 +8,6 @@
     "lint": "lerna run --no-private lint",
     "test": "lerna run --no-private test",
     "watch": "lerna run --no-private --parallel watch",
-    "version": "cross-env npm_execpath=yarn run-s lint build test",
     "new-version": "lerna version --force-publish",
     "new-version:alpha": "lerna version prerelease",
     "publish": "lerna publish from-package",
