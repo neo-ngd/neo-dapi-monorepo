@@ -6,7 +6,7 @@ interface Invoke {
   args?: Argument[];
 }
 
-export interface InvokeMultiParams {
+interface Params {
   invokeArgs: Invoke[];
   attrs?: TransactionAttribute[];
   signers?: Signer[];
@@ -15,8 +15,10 @@ export interface InvokeMultiParams {
   broadcastOverride?: boolean;
 }
 
-export interface InvokeMultiResult {
+interface Result {
   txid: string;
   nodeUrl?: string;
   signedTx?: string;
 }
+
+export type InvokeMulti = (params: Params) => Promise<Result>;

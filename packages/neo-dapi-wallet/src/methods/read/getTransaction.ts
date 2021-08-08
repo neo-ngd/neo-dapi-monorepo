@@ -1,8 +1,10 @@
 import { Transaction } from '../../types';
 
-export interface GetTransactionParams {
+interface Params {
   txid: string;
   network?: string;
 }
 
-export type GetTransactionResult = Transaction;
+type Result = Transaction;
+
+export type GetTransaction = (params: Params) => Promise<Result>;

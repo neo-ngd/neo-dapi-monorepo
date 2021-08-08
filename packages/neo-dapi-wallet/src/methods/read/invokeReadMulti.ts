@@ -6,15 +6,17 @@ interface Invoke {
   args?: Argument[];
 }
 
-export interface InvokeReadMultiParams {
+interface Params {
   invokeArgs: Invoke[];
   signers?: Signer[];
   network?: string;
 }
 
-export interface InvokeReadMultiResult {
+interface Result {
   script: string;
   state: string;
   gasConsumed: string;
   stack: Argument[];
 }
+
+export type InvokeReadMulti = (params: Params) => Promise<Result>;

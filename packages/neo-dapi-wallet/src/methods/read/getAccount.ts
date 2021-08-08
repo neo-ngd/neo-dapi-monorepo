@@ -1,4 +1,6 @@
-export interface GetAccountResult {
+interface Result {
   address: string;
   label?: string;
 }
+
+export type GetAccount = () => Promise<Result>;

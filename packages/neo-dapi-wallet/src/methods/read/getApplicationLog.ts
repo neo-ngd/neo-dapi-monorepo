@@ -1,6 +1,6 @@
 import { Argument } from '../../types';
 
-export interface GetApplicationLogParams {
+interface Params {
   txid: string;
   network?: string;
 }
@@ -22,8 +22,10 @@ interface Notification {
   };
 }
 
-export interface GetApplicationLogResult {
+interface Result {
   txid: string;
   blockIndex: number;
   executions: ExecutionDetails[];
 }
+
+export type GetApplicationLog = (params: Params) => Promise<Result>;

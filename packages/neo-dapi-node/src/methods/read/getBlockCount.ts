@@ -1,1 +1,3 @@
-export type GetBlockCountResult = number;
+type Result = number;
+
+export type GetBlockCount = () => Promise<Result>;

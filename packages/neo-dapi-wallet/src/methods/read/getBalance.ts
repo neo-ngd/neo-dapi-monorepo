@@ -3,7 +3,7 @@ interface BalanceRequest {
   assets?: string[];
 }
 
-export interface GetBalanceParams {
+interface Params {
   params: BalanceRequest | BalanceRequest[];
   network?: string;
 }
@@ -13,6 +13,8 @@ interface Balance {
   amount: string;
 }
 
-export interface GetBalanceResult {
+interface Result {
   [address: string]: Balance[];
 }
+
+export type GetBalance = (params: Params) => Promise<Result>;

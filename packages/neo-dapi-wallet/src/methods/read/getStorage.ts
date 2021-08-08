@@ -1,7 +1,9 @@
-export interface GetStorageParams {
+interface Params {
   scriptHash: string;
   key: string;
   network?: string;
 }
 
-export type GetStorageResult = string;
+type Result = string;
+
+export type GetStorage = (params: Params) => Promise<Result>;

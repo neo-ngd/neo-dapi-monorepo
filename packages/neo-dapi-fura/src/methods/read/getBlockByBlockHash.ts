@@ -1,7 +1,9 @@
 import { Block } from '../../types';
 
-export interface GetBlockByBlockHashParams {
+interface Params {
   BlockHash: number;
 }
 
-export type GetBlockByBlockHashResult = Block;
+type Result = Block;
+
+export type GetBlockByBlockHash = (params: Params) => Promise<Result>;

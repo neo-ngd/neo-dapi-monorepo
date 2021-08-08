@@ -1,6 +1,6 @@
 import { Argument, Signer } from '../../types';
 
-export interface InvokeReadParams {
+interface Params {
   scriptHash: string;
   operation: string;
   args?: Argument[];
@@ -8,9 +8,11 @@ export interface InvokeReadParams {
   network?: string;
 }
 
-export interface InvokeReadResult {
+interface Result {
   script: string;
   state: string;
   gasConsumed: string;
   stack: Argument[];
 }
+
+export type InvokeRead = (params: Params) => Promise<Result>;

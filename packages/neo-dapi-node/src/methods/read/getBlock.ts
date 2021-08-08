@@ -1,5 +1,7 @@
 import { Block } from '../../types';
 
-export type GetBlockParams = [number] | [number, boolean] | [string] | [string, boolean];
+type Params = [number] | [number, boolean] | [string] | [string, boolean];
 
-export type GetBlockResult = string | Block;
+type Result = string | Block;
+
+export type GetBlock = (...params: Params) => Promise<Result>;

@@ -1,6 +1,6 @@
 import { Argument, Signer, TransactionAttribute } from '../../types';
 
-export interface InvokeParams {
+interface Params {
   scriptHash: string;
   operation: string;
   args?: Argument[];
@@ -11,8 +11,10 @@ export interface InvokeParams {
   broadcastOverride?: boolean;
 }
 
-export interface InvokeResult {
+interface Result {
   txid: string;
   nodeUrl?: string;
   signedTx?: string;
 }
+
+export type Invoke = (params: Params) => Promise<Result>;

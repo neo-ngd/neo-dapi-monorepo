@@ -1,5 +1,7 @@
-export interface GetBlockCountParams {
+interface Params {
   network?: string;
 }
 
-export type GetBlockCountResult = number;
+type Result = number;
+
+export type GetBlockCount = (params: Params) => Promise<Result>;

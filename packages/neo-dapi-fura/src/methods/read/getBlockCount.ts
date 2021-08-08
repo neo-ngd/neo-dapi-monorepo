@@ -1,3 +1,5 @@
-export interface GetBlockCountResult {
+interface Result {
   index: number;
 }
+
+export type GetBlockCount = () => Promise<Result>;

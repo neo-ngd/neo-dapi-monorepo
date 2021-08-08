@@ -1,7 +1,9 @@
 import { Block } from '../../types';
 
-export interface GetBlockByBlockHeightParams {
+interface Params {
   BlockHeight: number;
 }
 
-export type GetBlockByBlockHeightResult = Block;
+type Result = Block;
+
+export type GetBlockByBlockHeight = (params: Params) => Promise<Result>;

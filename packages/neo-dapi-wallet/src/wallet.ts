@@ -1,29 +1,19 @@
 import { INeoProvider } from '@neongd/neo-provider';
 import {
-  GetAccountResult,
-  GetApplicationLogParams,
-  GetApplicationLogResult,
-  GetBalanceParams,
-  GetBalanceResult,
-  GetBlockCountParams,
-  GetBlockCountResult,
-  GetBlockParams,
-  GetBlockResult,
-  GetNetworksResult,
-  GetProviderResult,
-  GetPublicKeyResult,
-  GetStorageParams,
-  GetStorageResult,
-  GetTransactionParams,
-  GetTransactionResult,
-  InvokeMultiParams,
-  InvokeMultiResult,
-  InvokeParams,
-  InvokeReadMultiParams,
-  InvokeReadMultiResult,
-  InvokeReadParams,
-  InvokeReadResult,
-  InvokeResult,
+  GetAccount,
+  GetApplicationLog,
+  GetBalance,
+  GetBlock,
+  GetBlockCount,
+  GetNetworks,
+  GetProvider,
+  GetPublicKey,
+  GetStorage,
+  GetTransaction,
+  Invoke,
+  InvokeMulti,
+  InvokeRead,
+  InvokeReadMulti,
 } from './methods';
 import { MethodName } from './types';
 
@@ -34,59 +24,59 @@ export class NeoDapiWallet {
     this.provider = provider;
   }
 
-  async getProvider(): Promise<GetProviderResult> {
+  getProvider(): ReturnType<GetProvider> {
     return this.provider.request({ method: MethodName.GetProvider });
   }
 
-  async getAccount(): Promise<GetAccountResult> {
+  getAccount(): ReturnType<GetAccount> {
     return this.provider.request({ method: MethodName.GetAccount });
   }
 
-  async getPublicKey(): Promise<GetPublicKeyResult> {
+  getPublicKey(): ReturnType<GetPublicKey> {
     return this.provider.request({ method: MethodName.GetPublicKey });
   }
 
-  async getNetworks(): Promise<GetNetworksResult> {
+  getNetworks(): ReturnType<GetNetworks> {
     return this.provider.request({ method: MethodName.GetNetworks });
   }
 
-  async getBalance(params: GetBalanceParams): Promise<GetBalanceResult> {
+  getBalance(params: Parameters<GetBalance>): ReturnType<GetBalance> {
     return this.provider.request({ method: MethodName.GetBalance, params });
   }
 
-  async getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult> {
+  getBlockCount(params: Parameters<GetBlockCount>): ReturnType<GetBlockCount> {
     return this.provider.request({ method: MethodName.GetBlockCount, params });
   }
 
-  async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
+  getBlock(params: Parameters<GetBlock>): ReturnType<GetBlock> {
     return this.provider.request({ method: MethodName.GetBlock, params });
   }
 
-  async getTransaction(params: GetTransactionParams): Promise<GetTransactionResult> {
+  getTransaction(params: Parameters<GetTransaction>): ReturnType<GetTransaction> {
     return this.provider.request({ method: MethodName.GetTransaction, params });
   }
 
-  async getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult> {
+  getApplicationLog(params: Parameters<GetApplicationLog>): ReturnType<GetApplicationLog> {
     return this.provider.request({ method: MethodName.GetApplicationLog, params });
   }
 
-  async getStorage(params: GetStorageParams): Promise<GetStorageResult> {
+  getStorage(params: Parameters<GetStorage>): ReturnType<GetStorage> {
     return this.provider.request({ method: MethodName.GetStorage, params });
   }
 
-  async invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
+  invokeRead(params: Parameters<InvokeRead>): ReturnType<InvokeRead> {
     return this.provider.request({ method: MethodName.InvokeRead, params });
   }
 
-  async invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult> {
+  invokeReadMulti(params: Parameters<InvokeReadMulti>): ReturnType<InvokeReadMulti> {
     return this.provider.request({ method: MethodName.InvokeReadMulti, params });
   }
 
-  async invoke(params: InvokeParams): Promise<InvokeResult> {
+  invoke(params: Parameters<Invoke>): ReturnType<Invoke> {
     return this.provider.request({ method: MethodName.Invoke, params });
   }
 
-  async invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult> {
+  invokeMulti(params: Parameters<InvokeMulti>): ReturnType<InvokeMulti> {
     return this.provider.request({ method: MethodName.InvokeMulti, params });
   }
 }

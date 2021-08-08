@@ -1,11 +1,5 @@
 import { INeoProvider } from '@neongd/neo-provider';
-import {
-  GetBlockByBlockHashParams,
-  GetBlockByBlockHashResult,
-  GetBlockByBlockHeightParams,
-  GetBlockByBlockHeightResult,
-  GetBlockCountResult,
-} from './methods';
+import { GetBlockByBlockHash, GetBlockByBlockHeight, GetBlockCount } from './methods';
 import { MethodName } from './types';
 
 export class NeoDapiFura {
@@ -15,17 +9,17 @@ export class NeoDapiFura {
     this.provider = provider;
   }
 
-  async getBlockCount(): Promise<GetBlockCountResult> {
+  getBlockCount(): ReturnType<GetBlockCount> {
     return this.provider.request({ method: MethodName.GetBlockCount });
   }
 
-  async getBlockByBlockHeight(
-    params: GetBlockByBlockHeightParams,
-  ): Promise<GetBlockByBlockHeightResult> {
+  getBlockByBlockHeight(
+    params: Parameters<GetBlockByBlockHeight>,
+  ): ReturnType<GetBlockByBlockHeight> {
     return this.provider.request({ method: MethodName.GetBlockByBlockHeight, params });
   }
 
-  async getBlockByBlockHash(params: GetBlockByBlockHashParams): Promise<GetBlockByBlockHashResult> {
+  getBlockByBlockHash(params: Parameters<GetBlockByBlockHash>): ReturnType<GetBlockByBlockHash> {
     return this.provider.request({ method: MethodName.GetBlockByBlockHash, params });
   }
 }

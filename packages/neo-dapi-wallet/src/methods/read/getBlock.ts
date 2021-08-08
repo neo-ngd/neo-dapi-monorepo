@@ -1,8 +1,10 @@
 import { Block } from '../../types';
 
-export interface GetBlockParams {
+interface Params {
   blockIndex: number;
   network?: string;
 }
 
-export type GetBlockResult = Block;
+type Result = Block;
+
+export type GetBlock = (params: Params) => Promise<Result>;
