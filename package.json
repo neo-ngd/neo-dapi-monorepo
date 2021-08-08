@@ -13,10 +13,7 @@
     "lerna-publish": "lerna publish from-package",
     "lerna-publish:alpha": "lerna publish from-package --dist-tag alpha",
     "release": "run-s lerna-version lerna-publish",
-    "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha",
-    "watch": "lerna run --no-private --parallel watch",
-    "lerna-start": "lerna run start --parallel",
-    "start": "npm-run-all build --parallel watch lerna-start"
+    "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha"
   },
   "repository": {
     "type": "git",
