@@ -8,6 +8,7 @@
     "lint": "lerna run --no-private lint",
     "build": "lerna run --no-private --stream build",
     "test": "lerna run --no-private test",
+    "version": "cross-env npm_execpath=yarn run-s lint build test",
     "lerna-version": "lerna version --force-publish",
     "lerna-version:alpha": "lerna version prerelease",
     "lerna-publish": "lerna publish from-package",
