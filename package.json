@@ -10,7 +10,7 @@
     "watch": "lerna run --no-private --parallel watch",
     "version": "cross-env npm_execpath=yarn run-s lint build test",
     "new-version": "lerna version --force-publish",
-    "new-version:alpha": "lerna version prerelease --yes",
+    "new-version:alpha": "lerna version prerelease",
     "publish": "lerna publish from-package",
     "publish:alpha": "lerna publish from-package --dist-tag alpha",
     "release": "run-s new-version publish",
