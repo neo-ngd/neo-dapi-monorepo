@@ -1,11 +1,15 @@
 {
-  "packages": ["packages/*"],
-  "version": "0.0.5",
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.0.6-alpha.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "allowBranch": ["master"]
+      "allowBranch": [
+        "master"
+      ]
     }
   }
 }
