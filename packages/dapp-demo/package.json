@@ -1,9 +1,9 @@
 {
   "name": "dapp-demo",
-  "version": "0.0.7-alpha.1",
+  "version": "0.0.7-alpha.2",
   "private": true,
   "dependencies": {
-    "@neongd/neo-dapi": "^0.0.7-alpha.1",
+    "@neongd/neo-dapi": "^0.0.7-alpha.2",
     "@neongd/neo-provider": "^0.0.6",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
