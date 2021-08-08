@@ -8,12 +8,12 @@
     "lint": "lerna run --no-private lint",
     "test": "lerna run --no-private test",
     "watch": "lerna run --no-private --parallel watch",
-    "new-version": "lerna version --force-publish",
-    "new-version:alpha": "lerna version prerelease",
-    "publish": "lerna publish from-package",
-    "publish:alpha": "lerna publish from-package --dist-tag alpha",
-    "release": "run-s new-version publish",
-    "release:alpha": "run-s new-version:alpha publish:alpha",
+    "lerna-version": "lerna version --force-publish",
+    "lerna-version:alpha": "lerna version prerelease",
+    "lerna-publish": "lerna publish from-package",
+    "lerna-publish:alpha": "lerna publish from-package --dist-tag alpha",
+    "release": "run-s lerna-version lerna-publish",
+    "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha",
     "start": "lerna run start --parallel"
   },
   "repository": {
