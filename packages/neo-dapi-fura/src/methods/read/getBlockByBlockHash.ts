@@ -1,7 +1,7 @@
 import { Block } from '../../types';
 
 interface Params {
-  BlockHash: number;
+  BlockHash: string;
 }
 
 type Result = Block;

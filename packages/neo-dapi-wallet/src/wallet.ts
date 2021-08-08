@@ -40,43 +40,43 @@ export class NeoDapiWallet {
     return this.provider.request({ method: MethodName.GetNetworks });
   }
 
-  getBalance(params: Parameters<GetBalance>): ReturnType<GetBalance> {
+  getBalance(...params: Parameters<GetBalance>): ReturnType<GetBalance> {
     return this.provider.request({ method: MethodName.GetBalance, params });
   }
 
-  getBlockCount(params: Parameters<GetBlockCount>): ReturnType<GetBlockCount> {
+  getBlockCount(...params: Parameters<GetBlockCount>): ReturnType<GetBlockCount> {
     return this.provider.request({ method: MethodName.GetBlockCount, params });
   }
 
-  getBlock(params: Parameters<GetBlock>): ReturnType<GetBlock> {
+  getBlock(...params: Parameters<GetBlock>): ReturnType<GetBlock> {
     return this.provider.request({ method: MethodName.GetBlock, params });
   }
 
-  getTransaction(params: Parameters<GetTransaction>): ReturnType<GetTransaction> {
+  getTransaction(...params: Parameters<GetTransaction>): ReturnType<GetTransaction> {
     return this.provider.request({ method: MethodName.GetTransaction, params });
   }
 
-  getApplicationLog(params: Parameters<GetApplicationLog>): ReturnType<GetApplicationLog> {
+  getApplicationLog(...params: Parameters<GetApplicationLog>): ReturnType<GetApplicationLog> {
     return this.provider.request({ method: MethodName.GetApplicationLog, params });
   }
 
-  getStorage(params: Parameters<GetStorage>): ReturnType<GetStorage> {
+  getStorage(...params: Parameters<GetStorage>): ReturnType<GetStorage> {
     return this.provider.request({ method: MethodName.GetStorage, params });
   }
 
-  invokeRead(params: Parameters<InvokeRead>): ReturnType<InvokeRead> {
+  invokeRead(...params: Parameters<InvokeRead>): ReturnType<InvokeRead> {
     return this.provider.request({ method: MethodName.InvokeRead, params });
   }
 
-  invokeReadMulti(params: Parameters<InvokeReadMulti>): ReturnType<InvokeReadMulti> {
+  invokeReadMulti(...params: Parameters<InvokeReadMulti>): ReturnType<InvokeReadMulti> {
     return this.provider.request({ method: MethodName.InvokeReadMulti, params });
   }
 
-  invoke(params: Parameters<Invoke>): ReturnType<Invoke> {
+  invoke(...params: Parameters<Invoke>): ReturnType<Invoke> {
     return this.provider.request({ method: MethodName.Invoke, params });
   }
 
-  invokeMulti(params: Parameters<InvokeMulti>): ReturnType<InvokeMulti> {
+  invokeMulti(...params: Parameters<InvokeMulti>): ReturnType<InvokeMulti> {
     return this.provider.request({ method: MethodName.InvokeMulti, params });
   }
 }
