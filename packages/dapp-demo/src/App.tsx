@@ -13,8 +13,8 @@ function App() {
   const [dapi, setDapi] = useState<NeoDapi | null>(null);
 
   useEffect(() => {
-    const dapi = window.neo ? new NeoDapi(window.neo) : null;
-    // const dapi = new NeoDapi('http://seed1t4.neo.org:20332');
+    // const dapi = window.neo ? new NeoDapi(window.neo) : null;
+    const dapi = new NeoDapi("http://seed1t4.neo.org:20332");
     setDapi(dapi);
   }, []);
 
