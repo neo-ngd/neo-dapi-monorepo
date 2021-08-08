@@ -14,12 +14,12 @@ export class NeoDapiFura {
   }
 
   getBlockByBlockHeight(
-    ...params: Parameters<GetBlockByBlockHeight>
+    params: Parameters<GetBlockByBlockHeight>[0],
   ): ReturnType<GetBlockByBlockHeight> {
     return this.provider.request({ method: MethodName.GetBlockByBlockHeight, params });
   }
 
-  getBlockByBlockHash(...params: Parameters<GetBlockByBlockHash>): ReturnType<GetBlockByBlockHash> {
+  getBlockByBlockHash(params: Parameters<GetBlockByBlockHash>[0]): ReturnType<GetBlockByBlockHash> {
     return this.provider.request({ method: MethodName.GetBlockByBlockHash, params });
   }
 }
