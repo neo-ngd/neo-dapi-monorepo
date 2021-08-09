@@ -21,7 +21,6 @@ interface Notification {
 
 interface Result {
   txid: string;
-  blockIndex: number;
   executions: ExecutionDetails[];
 }
 
