@@ -1,6 +1,6 @@
 import { Block } from '../../types';
 
-type Params = [number] | [number, boolean] | [string] | [string, boolean];
+type Params = [index: number, verbose?: boolean] | [hash: string, verbose?: boolean];
 
 type Result = string | Block;
 

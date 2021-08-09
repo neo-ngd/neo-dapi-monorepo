@@ -1,28 +1,25 @@
 import { Argument } from '../../types';
 
-interface Params {
-  txid: string;
-  network?: string;
-}
+type Params = [txid: string];
 
 interface ExecutionDetails {
   trigger: string;
-  vmState: string;
-  gasConsumed: string;
+  vmstate: string;
+  exception: string | null;
+  gasconsumed: string;
   stack: Argument[];
   notifications: Notification[];
 }
 
 interface Notification {
   contract: string;
-  eventName: string;
+  eventname: string;
   state: Argument;
 }
 
 interface Result {
   txid: string;
-  blockIndex: number;
   executions: ExecutionDetails[];
 }
 
-export type GetApplicationLog = (params: Params) => Promise<Result>;
+export type GetApplicationLog = (...params: Params) => Promise<Result>;

@@ -1,6 +1,6 @@
 interface BalanceRequest {
   address: string;
-  assets?: string[];
+  assetHashes?: string[];
 }
 
 interface Params {
