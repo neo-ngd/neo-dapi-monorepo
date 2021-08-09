@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi-wallet",
-  "version": "0.0.7-alpha.7",
+  "version": "0.0.7-alpha.8",
   "description": "Neo Dapi Wallet types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
