@@ -11,14 +11,19 @@ export enum MethodName {
 }
 
 export enum ArgumentDataType {
-  STRING = 'String',
-  BOOLEAN = 'Boolean',
-  HASH160 = 'Hash160',
-  HASH256 = 'Hash256',
-  INTEGER = 'Integer',
-  BYTEARRAY = 'ByteArray',
-  ARRAY = 'Array',
-  ADDRESS = 'Address',
+  Any = 'Any',
+  Boolean = 'Boolean',
+  Integer = 'Integer',
+  ByteArray = 'ByteArray',
+  String = 'String',
+  Hash160 = 'Hash160',
+  Hash256 = 'Hash256',
+  PublicKey = 'PublicKey',
+  Signature = 'Signature',
+  Array = 'Array',
+  Map = 'Map',
+  InteropInterface = 'InteropInterface',
+  Void = 'Void',
 }
 
 export interface Argument {
