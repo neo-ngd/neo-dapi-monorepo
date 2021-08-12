@@ -1,4 +1,4 @@
-import { getError, INTERNAL_ERROR, isValidErrorCode } from './errors';
+import { ErrorCodes, getError, isValidErrorCode } from './errors';
 import {
   ErrorResponse,
   JsonRpcError,
@@ -55,17 +55,17 @@ export function formatJsonRpcError(id: number, error?: string | ErrorResponse): 
 
 export function formatErrorMessage(error?: string | ErrorResponse): ErrorResponse {
   if (error == null) {
-    return getError(INTERNAL_ERROR);
+    return getError(ErrorCodes.InternalError);
   }
   if (typeof error === 'string') {
     return {
-      ...getError(INTERNAL_ERROR),
+      ...getError(ErrorCodes.InternalError),
       message: error,
     };
   }
   if (!isValidErrorCode(error.code)) {
     return {
-      ...getError(INTERNAL_ERROR),
+      ...getError(ErrorCodes.InternalError),
       message: error.message,
     };
   }
