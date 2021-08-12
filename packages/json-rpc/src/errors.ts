@@ -10,12 +10,30 @@ export enum ErrorCodes {
 }
 
 const STANDARD_ERROR_MAP = {
-  [ErrorCodes.ParseError]: { code: -32700, message: 'Parse error' },
-  [ErrorCodes.InvalidRequest]: { code: -32600, message: 'Invalid Request' },
-  [ErrorCodes.MethodNotFound]: { code: -32601, message: 'Method not found' },
-  [ErrorCodes.InvalidParams]: { code: -32602, message: 'Invalid params' },
-  [ErrorCodes.InternalError]: { code: -32603, message: 'Internal error' },
-  [ErrorCodes.ServerError]: { code: -32000, message: 'Server error' },
+  [ErrorCodes.ParseError]: {
+    code: ErrorCodes.ParseError,
+    message: 'Parse error',
+  },
+  [ErrorCodes.InvalidRequest]: {
+    code: ErrorCodes.InvalidRequest,
+    message: 'Invalid Request',
+  },
+  [ErrorCodes.MethodNotFound]: {
+    code: ErrorCodes.MethodNotFound,
+    message: 'Method not found',
+  },
+  [ErrorCodes.InvalidParams]: {
+    code: ErrorCodes.InvalidParams,
+    message: 'Invalid params',
+  },
+  [ErrorCodes.InternalError]: {
+    code: ErrorCodes.InternalError,
+    message: 'Internal error',
+  },
+  [ErrorCodes.ServerError]: {
+    code: ErrorCodes.ServerError,
+    message: 'Server error',
+  },
 };
 
 export function isValidErrorCode(code: number): boolean {

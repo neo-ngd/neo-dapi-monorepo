@@ -49,11 +49,11 @@ export function formatJsonRpcError(id: number, error?: string | ErrorResponse): 
   return {
     id,
     jsonrpc: '2.0',
-    error: formatErrorMessage(error),
+    error: formatErrorResponse(error),
   };
 }
 
-export function formatErrorMessage(error?: string | ErrorResponse): ErrorResponse {
+export function formatErrorResponse(error?: string | ErrorResponse): ErrorResponse {
   if (error == null) {
     return getError(ErrorCodes.InternalError);
   }
@@ -65,8 +65,8 @@ export function formatErrorMessage(error?: string | ErrorResponse): ErrorRespons
   }
   if (!isValidErrorCode(error.code)) {
     return {
-      ...getError(ErrorCodes.InternalError),
-      message: error.message,
+      ...error,
+      code: ErrorCodes.InternalError,
     };
   }
   return error;
