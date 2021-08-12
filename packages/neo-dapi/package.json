@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "0.0.7-alpha.12",
+  "version": "0.0.7-alpha.13",
   "description": "Neo Dapi types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
-    "@neongd/neo-dapi-fura": "^0.0.7-alpha.12",
-    "@neongd/neo-dapi-node": "^0.0.7-alpha.12",
-    "@neongd/neo-dapi-wallet": "^0.0.7-alpha.12",
-    "@neongd/neo-provider": "^0.0.7-alpha.12"
+    "@neongd/neo-dapi-fura": "^0.0.7-alpha.13",
+    "@neongd/neo-dapi-node": "^0.0.7-alpha.13",
+    "@neongd/neo-dapi-wallet": "^0.0.7-alpha.13",
+    "@neongd/neo-provider": "^0.0.7-alpha.13"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.3",
