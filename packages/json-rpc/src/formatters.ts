@@ -1,5 +1,4 @@
-import { INTERNAL_ERROR, SERVER_ERROR } from './constants';
-import { getError, isValidErrorCode } from './errors';
+import { getError, INTERNAL_ERROR, isValidErrorCode } from './errors';
 import {
   ErrorResponse,
   JsonRpcError,
@@ -60,7 +59,7 @@ export function formatErrorMessage(error?: string | ErrorResponse): ErrorRespons
   }
   if (typeof error === 'string') {
     return {
-      ...getError(SERVER_ERROR),
+      ...getError(INTERNAL_ERROR),
       message: error,
     };
   }
