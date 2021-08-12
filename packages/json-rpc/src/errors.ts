@@ -9,6 +9,8 @@ export enum ErrorCodes {
   ServerError = -32000,
 }
 
+export const SERVER_ERROR_CODE_RANGE = [-32099, -32000];
+
 const STANDARD_ERROR_MAP = {
   [ErrorCodes.ParseError]: {
     code: ErrorCodes.ParseError,
@@ -38,6 +40,10 @@ const STANDARD_ERROR_MAP = {
 
 export function isValidErrorCode(code: number): boolean {
   return typeof code === 'number';
+}
+
+export function isServerErrorCode(code: number): boolean {
+  return code >= SERVER_ERROR_CODE_RANGE[0] && code <= SERVER_ERROR_CODE_RANGE[1];
 }
 
 export function getError(code: number): ErrorResponse {
