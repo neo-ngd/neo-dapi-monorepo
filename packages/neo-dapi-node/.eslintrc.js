@@ -17,7 +17,10 @@ module.exports = {
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'sort-imports': ['error', { ignoreDeclarationSort: true, ignoreCase: true }],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': [
+      'warn',
+      { allowArgumentsExplicitlyTypedAsAny: true },
+    ],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],

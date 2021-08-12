@@ -15,7 +15,7 @@ import { Block, MethodName, Transaction } from './types';
 export class NeoDapiNode {
   constructor(private provider: INeoProvider) {}
 
-  setProvider(provider: INeoProvider) {
+  setProvider(provider: INeoProvider): void {
     this.provider = provider;
   }
 

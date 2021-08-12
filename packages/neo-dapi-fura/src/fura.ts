@@ -5,7 +5,7 @@ import { MethodName } from './types';
 export class NeoDapiFura {
   constructor(private provider: INeoProvider) {}
 
-  setProvider(provider: INeoProvider) {
+  setProvider(provider: INeoProvider): void {
     this.provider = provider;
   }
 
