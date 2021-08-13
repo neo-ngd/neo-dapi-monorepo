@@ -1,4 +1,5 @@
 import { INeoProvider } from '@neongd/neo-provider';
+import { MethodName } from './enums';
 import {
   GetAccount,
   GetApplicationLog,
@@ -15,7 +16,6 @@ import {
   InvokeRead,
   InvokeReadMulti,
 } from './methods';
-import { MethodName } from './types';
 
 export class NeoDapiWallet {
   constructor(private provider: INeoProvider) {}

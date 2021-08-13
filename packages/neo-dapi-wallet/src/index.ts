@@ -1,3 +1,3 @@
-export { MethodName } from './types';
+export * from './enums';
 export * from './methods';
 export * from './wallet';

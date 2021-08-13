@@ -1,4 +1,5 @@
 import { INeoProvider } from '@neongd/neo-provider';
+import { MethodName } from './enums';
 import {
   GetApplicationLog,
   GetBlock,
@@ -10,7 +11,7 @@ import {
   InvokeScript,
   SendRawTransaction,
 } from './methods';
-import { Block, MethodName, Transaction } from './types';
+import { Block, Transaction } from './types';
 
 export class NeoDapiNode {
   constructor(private provider: INeoProvider) {}

@@ -1,6 +1,6 @@
 import { INeoProvider } from '@neongd/neo-provider';
+import { MethodName } from './enums';
 import { GetBlockByBlockHash, GetBlockByBlockHeight, GetBlockCount } from './methods';
-import { MethodName } from './types';
 
 export class NeoDapiFura {
   constructor(private provider: INeoProvider) {}
