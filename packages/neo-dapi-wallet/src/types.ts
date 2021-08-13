@@ -1,7 +1,5 @@
-import { ArgumentType, TransactionAttributeUsage } from './enums';
-
 export interface Argument {
-  type: ArgumentType;
+  type: string;
   value: any;
 }
 
@@ -13,7 +11,7 @@ export interface Signer {
 }
 
 export interface TransactionAttribute {
-  usage: TransactionAttributeUsage;
+  usage: string;
   data: string;
 }
 
