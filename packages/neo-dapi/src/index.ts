@@ -3,20 +3,24 @@ import { NeoDapiNode } from '@neongd/neo-dapi-node';
 import { NeoDapiWallet } from '@neongd/neo-dapi-wallet';
 import { INeoProvider, JsonRpcNeoProvider } from '@neongd/neo-provider';
 
-export class NeoDapi {
+export class BaseNeoDapi {
   node: NeoDapiNode;
   wallet: NeoDapiWallet;
   fura: NeoDapiFura;
 
+  constructor(provider: INeoProvider) {
+    this.node = new NeoDapiNode(provider);
+    this.wallet = new NeoDapiWallet(provider);
+    this.fura = new NeoDapiFura(provider);
+  }
+}
+
+export class NeoDapi extends BaseNeoDapi {
+  static parseProvider(provider: INeoProvider | string): INeoProvider {
+    return typeof provider === 'string' ? new JsonRpcNeoProvider(provider) : provider;
+  }
+
   constructor(provider: INeoProvider | string) {
-    let finalProvider: INeoProvider;
-    if (typeof provider === 'string') {
-      finalProvider = new JsonRpcNeoProvider(provider);
-    } else {
-      finalProvider = provider;
-    }
-    this.node = new NeoDapiNode(finalProvider);
-    this.wallet = new NeoDapiWallet(finalProvider);
-    this.fura = new NeoDapiFura(finalProvider);
+    super(NeoDapi.parseProvider(provider));
   }
 }

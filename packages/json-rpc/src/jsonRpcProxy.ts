@@ -25,20 +25,17 @@ import {
 } from './validators';
 import { WsConnection } from './wsConnection';
 
-export class JsonRpcProxy implements IJsonRpcProxy {
-  public connection: IJsonRpcConnection;
-
+export class BaseJsonRpcProxy implements IJsonRpcProxy {
   private events = new EventEmitter();
 
-  constructor(connection: string | IJsonRpcConnection) {
-    this.connection = this.parseConnection(connection);
+  constructor(public connection: IJsonRpcConnection) {
     this.onConnectionPayload = this.onConnectionPayload.bind(this);
     this.onConnectionClose = this.onConnectionClose.bind(this);
     this.onConnectionError = this.onConnectionError.bind(this);
   }
 
-  async connect(connection: IJsonRpcConnection | string = this.connection): Promise<void> {
-    await this.open(this.parseConnection(connection));
+  async connect(connection: IJsonRpcConnection = this.connection): Promise<void> {
+    await this.open(connection);
   }
 
   async disconnect(): Promise<void> {
@@ -77,14 +74,6 @@ export class JsonRpcProxy implements IJsonRpcProxy {
   }
 
   // ---------- Private ----------------------------------------------- //
-
-  private parseConnection(connection: string | IJsonRpcConnection) {
-    return typeof connection === 'string'
-      ? isHttpUrl(connection)
-        ? new HttpConnection(connection)
-        : new WsConnection(connection)
-      : connection;
-  }
 
   private async requestStrict<Result = any, Params = any>(
     request: JsonRpcRequest<Params>,
@@ -164,5 +153,24 @@ export class JsonRpcProxy implements IJsonRpcProxy {
     this.connection.removeListener('close', this.onConnectionClose);
     this.connection.removeListener('error', this.onConnectionError);
     this.events.emit('disconnect');
+  }
+}
+
+export class JsonRpcProxy extends BaseJsonRpcProxy {
+  static parseConnection(connection: string | IJsonRpcConnection): IJsonRpcConnection {
+    return typeof connection === 'string'
+      ? isHttpUrl(connection)
+        ? new HttpConnection(connection)
+        : new WsConnection(connection)
+      : connection;
+  }
+
+  constructor(connection: IJsonRpcConnection | string) {
+    const parsedConnection = JsonRpcProxy.parseConnection(connection);
+    super(parsedConnection);
+  }
+
+  async connect(connection: IJsonRpcConnection | string = this.connection): Promise<void> {
+    await super.connect(JsonRpcProxy.parseConnection(connection));
   }
 }
