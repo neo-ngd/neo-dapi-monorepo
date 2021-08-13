@@ -25,3 +25,7 @@ export enum ArgumentType {
   InteropInterface = 'InteropInterface',
   Void = 'Void',
 }
+
+export enum TransactionAttributeUsage {
+  Url = 'Url',
+}
