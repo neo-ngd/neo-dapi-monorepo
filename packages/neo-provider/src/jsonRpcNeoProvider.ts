@@ -11,10 +11,17 @@ import {
 
 export * from './types';
 
-export class BaseJsonRpcNeoProvider implements INeoProvider {
+export class JsonRpcNeoProvider implements INeoProvider {
   private events = new EventEmitter();
 
-  constructor(private proxy: IJsonRpcProxy) {
+  private proxy: IJsonRpcProxy;
+
+  constructor(proxy: IJsonRpcProxy | string) {
+    if (typeof proxy === 'string') {
+      this.proxy = new JsonRpcProxy(proxy);
+    } else {
+      this.proxy = proxy;
+    }
     this.registerEventListeners();
   }
 
@@ -62,15 +69,5 @@ export class BaseJsonRpcNeoProvider implements INeoProvider {
     if (providerEvents.includes(notification.method)) {
       this.events.emit(notification.method, notification.params);
     }
-  }
-}
-
-export class JsonRpcNeoProvider extends BaseJsonRpcNeoProvider {
-  static parseProxy(proxy: IJsonRpcProxy | string): IJsonRpcProxy {
-    return typeof proxy === 'string' ? new JsonRpcProxy(proxy) : proxy;
-  }
-
-  constructor(proxy: IJsonRpcProxy | string) {
-    super(JsonRpcNeoProvider.parseProxy(proxy));
   }
 }
