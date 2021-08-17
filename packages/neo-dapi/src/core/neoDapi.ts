@@ -1,4 +1,4 @@
-import { INeoProvider } from '@neongd/neo-provider';
+import { INeoProvider, JsonRpcNeoProvider } from '@neongd/neo-provider';
 import { MethodName } from './enums';
 import {
   GetAccountResult,
@@ -29,7 +29,15 @@ import {
 } from './types';
 
 export class NeoDapi implements INeoDapi {
-  constructor(protected provider: INeoProvider) {}
+  protected provider: INeoProvider;
+
+  constructor(provider: INeoProvider | string) {
+    if (typeof provider === 'string') {
+      this.provider = new JsonRpcNeoProvider(provider);
+    } else {
+      this.provider = provider;
+    }
+  }
 
   getProvider(): Promise<GetProviderResult> {
     return this.provider.request({ method: MethodName.GetProvider });
