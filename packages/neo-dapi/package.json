@@ -29,9 +29,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
-    "@neongd/neo-dapi-fura": "^0.0.7-alpha.20",
-    "@neongd/neo-dapi-node": "^0.0.7-alpha.20",
-    "@neongd/neo-dapi-wallet": "^0.0.7-alpha.21",
+    "@cityofzion/neon-js": "^4.9.0",
     "@neongd/neo-provider": "^0.0.7-alpha.20"
   },
   "devDependencies": {
