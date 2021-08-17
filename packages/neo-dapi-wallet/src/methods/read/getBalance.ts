@@ -1,10 +1,6 @@
-interface BalanceRequest {
+interface Params {
   address: string;
   assetHashes?: string[];
-}
-
-interface Params {
-  params: BalanceRequest | BalanceRequest[];
   network?: string;
 }
 
@@ -13,8 +9,6 @@ interface Balance {
   amount: string;
 }
 
-interface Result {
-  [address: string]: Balance[];
-}
+type Result = Balance[];
 
 export type GetBalance = (params: Params) => Promise<Result>;
