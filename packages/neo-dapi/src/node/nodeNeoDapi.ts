@@ -99,7 +99,7 @@ export class NodeNeoDapi implements INeoDapi {
       primary: result.primary,
       nextConsensus: result.nextconsensus,
       witnesses: result.witnesses,
-      tx: result.tx.map(this.deserializeTransaction),
+      tx: result.tx.map(this.deserializeTransaction.bind(this)),
       confirmations: result.confirmations,
       nextBlockHash: result.nextblockhash,
     };
@@ -149,7 +149,7 @@ export class NodeNeoDapi implements INeoDapi {
         params.scriptHash,
         params.operation,
         params.args || [],
-        (params.signers || []).map(this.serializeSigner),
+        (params.signers || []).map(this.serializeSigner.bind(this)),
       ],
     });
     return {
@@ -165,7 +165,7 @@ export class NodeNeoDapi implements INeoDapi {
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.provider.request({
       method: 'invokescript',
-      params: [base64Script, (params.signers || []).map(this.serializeSigner)],
+      params: [base64Script, (params.signers || []).map(this.serializeSigner.bind(this))],
     });
     return {
       script: result.script,
@@ -193,7 +193,7 @@ export class NodeNeoDapi implements INeoDapi {
       systemFee: transation.sysfee,
       networkFee: transation.netfee,
       validUntilBlock: transation.validuntilblock,
-      signers: transation.signers.map(this.deserializeSigner),
+      signers: transation.signers.map(this.deserializeSigner.bind(this)),
       attributes: transation.attributes,
       script: transation.script,
       witnesses: transation.witnesses,
