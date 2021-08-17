@@ -85,7 +85,7 @@ export class NodeNeoDapi implements INeoDapi {
 
   async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
     const result = await this.provider.request({
-      method: 'getblockcount',
+      method: 'getblock',
       params: [params.blockIndex, true],
     });
     return {
