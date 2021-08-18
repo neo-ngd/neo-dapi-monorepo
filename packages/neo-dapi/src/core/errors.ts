@@ -1,19 +1,23 @@
-import { ErrorResponse, getError as getStandardError } from '@neongd/json-rpc';
+import { ErrorResponse } from '@neongd/json-rpc';
 
-export enum ErrorCodes {
-  UnsupportedNetwork = 100,
+export enum NeoDapiErrorCodes {
+  InternalError = 100,
+  UnsupportedNetwork = 101,
 }
 
 const ERROR_MESSAGE_MAP = {
-  [ErrorCodes.UnsupportedNetwork]: 'Unsupported network.',
+  [NeoDapiErrorCodes.InternalError]: 'Internal error',
+  [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
 };
 
-export function getError(code: number): ErrorResponse {
-  if (code in ErrorCodes) {
-    return {
-      code,
-      message: ERROR_MESSAGE_MAP[code as ErrorCodes],
-    };
-  }
-  return getStandardError(code);
+export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
+  return Object.values(NeoDapiErrorCodes).includes(String(code));
+}
+
+export function getNeoDapiError(code: number): ErrorResponse {
+  const finalCode = isNeoDapiErrorCode(code) ? code : NeoDapiErrorCodes.InternalError;
+  return {
+    code: finalCode,
+    message: ERROR_MESSAGE_MAP[finalCode],
+  };
 }

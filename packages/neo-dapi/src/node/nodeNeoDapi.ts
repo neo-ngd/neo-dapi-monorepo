@@ -1,5 +1,5 @@
 import { sc } from '@cityofzion/neon-js';
-import { ErrorCodes, getError } from '@neongd/json-rpc';
+import { getStandardError, StandardErrorCodes } from '@neongd/json-rpc';
 import { INeoProvider, JsonRpcNeoProvider } from '@neongd/neo-provider';
 import {
   GetAccountResult,
@@ -42,19 +42,19 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   getProvider(): Promise<GetProviderResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   getAccount(): Promise<GetAccountResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   getPublicKey(): Promise<GetPublicKeyResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   getNetworks(): Promise<GetNetworksResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   async getBalance(params: GetBalanceParams): Promise<GetBalanceResult> {
@@ -176,11 +176,11 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   invoke(_params: InvokeParams): Promise<InvokeResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   invokeMulti(_params: InvokeMultiParams): Promise<InvokeMultiResult> {
-    throw getError(ErrorCodes.MethodNotFound);
+    throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
   private deserializeTransaction(transation: any): Transaction {
