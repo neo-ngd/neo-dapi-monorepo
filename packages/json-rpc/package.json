@@ -11,7 +11,7 @@
     "build": "run-p build:types build:code",
     "build:code": "rollup -c",
     "build:types": "tsc -p tsconfig.build.json",
-    "lint": "eslint . --ext ts,js --fix",
+    "lint": "eslint . --fix",
     "test": "jest --passWithNoTests",
     "watch": "run-p 'build:types -- -w' 'build:code -- -w'"
   },
