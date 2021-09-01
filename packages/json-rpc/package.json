@@ -12,6 +12,7 @@
     "build:code": "rollup -c",
     "build:types": "tsc -p tsconfig.build.json",
     "lint": "eslint . --fix",
+    "format": "prettier --write .",
     "test": "jest --passWithNoTests",
     "watch": "run-p 'build:types -- -w' 'build:code -- -w'"
   },

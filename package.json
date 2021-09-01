@@ -5,8 +5,9 @@
   "scripts": {
     "clean": "lerna clean",
     "bootstrap": "lerna bootstrap",
-    "lint": "lerna run --no-private lint",
     "build": "lerna run --no-private --stream build",
+    "lint": "lerna run --no-private lint",
+    "format": "lerna run --no-private format",
     "test": "lerna run --no-private test",
     "version": "cross-env npm_execpath=yarn run-s lint build test",
     "lerna-version": "lerna version --force-publish",
