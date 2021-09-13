@@ -31,8 +31,10 @@
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "bufferutil": "^4.0.3",
     "events": "^3.3.0",
-    "ws": "^8.0.0"
+    "utf-8-validate": "^5.0.5",
+    "ws": "^8.2.2"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.3",
