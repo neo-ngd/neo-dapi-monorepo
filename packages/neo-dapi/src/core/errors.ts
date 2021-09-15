@@ -11,7 +11,7 @@ const ERROR_MESSAGE_MAP = {
 };
 
 export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
-  return Object.values(NeoDapiErrorCodes).includes(String(code));
+  return Object.values(NeoDapiErrorCodes).includes(code);
 }
 
 export function getNeoDapiError(code: number): ErrorResponse {

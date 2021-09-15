@@ -25,7 +25,7 @@ export function isValidErrorCode(code: number): boolean {
 }
 
 export function isStandardErrorCode(code: number): code is StandardErrorCodes {
-  return Object.values(StandardErrorCodes).includes(String(code));
+  return Object.values(StandardErrorCodes).includes(code);
 }
 
 export function isServerErrorCode(code: number): boolean {
