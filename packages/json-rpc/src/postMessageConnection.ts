@@ -31,7 +31,7 @@ export class PostMessageConnection implements IJsonRpcConnection {
   }
 
   async open(): Promise<void> {
-    this.disposer = this.addMessageListener(this.onMessage.bind(this)) || null;
+    this.disposer = this.addMessageListener(this.onMessage.bind(this)) ?? null;
     this.connected = true;
     this.events.emit('open');
   }
@@ -68,7 +68,7 @@ export class PostMessageConnection implements IJsonRpcConnection {
       this.logger.log('onMessage', message);
     }
     const data = parse(message, null);
-    if (data != null && data.topic === this.topic && isJsonRpcPayload(data.payload)) {
+    if (data?.topic === this.topic && isJsonRpcPayload(data.payload)) {
       this.events.emit('payload', data.payload);
     }
   }

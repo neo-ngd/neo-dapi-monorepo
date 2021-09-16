@@ -24,7 +24,7 @@ export function formatJsonRpcRequest<T = any>(
   id?: number,
 ): JsonRpcRequest<T> {
   return {
-    id: id != null ? id : payloadId(),
+    id: id ?? payloadId(),
     jsonrpc: '2.0',
     method,
     params,

@@ -67,11 +67,11 @@ export class NodeNeoDapi implements INeoDapi {
       {} as any,
     );
     const assetHashes =
-      params.assetHashes || result.balance.map((balance: any) => balance.assethash);
+      params.assetHashes ?? result.balance.map((balance: any) => balance.assethash);
 
     return assetHashes.map((assetHash: string) => ({
       assetHash,
-      amount: balanceMap[assetHash] != null ? balanceMap[assetHash].amount : '0',
+      amount: balanceMap[assetHash]?.amount ?? '0',
     }));
   }
 
@@ -148,8 +148,8 @@ export class NodeNeoDapi implements INeoDapi {
       params: [
         params.scriptHash,
         params.operation,
-        params.args || [],
-        (params.signers || []).map(this.serializeSigner.bind(this)),
+        params.args ?? [],
+        (params.signers ?? []).map(this.serializeSigner.bind(this)),
       ],
     });
     return {
@@ -165,7 +165,7 @@ export class NodeNeoDapi implements INeoDapi {
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.provider.request({
       method: 'invokescript',
-      params: [base64Script, (params.signers || []).map(this.serializeSigner.bind(this))],
+      params: [base64Script, (params.signers ?? []).map(this.serializeSigner.bind(this))],
     });
     return {
       script: result.script,
