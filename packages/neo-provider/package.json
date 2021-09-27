@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-provider",
-  "version": "0.0.7-alpha.27",
+  "version": "0.0.7",
   "description": "Neo Provider types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
-    "@neongd/json-rpc": "^0.0.7-alpha.27",
+    "@neongd/json-rpc": "^0.0.7",
     "events": "^3.3.0"
   },
   "devDependencies": {
