@@ -59,21 +59,21 @@ export class JsonRpcProxy implements IJsonRpcProxy {
 
   async request<Result = any, Params = any>(
     args: RequestArguments<Params>,
-    _context?: any,
+    context?: any,
   ): Promise<Result> {
-    return this.requestStrict(formatJsonRpcRequest(args.method, args.params));
+    return this.requestStrict(formatJsonRpcRequest(args.method, args.params), context);
   }
 
-  async notify<Params = any>(args: RequestArguments<Params>, _context?: any): Promise<void> {
-    return this.notifyStrict(formatJsonRpcNotification(args.method, args.params));
+  async notify<Params = any>(args: RequestArguments<Params>, context?: any): Promise<void> {
+    return this.notifyStrict(formatJsonRpcNotification(args.method, args.params), context);
   }
 
-  async resolve<Result = any>(id: number, result: Result, _context?: any): Promise<void> {
-    return this.respondStrict(formatJsonRpcResult(id, result));
+  async resolve<Result = any>(id: number, result: Result, context?: any): Promise<void> {
+    return this.respondStrict(formatJsonRpcResult(id, result), context);
   }
 
-  async reject(id: number, error: ErrorResponse, _context?: any): Promise<void> {
-    return this.respondStrict(formatJsonRpcError(id, error));
+  async reject(id: number, error: ErrorResponse, context?: any): Promise<void> {
+    return this.respondStrict(formatJsonRpcError(id, error), context);
   }
 
   // ---------- Private ----------------------------------------------- //
@@ -88,6 +88,7 @@ export class JsonRpcProxy implements IJsonRpcProxy {
 
   private async requestStrict<Result = any, Params = any>(
     request: JsonRpcRequest<Params>,
+    context?: any,
   ): Promise<Result> {
     if (!this.connection.connected) {
       await this.open();
@@ -100,28 +101,28 @@ export class JsonRpcProxy implements IJsonRpcProxy {
           resolve(response.result);
         }
       });
-      this.connection.send(request);
+      this.connection.send(request, context);
     });
   }
 
   private async notifyStrict<Params = any>(
     notification: JsonRpcNotification<Params>,
-    _context?: any,
+    context?: any,
   ): Promise<void> {
     if (!this.connection.connected) {
       await this.open();
     }
-    await this.connection.send(notification);
+    await this.connection.send(notification, context);
   }
 
   private async respondStrict<Result = any>(
     response: JsonRpcResponse<Result>,
-    _context?: any,
+    context?: any,
   ): Promise<void> {
     if (!this.connection.connected) {
       await this.open();
     }
-    await this.connection.send(response);
+    await this.connection.send(response, context);
   }
 
   private onConnectionPayload(payload: JsonRpcPayload): void {
