@@ -125,6 +125,7 @@ export class NodeNeoDapi implements INeoDapi {
         vmState: execution.vmstate,
         gasConsumed: execution.gasconsumed,
         stack: execution.stack,
+        exception: execution.exception,
         notifications: execution.notifications.map((notification: any) => ({
           contract: notification.contract,
           eventName: notification.eventname,

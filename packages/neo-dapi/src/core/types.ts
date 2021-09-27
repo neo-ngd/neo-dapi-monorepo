@@ -54,11 +54,12 @@ export interface Block {
   nextBlockHash: string;
 }
 
-export interface ExecutionDetails {
+export interface Execution {
   trigger: string;
   vmState: string;
   gasConsumed: string;
   stack: Argument[];
+  exception: string | null;
   notifications: Notification[];
 }
 
@@ -70,7 +71,7 @@ export interface Notification {
 
 export interface ApplicationLog {
   txid: string;
-  executions: ExecutionDetails[];
+  executions: Execution[];
 }
 
 export interface Balance {
