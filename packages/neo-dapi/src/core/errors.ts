@@ -14,7 +14,7 @@ export enum NeoDapiErrorCodes {
 const ERROR_MESSAGE_MAP = {
   [NeoDapiErrorCodes.InternalError]: 'Internal error',
   [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
-  [NeoDapiErrorCodes.NoAccount]: 'NoAccount',
+  [NeoDapiErrorCodes.NoAccount]: 'No Account',
   [NeoDapiErrorCodes.IncorrectNetwork]: 'Incorrect Network',
   [NeoDapiErrorCodes.MalformedInput]: 'Malformed Input',
   [NeoDapiErrorCodes.InsufficientFunds]: 'Insufficient Funds',
