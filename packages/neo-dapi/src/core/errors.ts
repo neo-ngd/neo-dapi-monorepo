@@ -14,12 +14,12 @@ export enum NeoDapiErrorCodes {
 const ERROR_MESSAGE_MAP = {
   [NeoDapiErrorCodes.InternalError]: 'Internal error',
   [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
-  [NeoDapiErrorCodes.NoAccount]: 'No Account',
-  [NeoDapiErrorCodes.IncorrectNetwork]: 'Incorrect Network',
-  [NeoDapiErrorCodes.MalformedInput]: 'Malformed Input',
-  [NeoDapiErrorCodes.InsufficientFunds]: 'Insufficient Funds',
-  [NeoDapiErrorCodes.RemoteRpcError]: 'Remote Rpc Error',
-  [NeoDapiErrorCodes.UserRejected]: 'User Rejected',
+  [NeoDapiErrorCodes.NoAccount]: 'No account',
+  [NeoDapiErrorCodes.IncorrectNetwork]: 'Incorrect network',
+  [NeoDapiErrorCodes.MalformedInput]: 'Malformed input',
+  [NeoDapiErrorCodes.InsufficientFunds]: 'Insufficient funds',
+  [NeoDapiErrorCodes.RemoteRpcError]: 'Remote rpc error',
+  [NeoDapiErrorCodes.UserRejected]: 'User rejected',
 };
 
 export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
