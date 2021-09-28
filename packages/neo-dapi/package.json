@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Neo Dapi types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -31,7 +31,7 @@
   "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
   "dependencies": {
     "@cityofzion/neon-js": "^5.0.0-next.13",
-    "@neongd/neo-provider": "^0.0.7"
+    "@neongd/neo-provider": "^0.0.8"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.2.3",
