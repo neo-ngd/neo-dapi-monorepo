@@ -1,7 +1,7 @@
 export enum MethodName {
   GetAccount = 'getAccount',
   GetApplicationLog = 'getApplicationLog',
-  GetBalance = 'getBalance',
+  GetNep17Balances = 'GetNep17Balances',
   GetBlock = 'getBlock',
   GetBlockCount = 'getBlockCount',
   GetNetworks = 'getNetworks',

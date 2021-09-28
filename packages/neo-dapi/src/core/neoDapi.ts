@@ -4,12 +4,12 @@ import {
   GetAccountResult,
   GetApplicationLogParams,
   GetApplicationLogResult,
-  GetBalanceParams,
-  GetBalanceResult,
   GetBlockCountParams,
   GetBlockCountResult,
   GetBlockParams,
   GetBlockResult,
+  GetNep17BalancesParams,
+  GetNep17BalancesResult,
   GetNetworksResult,
   GetProviderResult,
   GetPublicKeyResult,
@@ -55,8 +55,8 @@ export class NeoDapi implements INeoDapi {
     return this.provider.request({ method: MethodName.GetNetworks });
   }
 
-  getBalance(params: GetBalanceParams): Promise<GetBalanceResult> {
-    return this.provider.request({ method: MethodName.GetBalance, params });
+  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {
+    return this.provider.request({ method: MethodName.GetNep17Balances, params });
   }
 
   getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult> {

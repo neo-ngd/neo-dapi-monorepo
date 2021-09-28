@@ -74,7 +74,7 @@ export interface ApplicationLog {
   executions: Execution[];
 }
 
-export interface Balance {
+export interface Nep17Balance {
   assetHash: string;
   amount: string;
 }
@@ -97,13 +97,13 @@ export interface GetApplicationLogParams {
 
 export type GetApplicationLogResult = ApplicationLog;
 
-export interface GetBalanceParams {
+export interface GetNep17BalancesParams {
   address: string;
   assetHashes?: string[];
   network?: string;
 }
 
-export type GetBalanceResult = Balance[];
+export type GetNep17BalancesResult = Nep17Balance[];
 
 export interface GetBlockParams {
   blockIndex: number;
@@ -217,7 +217,7 @@ export interface INeoDapi {
 
   getNetworks(): Promise<GetNetworksResult>;
 
-  getBalance(params: GetBalanceParams): Promise<GetBalanceResult>;
+  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult>;
 
   getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult>;
 

@@ -5,11 +5,11 @@ import {
   GetAccountResult,
   GetApplicationLogParams,
   GetApplicationLogResult,
-  GetBalanceParams,
-  GetBalanceResult,
   GetBlockCountResult,
   GetBlockParams,
   GetBlockResult,
+  GetNep17BalancesParams,
+  GetNep17BalancesResult,
   GetNetworksResult,
   GetProviderResult,
   GetPublicKeyResult,
@@ -57,7 +57,7 @@ export class NodeNeoDapi implements INeoDapi {
     throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
-  async getBalance(params: GetBalanceParams): Promise<GetBalanceResult> {
+  async getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {
     const result = await this.provider.request({
       method: 'getnep17balances',
       params: [params.address],
