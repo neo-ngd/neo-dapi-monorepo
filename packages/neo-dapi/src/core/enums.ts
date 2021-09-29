@@ -1,7 +1,7 @@
 export enum MethodName {
   GetAccount = 'getAccount',
   GetApplicationLog = 'getApplicationLog',
-  GetNep17Balances = 'GetNep17Balances',
+  GetNep17Balances = 'getNep17Balances',
   GetBlock = 'getBlock',
   GetBlockCount = 'getBlockCount',
   GetNetworks = 'getNetworks',
@@ -33,4 +33,12 @@ export enum ArgumentType {
 
 export enum TransactionAttributeUsage {
   Url = 'Url',
+}
+
+export enum SingerScope {
+  None = 'None',
+  CalledByEntry = 'CalledByEntry',
+  CustomContracts = 'CustomContracts',
+  CustomGroups = 'CustomGroups',
+  Global = 'Global',
 }
