@@ -4,18 +4,16 @@ export enum NeoDapiErrorCodes {
   InternalError = 100,
   UnsupportedNetwork = 101,
   NoAccount = 102,
-  IncorrectNetwork = 103,
-  MalformedInput = 104,
-  InsufficientFunds = 105,
-  RemoteRpcError = 106,
-  UserRejected = 107,
+  MalformedInput = 103,
+  InsufficientFunds = 104,
+  RemoteRpcError = 105,
+  UserRejected = 106,
 }
 
 const ERROR_MESSAGE_MAP = {
   [NeoDapiErrorCodes.InternalError]: 'Internal error',
   [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
   [NeoDapiErrorCodes.NoAccount]: 'No account',
-  [NeoDapiErrorCodes.IncorrectNetwork]: 'Incorrect network',
   [NeoDapiErrorCodes.MalformedInput]: 'Malformed input',
   [NeoDapiErrorCodes.InsufficientFunds]: 'Insufficient funds',
   [NeoDapiErrorCodes.RemoteRpcError]: 'Remote rpc error',
