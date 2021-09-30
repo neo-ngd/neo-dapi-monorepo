@@ -183,7 +183,8 @@ export interface InvokeParams {
   attrs?: TransactionAttribute[];
   signers?: Signer[];
   network?: string;
-  fee?: string;
+  extraSystemFee?: string;
+  extraNetworkFee?: string;
   broadcastOverride?: boolean;
 }
 
@@ -198,7 +199,8 @@ export interface InvokeMultiParams {
   attrs?: TransactionAttribute[];
   signers?: Signer[];
   network?: string;
-  fee?: string;
+  extraSystemFee?: string;
+  extraNetworkFee?: string;
   broadcastOverride?: boolean;
 }
 
