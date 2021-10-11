@@ -25,10 +25,6 @@ export class JsonRpcNeoProvider implements INeoProvider {
     this.registerEventListeners();
   }
 
-  async enable(): Promise<ProviderAccount> {
-    return this.request({ method: 'getAccount' });
-  }
-
   on(event: 'connect', listener: () => void): void;
   on(event: 'disconnect', listener: (error?: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;
@@ -36,15 +32,6 @@ export class JsonRpcNeoProvider implements INeoProvider {
   on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
   on(event: string, listener: any): void {
     this.events.on(event, listener);
-  }
-
-  once(event: 'connect', listener: () => void): void;
-  once(event: 'disconnect', listener: (error?: ProviderRpcError) => void): void;
-  once(event: 'message', listener: (message: ProviderMessage) => void): void;
-  once(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
-  once(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
-  once(event: string, listener: any): void {
-    this.events.once(event, listener);
   }
 
   removeListener(event: string, listener: any): void {

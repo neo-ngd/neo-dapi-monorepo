@@ -46,10 +46,6 @@ export class PostMessageConnection implements IJsonRpcConnection {
     this.events.on(event, listener);
   }
 
-  once(event: string, listener: any): void {
-    this.events.once(event, listener);
-  }
-
   removeListener(event: string, listener: any): void {
     this.events.removeListener(event, listener);
   }
