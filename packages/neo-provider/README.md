@@ -63,7 +63,7 @@ Same as the Node.js [`EventEmitter` API](https://nodejs.org/api/events.html).
 
 #### connect
 
-#### disconnect
+#### disconnect 
 
 #### message
 

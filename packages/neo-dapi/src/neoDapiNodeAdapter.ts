@@ -1,6 +1,10 @@
 import { sc } from '@cityofzion/neon-js';
-import { getStandardError, StandardErrorCodes } from '@neongd/json-rpc';
-import { INeoProvider, JsonRpcNeoProvider } from '@neongd/neo-provider';
+import {
+  getStandardError,
+  IJsonRpcProxy,
+  JsonRpcProxy,
+  StandardErrorCodes,
+} from '@neongd/json-rpc';
 import {
   GetAccountResult,
   GetApplicationLogParams,
@@ -30,15 +34,11 @@ import {
   Transaction,
 } from '.';
 
-export class NodeNeoDapi implements INeoDapi {
-  protected provider: INeoProvider;
+export class NeoDapiNodeAdapter implements INeoDapi {
+  protected proxy: IJsonRpcProxy;
 
-  constructor(provider: INeoProvider | string) {
-    if (typeof provider === 'string') {
-      this.provider = new JsonRpcNeoProvider(provider);
-    } else {
-      this.provider = provider;
-    }
+  constructor(nodeUrl: string) {
+    this.proxy = new JsonRpcProxy(nodeUrl);
   }
 
   getProvider(): Promise<GetProviderResult> {
@@ -58,7 +58,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getnep17balances',
       params: [params.address],
     });
@@ -76,7 +76,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getBlockCount(): Promise<GetBlockCountResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getblockcount',
       params: [],
     });
@@ -84,7 +84,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getblock',
       params: [params.blockIndex, true],
     });
@@ -106,7 +106,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getTransaction(params: GetTransactionParams): Promise<GetTransactionResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getrawtransaction',
       params: [params.txid, true],
     });
@@ -114,7 +114,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getapplicationlog',
       params: [params.txid],
     });
@@ -136,7 +136,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async getStorage(params: GetStorageParams): Promise<GetStorageResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'getstorage',
       params: [params.scriptHash, params.key],
     });
@@ -144,7 +144,7 @@ export class NodeNeoDapi implements INeoDapi {
   }
 
   async invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'invokefunction',
       params: [
         params.scriptHash,
@@ -164,7 +164,7 @@ export class NodeNeoDapi implements INeoDapi {
   async invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult> {
     const script = sc.createScript(...params.invokeArgs);
     const base64Script = Buffer.from(script, 'hex').toString('base64');
-    const result = await this.provider.request({
+    const result = await this.proxy.request({
       method: 'invokescript',
       params: [base64Script, (params.signers ?? []).map(this.serializeSigner.bind(this))],
     });
