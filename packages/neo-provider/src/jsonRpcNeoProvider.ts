@@ -19,7 +19,7 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   on(event: 'connect', listener: () => void): void;
-  on(event: 'disconnect', listener: (error?: ProviderRpcError) => void): void;
+  on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;
   on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
   on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;

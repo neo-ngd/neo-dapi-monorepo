@@ -1,6 +1,6 @@
 # Neo Provider
 
-A JavaScript Neo Provider API for consistency across clients and applications.
+A JavaScript Neo Provider API for consistency across dapps and wallets.
 
 In the Neo web application ("dapp") ecosystem, key management software ("wallets") expose their API via a JavaScript object in the web page. This object is called "the Provider".
 
@@ -27,13 +27,56 @@ The Provider should identify the requested RPC method by the value of `RequestAr
 
 If the requested RPC method takes any parameters, the Provider should accept them as the value of `RequestArguments.params`.
 
-RPC requests should be handled such that the returned Promise either resolves with a value per the requested RPC method’s specification, or rejects with an error.
+RPC requests should be handled such that the returned Promise either resolves with a value per the requested RPC method's specification, or rejects with an error.
 
-If resolved, the Promise should resolve with a result per the RPC method’s specification.
+If resolved, the Promise should resolve with a result per the RPC method's specification.
 
 If the returned Promise rejects, it should reject with a `ProviderRpcError` as specified in the [RPC Errors](#rpc-errors) section below.
 
-<h5><a id="rpc-errors"></a>RPC Errors</h5>
+#### on
+
+Should be implemented per the Node.js [`EventEmitter` API](https://nodejs.org/api/events.html).
+
+#### removeListener
+
+Should be implemented per the Node.js [`EventEmitter` API](https://nodejs.org/api/events.html).
+
+### Events
+
+#### connect
+
+See the section [Connectivity](#connectivity) for the definition of "connected".
+
+If the Provider becomes connected, the Provider should emit the event named `connect`.
+
+#### disconnect
+
+See the section [Connectivity](#connectivity) for the definition of "disconnected".
+
+If the Provider becomes disconnected, the Provider should emit the event named `disconnect` with value `error: ProviderRpcError`, per the interfaced defined in the [RPC Errors](#rpc-errors) section. The value of the error's `code` property should follow the [status codes for `CloseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes).
+
+#### message
+
+> The `message` event is intended for arbitrary notifications not covered by other events.
+
+When emitted, the `message` event be emitted with an object argument of the following form:
+
+```
+export interface ProviderMessage {
+  type: string;
+  data?: any;
+}
+```
+
+#### networkChanged
+
+If the default network of the Provider changes, the Provider should emit the event named `networkChanged` with value `network: string`.
+
+#### accountChanged
+
+If the default account of the Provider changes, the Provider should emit the event named `accountChanged` with value `account: string`.
+
+### RPC Errors
 
 ```
 export interface ProviderRpcError extends Error {
@@ -44,32 +87,26 @@ export interface ProviderRpcError extends Error {
 
 - message
   - should be a human-readable string
-  - should adhere to the RPC method’s specification
+  - should adhere to the specifications in the [Error Standards](error-standards) section below
 - code
   - should be an integer number
-  - should adhere to the RPC method’s specification
-- Data
+  - should adhere to the specifications in the [Error Standards](error-standards) section below
+- data
   - should contain any other useful information about the error
 
-#### on
+### Error Standards
 
-Same as the Node.js [`EventEmitter` API](https://nodejs.org/api/events.html).
+`ProviderRpcError` codes and messages should follow these conventions, in order of priority:
 
-#### removeListener
+1. Any errors mandated by the erroring RPC method's specification
 
-Same as the Node.js [`EventEmitter` API](https://nodejs.org/api/events.html).
+2. The [`CloseEvent` status codes](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes)
 
-### Events
+### Connectivity
 
-#### connect
+The Provider is said to be "connected" when it can service RPC requests to at least one network.
 
-#### disconnect 
-
-#### message
-
-#### networkChanged
-
-#### accountChanged
+The Provider is said to be "disconnected" when it cannot service RPC requests to any network at all.
 
 ## License
 
