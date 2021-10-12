@@ -1,5 +1,16 @@
 import { ErrorResponse } from './types';
 
+export class RpcError extends Error implements ErrorResponse {
+  code: number;
+  data?: any;
+
+  constructor(error: ErrorResponse) {
+    super(error.message);
+    this.code = error.code;
+    this.data = error.data;
+  }
+}
+
 export enum StandardErrorCodes {
   ParseError = -32700,
   InvalidRequest = -32600,
