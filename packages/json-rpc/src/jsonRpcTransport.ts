@@ -9,7 +9,7 @@ import { HttpConnection } from './httpConnection';
 import {
   ErrorResponse,
   IJsonRpcConnection,
-  IJsonRpcProxy,
+  IJsonRpcTransport,
   JsonRpcNotification,
   JsonRpcPayload,
   JsonRpcRequest,
@@ -25,7 +25,7 @@ import {
 } from './validators';
 import { WsConnection } from './wsConnection';
 
-export class JsonRpcProxy implements IJsonRpcProxy {
+export class JsonRpcTransport implements IJsonRpcTransport {
   public connection: IJsonRpcConnection;
 
   private events = new EventEmitter();

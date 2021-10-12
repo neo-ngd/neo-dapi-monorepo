@@ -50,7 +50,7 @@ export interface IJsonRpcConnection extends IEvents {
   send(payload: JsonRpcPayload, context?: any): Promise<void>;
 }
 
-export interface IJsonRpcProxy extends IEvents {
+export interface IJsonRpcTransport extends IEvents {
   connection: IJsonRpcConnection;
   connect(connection?: IJsonRpcConnection): Promise<void>;
   disconnect(): Promise<void>;
