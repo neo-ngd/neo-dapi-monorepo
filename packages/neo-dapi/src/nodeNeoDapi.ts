@@ -28,7 +28,7 @@ import {
   InvokeResult,
   Signer,
   Transaction,
-} from '../core';
+} from '.';
 
 export class NodeNeoDapi implements INeoDapi {
   protected provider: INeoProvider;

@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/neo-ngd/neo-dapi/issues"
   },
-  "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
+  "homepage": "https://github.com/neo-ngd/neo-dapi",
   "dependencies": {
     "axios": "^0.21.1",
     "bufferutil": "^4.0.3",

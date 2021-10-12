@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/neo-ngd/neo-dapi/issues"
   },
-  "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
+  "homepage": "https://github.com/neo-ngd/neo-dapi",
   "dependencies": {
     "@neongd/json-rpc": "^0.0.9",
     "events": "^3.3.0"

@@ -1,2 +1,5 @@
-export * from './core';
-export * from './node';
+export * from './types';
+export * from './enums';
+export * from './errors';
+export * from './neoDapi';
+export * from './nodeNeoDapi';

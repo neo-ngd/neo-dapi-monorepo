@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/neo-ngd/neo-dapi/issues"
   },
-  "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
+  "homepage": "https://github.com/neo-ngd/neo-dapi",
   "dependencies": {
     "@cityofzion/neon-js": "^5.0.0-next.13",
     "@neongd/neo-provider": "^0.0.9"
