@@ -106,7 +106,7 @@ export class HttpConnection implements IJsonRpcConnection {
   private onError(id: number, e: Error) {
     const message = e.message ?? e.toString();
     const error = {
-      ...getStandardError(StandardErrorCodes.ServerError),
+      ...getStandardError(StandardErrorCodes.NetworkError),
       message,
     };
     const payload = formatJsonRpcError(id, error);

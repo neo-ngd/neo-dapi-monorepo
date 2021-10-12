@@ -17,7 +17,7 @@ export enum StandardErrorCodes {
   MethodNotFound = -32601,
   InvalidParams = -32602,
   InternalError = -32603,
-  ServerError = -32000,
+  NetworkError = -32000,
 }
 
 const ERROR_MESSAGE_MAP = {
@@ -26,10 +26,8 @@ const ERROR_MESSAGE_MAP = {
   [StandardErrorCodes.MethodNotFound]: 'Method not found',
   [StandardErrorCodes.InvalidParams]: 'Invalid params',
   [StandardErrorCodes.InternalError]: 'Internal error',
-  [StandardErrorCodes.ServerError]: 'Server error',
+  [StandardErrorCodes.NetworkError]: 'Network error',
 };
-
-export const SERVER_ERROR_CODE_RANGE = [-32099, -32000];
 
 export function isValidErrorCode(code: number): boolean {
   return typeof code === 'number';
@@ -37,10 +35,6 @@ export function isValidErrorCode(code: number): boolean {
 
 export function isStandardErrorCode(code: number): code is StandardErrorCodes {
   return Object.values(StandardErrorCodes).includes(code);
-}
-
-export function isServerErrorCode(code: number): boolean {
-  return code >= SERVER_ERROR_CODE_RANGE[0] && code <= SERVER_ERROR_CODE_RANGE[1];
 }
 
 export function getStandardError(code: number): ErrorResponse {
