@@ -3,6 +3,7 @@ import {
   getStandardError,
   IJsonRpcTransport,
   JsonRpcTransport,
+  RpcError,
   StandardErrorCodes,
 } from '@neongd/json-rpc';
 import {
@@ -42,19 +43,19 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   getProvider(): Promise<GetProviderResult> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
   getAccount(): Promise<GetAccountResult> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
   getPublicKey(): Promise<GetPublicKeyResult> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
   getNetworks(): Promise<GetNetworksResult> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
   async getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {

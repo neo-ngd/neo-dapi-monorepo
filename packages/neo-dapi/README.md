@@ -2,7 +2,7 @@
 
 API for dApps on Neo blockchain.
 
-When using Neo Dapi, a suitable Neo Provider is required. The definition of Neo Provider can be found in [here](../neo-provider).
+When using Neo Dapi, a suitable Neo Provider is required. The definition of Neo Provider can be found [here](../neo-provider).
 
 This library is written in TypeScript, so all the methods and objects are typed. It is therefore usable in TypeScript projects as well as vanilla JavaScript projects.
 
@@ -64,77 +64,63 @@ Examples of usage can be found in [Neo Dapi Demo](https://github.com/neo-ngd/neo
 
 ### Methods
 
-getProvider
+#### getProvider
 
-getAccount
+##### Description
 
-getPublicKey
+##### Parameters
 
-getNetworks
+##### Returns
 
-getNep17Balances
+##### Example
 
-getBlockCount
+#### getAccount
 
-getBlock
+#### getPublicKey
 
-getTransaction
+#### getNetworks
 
-getApplicationLog
+#### getNep17Balances
 
-getStorage
+#### getBlockCount
 
-invokeRead
+#### getBlock
 
-invokeReadMulti
+#### getTransaction
 
-invoke
+#### getApplicationLog
 
-invokeMulti
+#### getStorage
 
-### Error Codes
+#### invokeRead
 
-| Code   | Message          | Meaning                            |
-| ------ | ---------------- | ---------------------------------- |
-| -32700 | Parse error      | Invalid JSON                       |
-| -32600 | Invalid request  | JSON is not a valid request object |
-| -32601 | Method not found | Method does not exist              |
-| -32602 | Invalid params   | Invalid method parameters          |
-| -32603 | Internal error   | Internal JSON-RPC error            |
+#### invokeReadMulti
 
--32700 ParseError
+#### invoke
 
--32600 InvalidRequest
+#### invokeMulti
 
--32601 MethodNotFound
+### Events
 
--32602 InvalidParams
+Events related functions are provided by [Neo Provider](../neo-provider#events).
 
--32603 InternalError
+### Errors
 
--32000 NetworkError
+The errors thrown by the Dapi methods have a code member and descriptive message member. The following list contains all possible error codes and associated messages:
 
-100 InternalError
-
-101 UnsupportedNetwork
-
-102 NoAccount
-
-103 MalformedInput
-
-104 InsufficientFunds
-
-105 RemoteRpcError
-
-106 UserRejected
-
-| Status code | Name                  | Description                                                              |
-| ----------- | --------------------- | ------------------------------------------------------------------------ |
-| 4001        | User Rejected Request | The user rejected the request.                                           |
-| 4100        | Unauthorized          | The requested method and/or account has not been authorized by the user. |
-| 4200        | Unsupported Method    | The Provider does not support the requested method.                      |
-| 4900        | Disconnected          | The Provider is disconnected from all chains.                            |
-| 4901        | Chain Disconnected    | The Provider is not connected to the requested chain.                    |
+| Code   | Message             | Description                                        |
+| ------ | ------------------- | -------------------------------------------------- |
+| -32700 | Parse error         | Invalid JSON                                       |
+| -32600 | Invalid request     | JSON is not a valid request object                 |
+| -32601 | Method not found    | Method does not exist                              |
+| -32602 | Invalid params      | Invalid method parameters                          |
+| -32603 | Internal error      | Error due to faulty logic or coding in the program |
+| -32000 | Network error       | Underlying network error                           |
+| -32001 | User rejected       | The user rejected the request                      |
+| -32002 | Unsupported network | The target network is not supported                |
+| -32003 | No account          | Wallet has no account                              |
+| -32004 | Insufficient funds  | Insufficient funds                                 |
+| -32005 | Remote rpc error    | Error when calling remote rpc service              |
 
 ## License
 
