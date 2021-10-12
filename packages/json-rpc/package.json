@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neo-ngd/neo-dapi.git"
+    "url": "git+https://github.com/neo-ngd/neo-dapi-monorepo.git"
   },
   "keywords": [
     "jsonrpc"
@@ -26,9 +26,9 @@
   "author": "neo-ngd <github.com/neo-ngd>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neo-ngd/neo-dapi/issues"
+    "url": "https://github.com/neo-ngd/neo-dapi-monorepo/issues"
   },
-  "homepage": "https://github.com/neo-ngd/neo-dapi",
+  "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo",
   "dependencies": {
     "axios": "^0.21.1",
     "bufferutil": "^4.0.3",

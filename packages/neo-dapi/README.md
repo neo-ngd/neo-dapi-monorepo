@@ -58,7 +58,7 @@ var dapi = new NeoDapi(window.neo);
 
 ### Example
 
-Examples of usage can be found in [Neo Dapi Demo](https://github.com/neo-ngd/neo-dapi-demo).
+Examples of usage can be found in [Neo Dapi Demo](https://github.com/neo-ngd/neo-dapi-monorepo-demo).
 
 ## API Reference
 

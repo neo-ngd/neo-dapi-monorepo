@@ -1,4 +1,4 @@
-# Neo Dapi Tooling
+# Neo Dapi Monorepo
 
 Monorepo for Neo Dapi (Including [Neo Dapi](./packages/neo-dapi), [Neo Provider](./packages/neo-provider), Types and Utils)
 

@@ -1,5 +1,5 @@
 {
-  "name": "neo-dapi",
+  "name": "neo-dapi-monorepo",
   "description": "Monorepo for Neo Dapi",
   "private": true,
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neo-ngd/neo-dapi.git"
+    "url": "git+https://github.com/neo-ngd/neo-dapi-monorepo.git"
   },
   "keywords": [
     "neo",
@@ -30,9 +30,9 @@
   "author": "neo-ngd <github.com/neo-ngd>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neo-ngd/neo-dapi/issues"
+    "url": "https://github.com/neo-ngd/neo-dapi-monorepo/issues"
   },
-  "homepage": "https://github.com/neo-ngd/neo-dapi#readme",
+  "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo#readme",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
