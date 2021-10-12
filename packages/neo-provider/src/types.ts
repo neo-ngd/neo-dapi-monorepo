@@ -4,7 +4,6 @@ export interface IEvents {
 }
 
 export interface ProviderRpcError extends Error {
-  message: string;
   code: number;
   data?: any;
 }
