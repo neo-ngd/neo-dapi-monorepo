@@ -78,11 +78,11 @@ _(none)_
 
 `: Provider` - a provider object with following members:
 
-- `name: string` - The name of the provider
-- `website: string` - The website of the provider
-- `version: string` - The version of the dAPI that the the provider supports
-- `compatibility: string[]` - A list of all applicable NEPs which the provider supports
-- `extra: object` - This object can contain any attributes specific to the provider, such as an app theme
+- `name: string` - the name of the provider
+- `website: string` - the website of the provider
+- `version: string` - the version of the dAPI that the the provider supports
+- `compatibility: string[]` - a list of all applicable NEPs which the provider supports
+- `extra: object` - this object can contain any attributes specific to the provider, such as an app theme
 
 ##### Example
 
@@ -121,8 +121,8 @@ _(none)_
 
 `: Networks` - a networks object with following members:
 
-- `networks: string[]` - Array of network names the provider has available for the dApp developer to connect to
-- `defaultNetwork: string` - Network the provider is currently set to
+- `networks: string[]` - array of network names the provider has available for the dApp developer to connect to
+- `defaultNetwork: string` - network the provider is currently set to
 
 ##### Example
 
@@ -151,9 +151,9 @@ _(none)_
 
 `: Account` - an account object with following members:
 
-- `address: string` - Address of the connected account
-- `publicKey: string` - Public key of the connected account
-- `label?: string` - A label the users has set to identify their account
+- `address: string` - address of the connected account
+- `publicKey: string` - public key of the connected account
+- `label?: string` - a label the users has set to identify their account
 
 ##### Example
 
@@ -173,9 +173,21 @@ const account = await dapi.getAccount();
 
 ##### Description
 
-Get nep17 balances of a specific asset for the given account.
+Get NEP17 balances of a specific asset for the given account. 
 
-If the asset is omited, all asset balances will be returned.
+##### Parameters
+
+1. `params: object` - an object with following members:
+   - `address: string` - address to check balances
+   - `assetHashes?: string` - NEP17 asset hashes to check balance, If omited, all NEP17 asset balances will be returned
+   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+
+##### Returns
+
+: `Nep17Balance[]` - array of Nep17 balance object  with following members:
+
+- `assetHash: string` -
+- `amount: string` - 
 
 #### getBlockCount
 

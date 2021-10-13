@@ -4,7 +4,7 @@ A JavaScript Neo Provider API for consistency across dApps and wallets.
 
 In the Neo web application ("dApp") ecosystem, key management software ("wallets") expose their API via a JavaScript object in the web page. This object is called "the Provider".
 
-Historically, Provider implementations have exhibited conflicting interfaces and behaviors between wallets. This project formalizes the Neo Provider API to promote wallet interoperability. It is designed to be minimal, event-driven, and agnostic of transport and RPC protocols. Its functionality is easily extended by defining new RPC methods and `message` event types.
+Historically, Provider implementations have exhibited conflicting interfaces and behaviors between wallets. This project defines some interfaces that the wallet should comply with to improve the interoperability of dapps and wallets. It is designed to be minimal, event-driven, and agnostic of transport and RPC protocols. Its functionality is easily extended by defining new RPC methods and `message` event types.
 
 ## API Reference
 
