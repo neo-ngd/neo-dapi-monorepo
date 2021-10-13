@@ -56,7 +56,7 @@ export class NeoDapi implements INeoDapi {
     return this.provider.request({ method: MethodName.GetApplicationLog, params });
   }
 
-  getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<Storage> {
+  getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string> {
     return this.provider.request({ method: MethodName.GetStorage, params });
   }
 

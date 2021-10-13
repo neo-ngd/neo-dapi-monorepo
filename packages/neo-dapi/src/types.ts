@@ -74,9 +74,9 @@ export interface ApplicationLog {
 export interface Execution {
   trigger: string;
   vmState: string;
+  exception: string | null;
   gasConsumed: string;
   stack: Argument[];
-  exception: string | null;
   notifications: Notification[];
 }
 
@@ -138,7 +138,7 @@ export interface INeoDapi {
 
   getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog>;
 
-  getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<Storage>;
+  getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string>;
 
   invokeRead(params: {
     scriptHash: string;

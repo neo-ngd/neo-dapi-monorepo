@@ -112,9 +112,9 @@ export class NeoDapiNodeAdapter implements INeoDapi {
       executions: result.executions.map((execution: any) => ({
         trigger: execution.trigger,
         vmState: execution.vmstate,
+        exception: execution.exception,
         gasConsumed: execution.gasconsumed,
         stack: execution.stack,
-        exception: execution.exception,
         notifications: execution.notifications.map((notification: any) => ({
           contract: notification.contract,
           eventName: notification.eventname,
@@ -124,11 +124,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  async getStorage(params: {
-    scriptHash: string;
-    key: string;
-    network?: string;
-  }): Promise<Storage> {
+  async getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string> {
     const result = await this.transport.request({
       method: 'getstorage',
       params: [params.scriptHash, params.key],

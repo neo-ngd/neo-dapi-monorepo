@@ -14,7 +14,7 @@ Historically, Provider implementations have exhibited conflicting interfaces and
 
 > The `request` method is intended as a transport- and protocol-agnostic wrapper function for Remote Procedure Calls (RPCs).
 
-```
+```typescript
 interface RequestArguments<T = any> {
   method: string;
   params?: T;
@@ -61,7 +61,7 @@ If the Provider becomes disconnected, the Provider should emit the event named `
 
 When emitted, the `message` event be emitted with an object argument of the following form:
 
-```
+```typescript
 export interface ProviderMessage {
   type: string;
   data?: any;
@@ -78,7 +78,7 @@ If the default account of the Provider changes, the Provider should emit the eve
 
 ### RPC Errors
 
-```
+```typescript
 export interface ProviderRpcError extends Error {
   code: number;
   data?: any;
