@@ -7,33 +7,21 @@ import {
   StandardErrorCodes,
 } from '@neongd/json-rpc';
 import {
-  GetAccountResult,
-  GetApplicationLogParams,
-  GetApplicationLogResult,
-  GetBlockCountResult,
-  GetBlockParams,
-  GetBlockResult,
-  GetNep17BalancesParams,
-  GetNep17BalancesResult,
-  GetNetworksResult,
-  GetProviderResult,
-  GetPublicKeyResult,
-  GetStorageParams,
-  GetStorageResult,
-  GetTransactionParams,
-  GetTransactionResult,
+  Account,
+  ApplicationLog,
+  Argument,
+  Block,
   INeoDapi,
-  InvokeMultiParams,
-  InvokeMultiResult,
-  InvokeParams,
-  InvokeReadMultiParams,
-  InvokeReadMultiResult,
-  InvokeReadParams,
+  Invocation,
   InvokeReadResult,
   InvokeResult,
+  Nep17Balance,
+  Networks,
+  Provider,
   Signer,
   Transaction,
-} from '.';
+  TransactionAttribute,
+} from './types';
 
 export class NeoDapiNodeAdapter implements INeoDapi {
   protected transport: IJsonRpcTransport;
@@ -42,23 +30,23 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     this.transport = new JsonRpcTransport(nodeUrl);
   }
 
-  getProvider(): Promise<GetProviderResult> {
+  getProvider(): Promise<Provider> {
     throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
-  getAccount(): Promise<GetAccountResult> {
+  getNetworks(): Promise<Networks> {
     throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
-  getPublicKey(): Promise<GetPublicKeyResult> {
+  getAccount(): Promise<Account> {
     throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
   }
 
-  getNetworks(): Promise<GetNetworksResult> {
-    throw new RpcError(getStandardError(StandardErrorCodes.MethodNotFound));
-  }
-
-  async getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {
+  async getNep17Balances(params: {
+    address: string;
+    assetHashes?: string[];
+    network?: string;
+  }): Promise<Nep17Balance[]> {
     const result = await this.transport.request({
       method: 'getnep17balances',
       params: [params.address],
@@ -76,7 +64,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     }));
   }
 
-  async getBlockCount(): Promise<GetBlockCountResult> {
+  async getBlockCount(): Promise<number> {
     const result = await this.transport.request({
       method: 'getblockcount',
       params: [],
@@ -84,7 +72,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     return result;
   }
 
-  async getBlock(params: GetBlockParams): Promise<GetBlockResult> {
+  async getBlock(params: { blockIndex: number; network?: string }): Promise<Block> {
     const result = await this.transport.request({
       method: 'getblock',
       params: [params.blockIndex, true],
@@ -106,7 +94,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  async getTransaction(params: GetTransactionParams): Promise<GetTransactionResult> {
+  async getTransaction(params: { txid: string; network?: string }): Promise<Transaction> {
     const result = await this.transport.request({
       method: 'getrawtransaction',
       params: [params.txid, true],
@@ -114,7 +102,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     return this.deserializeTransaction(result);
   }
 
-  async getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult> {
+  async getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog> {
     const result = await this.transport.request({
       method: 'getapplicationlog',
       params: [params.txid],
@@ -136,7 +124,11 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  async getStorage(params: GetStorageParams): Promise<GetStorageResult> {
+  async getStorage(params: {
+    scriptHash: string;
+    key: string;
+    network?: string;
+  }): Promise<Storage> {
     const result = await this.transport.request({
       method: 'getstorage',
       params: [params.scriptHash, params.key],
@@ -144,7 +136,13 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     return result;
   }
 
-  async invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
+  async invokeRead(params: {
+    scriptHash: string;
+    operation: string;
+    args?: Argument[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<InvokeReadResult> {
     const result = await this.transport.request({
       method: 'invokefunction',
       params: [
@@ -162,7 +160,11 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  async invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult> {
+  async invokeReadMulti(params: {
+    invokeArgs: Invocation[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<InvokeReadResult> {
     const script = sc.createScript(...params.invokeArgs);
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.transport.request({
@@ -177,11 +179,29 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  invoke(_params: InvokeParams): Promise<InvokeResult> {
+  invoke(_params: {
+    scriptHash: string;
+    operation: string;
+    args?: Argument[];
+    attrs?: TransactionAttribute[];
+    signers?: Signer[];
+    network?: string;
+    extraSystemFee?: string;
+    extraNetworkFee?: string;
+    broadcastOverride?: boolean;
+  }): Promise<InvokeResult> {
     throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
-  invokeMulti(_params: InvokeMultiParams): Promise<InvokeMultiResult> {
+  invokeMulti(_params: {
+    invokeArgs: Invocation[];
+    attrs?: TransactionAttribute[];
+    signers?: Signer[];
+    network?: string;
+    extraSystemFee?: string;
+    extraNetworkFee?: string;
+    broadcastOverride?: boolean;
+  }): Promise<InvokeResult> {
     throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 

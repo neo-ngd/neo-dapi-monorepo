@@ -6,7 +6,6 @@ export enum MethodName {
   GetBlockCount = 'getBlockCount',
   GetNetworks = 'getNetworks',
   GetProvider = 'getProvider',
-  GetPublicKey = 'getPublicKey',
   GetStorage = 'getStorage',
   GetTransaction = 'getTransaction',
   InvokeRead = 'invokeRead',

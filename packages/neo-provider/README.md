@@ -1,8 +1,8 @@
 # Neo Provider
 
-A JavaScript Neo Provider API for consistency across dapps and wallets.
+A JavaScript Neo Provider API for consistency across dApps and wallets.
 
-In the Neo web application ("dapp") ecosystem, key management software ("wallets") expose their API via a JavaScript object in the web page. This object is called "the Provider".
+In the Neo web application ("dApp") ecosystem, key management software ("wallets") expose their API via a JavaScript object in the web page. This object is called "the Provider".
 
 Historically, Provider implementations have exhibited conflicting interfaces and behaviors between wallets. This project formalizes the Neo Provider API to promote wallet interoperability. It is designed to be minimal, event-driven, and agnostic of transport and RPC protocols. Its functionality is easily extended by defining new RPC methods and `message` event types.
 
@@ -87,10 +87,10 @@ export interface ProviderRpcError extends Error {
 
 - message
   - should be a human-readable string
-  - should adhere to the specifications in the [Error Standards](error-standards) section below
+  - should adhere to the specifications in the [Error Standards](#error-standards) section below
 - code
   - should be an integer number
-  - should adhere to the specifications in the [Error Standards](error-standards) section below
+  - should adhere to the specifications in the [Error Standards](#error-standards) section below
 - data
   - should contain any other useful information about the error
 

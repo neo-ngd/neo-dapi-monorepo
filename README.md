@@ -1,6 +1,6 @@
-# Neo Dapi Monorepo
+# Neo dAPI Monorepo
 
-Monorepo for Neo Dapi (Including [Neo Dapi](./packages/neo-dapi), [Neo Provider](./packages/neo-provider), Types and Utils)
+Monorepo for Neo dAPI (Including [Neo dAPI](./packages/neo-dapi), [Neo Provider](./packages/neo-provider), Types and Utils)
 
 ## License
 

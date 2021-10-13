@@ -1,18 +1,41 @@
-export interface Argument {
-  type: string;
-  value: any;
+export interface Provider {
+  name: string;
+  website: string;
+  version: string;
+  compatibility: string[];
+  extra: Record<string, any>;
 }
 
-export interface Signer {
-  account: string;
-  scopes: string;
-  allowedContracts?: string[];
-  allowedGroups?: string[];
+export interface Networks {
+  networks: string[];
+  defaultNetwork: string;
 }
 
-export interface TransactionAttribute {
-  usage: string;
-  data: string;
+export interface Account {
+  address: string;
+  publicKey: string;
+  label?: string;
+}
+
+export interface Nep17Balance {
+  assetHash: string;
+  amount: string;
+}
+
+export interface Block {
+  hash: string;
+  size: number;
+  version: number;
+  previousBlockHash: string;
+  merkleRoot: string;
+  time: number;
+  index: number;
+  primary: number;
+  nextConsensus: string;
+  witnesses: Witness[];
+  tx: Transaction[];
+  confirmations: number;
+  nextBlockHash: string;
 }
 
 export interface Witness {
@@ -38,20 +61,14 @@ export interface Transaction {
   blockTime: number;
 }
 
-export interface Block {
-  hash: string;
-  size: number;
-  version: number;
-  previousBlockHash: string;
-  merkleRoot: string;
-  time: number;
-  index: number;
-  primary: number;
-  nextConsensus: string;
-  witnesses: Witness[];
-  tx: Transaction[];
-  confirmations: number;
-  nextBlockHash: string;
+export interface TransactionAttribute {
+  usage: string;
+  data: string;
+}
+
+export interface ApplicationLog {
+  txid: string;
+  executions: Execution[];
 }
 
 export interface Execution {
@@ -69,91 +86,15 @@ export interface Notification {
   state: Argument;
 }
 
-export interface ApplicationLog {
-  txid: string;
-  executions: Execution[];
-}
-
-export interface Nep17Balance {
-  assetHash: string;
-  amount: string;
-}
-
 export interface Invocation {
   scriptHash: string;
   operation: string;
   args?: Argument[];
 }
 
-export interface GetAccountResult {
-  address: string;
-  label?: string;
-}
-
-export interface GetApplicationLogParams {
-  txid: string;
-  network?: string;
-}
-
-export type GetApplicationLogResult = ApplicationLog;
-
-export interface GetNep17BalancesParams {
-  address: string;
-  assetHashes?: string[];
-  network?: string;
-}
-
-export type GetNep17BalancesResult = Nep17Balance[];
-
-export interface GetBlockParams {
-  blockIndex: number;
-  network?: string;
-}
-
-export type GetBlockResult = Block;
-
-export interface GetBlockCountParams {
-  network?: string;
-}
-
-export type GetBlockCountResult = number;
-
-export interface GetNetworksResult {
-  networks: string[];
-  defaultNetwork: string;
-}
-
-export interface GetProviderResult {
-  name: string;
-  version: string;
-}
-
-export interface GetPublicKeyResult {
-  address: string;
-  publicKey: string;
-}
-
-export interface GetStorageParams {
-  scriptHash: string;
-  key: string;
-  network?: string;
-}
-
-export type GetStorageResult = string;
-
-export interface GetTransactionParams {
-  txid: string;
-  network?: string;
-}
-
-export type GetTransactionResult = Transaction;
-
-export interface InvokeReadParams {
-  scriptHash: string;
-  operation: string;
-  args?: Argument[];
-  signers?: Signer[];
-  network?: string;
+export interface Argument {
+  type: string;
+  value: any;
 }
 
 export interface InvokeReadResult {
@@ -163,29 +104,11 @@ export interface InvokeReadResult {
   stack: Argument[];
 }
 
-export interface InvokeReadMultiParams {
-  invokeArgs: Invocation[];
-  signers?: Signer[];
-  network?: string;
-}
-
-export interface InvokeReadMultiResult {
-  script: string;
-  state: string;
-  gasConsumed: string;
-  stack: Argument[];
-}
-
-export interface InvokeParams {
-  scriptHash: string;
-  operation: string;
-  args?: Argument[];
-  attrs?: TransactionAttribute[];
-  signers?: Signer[];
-  network?: string;
-  extraSystemFee?: string;
-  extraNetworkFee?: string;
-  broadcastOverride?: boolean;
+export interface Signer {
+  account: string;
+  scopes: string;
+  allowedContracts?: string[];
+  allowedGroups?: string[];
 }
 
 export interface InvokeResult {
@@ -194,48 +117,62 @@ export interface InvokeResult {
   signedTx?: string;
 }
 
-export interface InvokeMultiParams {
-  invokeArgs: Invocation[];
-  attrs?: TransactionAttribute[];
-  signers?: Signer[];
-  network?: string;
-  extraSystemFee?: string;
-  extraNetworkFee?: string;
-  broadcastOverride?: boolean;
-}
-
-export interface InvokeMultiResult {
-  txid: string;
-  nodeUrl?: string;
-  signedTx?: string;
-}
-
 export interface INeoDapi {
-  getProvider(): Promise<GetProviderResult>;
+  getProvider(): Promise<Provider>;
 
-  getAccount(): Promise<GetAccountResult>;
+  getNetworks(): Promise<Networks>;
 
-  getPublicKey(): Promise<GetPublicKeyResult>;
+  getAccount(): Promise<Account>;
 
-  getNetworks(): Promise<GetNetworksResult>;
+  getNep17Balances(params: {
+    address: string;
+    assetHashes?: string[];
+    network?: string;
+  }): Promise<Nep17Balance[]>;
 
-  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult>;
+  getBlockCount(params: { network?: string }): Promise<number>;
 
-  getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult>;
+  getBlock(params: { blockIndex: number; network?: string }): Promise<Block>;
 
-  getBlock(params: GetBlockParams): Promise<GetBlockResult>;
+  getTransaction(params: { txid: string; network?: string }): Promise<Transaction>;
 
-  getTransaction(params: GetTransactionParams): Promise<GetTransactionResult>;
+  getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog>;
 
-  getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult>;
+  getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<Storage>;
 
-  getStorage(params: GetStorageParams): Promise<GetStorageResult>;
+  invokeRead(params: {
+    scriptHash: string;
+    operation: string;
+    args?: Argument[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<InvokeReadResult>;
 
-  invokeRead(params: InvokeReadParams): Promise<InvokeReadResult>;
+  invokeReadMulti(params: {
+    invokeArgs: Invocation[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<InvokeReadResult>;
 
-  invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult>;
+  invoke(params: {
+    scriptHash: string;
+    operation: string;
+    args?: Argument[];
+    attrs?: TransactionAttribute[];
+    signers?: Signer[];
+    network?: string;
+    extraSystemFee?: string;
+    extraNetworkFee?: string;
+    broadcastOverride?: boolean;
+  }): Promise<InvokeResult>;
 
-  invoke(params: InvokeParams): Promise<InvokeResult>;
-
-  invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult>;
+  invokeMulti(params: {
+    invokeArgs: Invocation[];
+    attrs?: TransactionAttribute[];
+    signers?: Signer[];
+    network?: string;
+    extraSystemFee?: string;
+    extraNetworkFee?: string;
+    broadcastOverride?: boolean;
+  }): Promise<InvokeResult>;
 }

@@ -1,6 +1,6 @@
 {
   "name": "neo-dapi-monorepo",
-  "description": "Monorepo for Neo Dapi",
+  "description": "Monorepo for Neo dAPI",
   "private": true,
   "scripts": {
     "clean": "lerna clean",
