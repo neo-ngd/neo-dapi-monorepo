@@ -508,6 +508,75 @@ const result = await dapi.invokeRead({
 
 Same as InvokeRead, but allows to execute multiple read-only invocation in one request.
 
+##### Parameters
+
+1. `params: object` - an object with following members:
+   - `invokeArgs: Invocation[]` - array of invocation object with following members:
+     - `scriptHash: string` - script hash of the smart contract to invoke
+     - `operation: string` - operation on the smart contract to call
+     - `args?: Argument[]` - any input arguments for the operation
+   - `signers?: Signer[]` - sender and the scope of signature
+   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+
+##### Returns
+
+`: object` - an object with following members:
+
+- `script: string` - the script which was run
+- `state: string` - status of the invocation
+- `exception: null | string` - error message of the invocation
+- `gasConsumed: string` - estimated amount of GAS to be used to execute the invocation
+- `stack: Argument[]` - an array of response arguments
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.invokeReadMulti({
+  invokeArgs: [
+    {
+      scriptHash: '0xf61eebf573ea36593fd43aa150c055ad7906ab83',
+      operation: 'transfer',
+      args: [
+        {
+          type: 'Hash160',
+          value: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+        },
+        {
+          type: 'Hash160',
+          value: '0xebae4ab3f21765e5f604dfdd590fdf142cfb89fa',
+        },
+        { type: 'Integer', value: '10000' },
+        { type: 'String', value: '' },
+      ],
+    },
+  ],
+  signers: [
+    {
+      account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+      scopes: 'CalledByEntry',
+      allowedcontracts: [],
+      allowedgroups: [],
+    },
+  ],
+});
+
+/* Example Response */
+({
+  script:
+    'DAABECcMFPqJ+ywU3w9Z3d8E9uVlF/KzSq7rDBTitlMicpPpnE8pBtU1U6u0pnLfhhTAHwwIdHJhbnNmZXIMFIOrBnmtVcBQoTrUP1k26nP16x72QWJ9W1I=',
+  state: 'HALT',
+  gasConsumed: '999972',
+  exception: null,
+  stack: [
+    {
+      type: 'Boolean',
+      value: true,
+    },
+  ],
+});
+```
+
 #### invoke
 
 ##### Description
