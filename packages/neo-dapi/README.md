@@ -93,7 +93,7 @@ const provider = await dapi.getProvider();
 /* Example Response */
 ({
   name: 'Awesome Wallet',
-  website: 'https://awesome-wallet.org/',
+  website: 'https://awesome-wallet.org',
   version: '1.0.0',
   compatibility: ['NEP-14', 'NEP-23', 'NEP-29'],
   extra: {
@@ -288,7 +288,7 @@ Gets information about a specific transaction.
 ##### Parameters
 
 1. `params: object` - an object with following members:
-   - `txid: string` - txid of the transaction to get information about
+   - `txid: string` - transaction ID of the transaction to get information about
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
 
 ##### Returns
@@ -355,7 +355,7 @@ Gets the application log for a given transaction.
 ##### Parameters
 
 1. `params: object` - an object with following members:
-   - `txid: string` - txid of the transaction to get application log for
+   - `txid: string` - transaction ID of the transaction to get application log for
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
 
 ##### Returns
@@ -511,7 +511,7 @@ Same as InvokeRead, but allows to execute multiple read-only invocation in one r
 ##### Parameters
 
 1. `params: object` - an object with following members:
-   - `invokeArgs: Invocation[]` - array of invocation object with following members:
+   - `invocations: Invocation[]` - array of invocation object with following members:
      - `scriptHash: string` - script hash of the smart contract to invoke
      - `operation: string` - operation on the smart contract to call
      - `args?: Argument[]` - any input arguments for the operation
@@ -533,7 +533,7 @@ Same as InvokeRead, but allows to execute multiple read-only invocation in one r
 ```typescript
 /* Example */
 const result = await dapi.invokeReadMulti({
-  invokeArgs: [
+  invocations: [
     {
       scriptHash: '0xf61eebf573ea36593fd43aa150c055ad7906ab83',
       operation: 'transfer',
@@ -583,11 +583,124 @@ const result = await dapi.invokeReadMulti({
 
 Triggers a contract invocation that requires a user's signature.
 
+#### Parameters
+
+1. `params: object` - an object with following members:
+   - `scriptHash: string` - script hash of the smart contract to invoke
+   - `operation: string` - operation on the smart contract to call
+   - `args?: Argument[]` - any input arguments for the operation
+   - `attributes?: TransactionAttribute[]` - adds transaction attributes for the transaction
+   - `signers?: Signer[]` - sender and the scope of signature
+   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+   - `extraSystemFee?: string` - this fee will be added to system fee
+   - `extraNetworkFee?: string` - this fee will be added to network fee
+   - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
+
+##### Returns
+
+`: object` - an object with following members:
+
+- `txid: string` - transaction ID of the invocation
+- `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
+- `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.invoke({
+  scriptHash: '0xf61eebf573ea36593fd43aa150c055ad7906ab83',
+  operation: 'transfer',
+  args: [
+    { type: 'Hash160', value: '0x86df72a6b4ab5335d506294f9ce993722253b6e2' },
+    { type: 'Hash160', value: '0xebae4ab3f21765e5f604dfdd590fdf142cfb89fa' },
+    { type: 'Integer', value: '10000' },
+    { type: 'String', value: '' },
+  ],
+  signers: [
+    {
+      account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+      scopes: 'CalledByEntry',
+      allowedcontracts: [],
+      allowedgroups: [],
+    },
+  ],
+});
+
+/* Example Response */
+({
+  txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
+  nodeURL: 'https://n3seed2.ngd.network:20332',
+});
+```
+
 #### invokeMulti
 
 ##### Description
 
 Same as Invoke, but allows to execute multiple invokes in the same transaction.
+
+##### Parameters
+
+1. `params: object` - an object with following members:
+   - `invocations: Invocation[]` - array of invocation object with following members:
+     - `scriptHash: string` - script hash of the smart contract to invoke
+     - `operation: string` - operation on the smart contract to call
+     - `args?: Argument[]` - any input arguments for the operation
+   - `attributes?: TransactionAttribute[]` - adds transaction attributes for the transaction
+   - `signers?: Signer[]` - sender and the scope of signature
+   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+   - `extraSystemFee?: string` - this fee will be added to system fee
+   - `extraNetworkFee?: string` - this fee will be added to network fee
+   - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
+
+##### Returns
+
+`: object` - an object with following members:
+
+- `txid: string` - transaction ID of the invocation
+- `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
+- `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.invokeMulti({
+  invocations: [
+    {
+      scriptHash: '0xf61eebf573ea36593fd43aa150c055ad7906ab83',
+      operation: 'transfer',
+      args: [
+        {
+          type: 'Hash160',
+          value: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+        },
+        {
+          type: 'Hash160',
+          value: '0xebae4ab3f21765e5f604dfdd590fdf142cfb89fa',
+        },
+        { type: 'Integer', value: '10000' },
+        { type: 'String', value: '' },
+      ],
+    },
+  ],
+  signers: [
+    {
+      account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+      scopes: 'CalledByEntry',
+      allowedcontracts: [],
+      allowedgroups: [],
+    },
+  ],
+});
+
+/* Example Response */
+({
+  txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
+  nodeURL: 'https://n3seed2.ngd.network:20332',
+});
+```
 
 ### Events
 

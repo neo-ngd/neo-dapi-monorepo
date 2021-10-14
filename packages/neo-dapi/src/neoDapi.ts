@@ -75,7 +75,7 @@ export class NeoDapi implements INeoDapi {
   }
 
   invokeReadMulti(params: {
-    invokeArgs: Invocation[];
+    invocations: Invocation[];
     signers?: Signer[];
     network?: string;
   }): Promise<{
@@ -92,7 +92,7 @@ export class NeoDapi implements INeoDapi {
     scriptHash: string;
     operation: string;
     args?: Argument[];
-    attrs?: TransactionAttribute[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
@@ -107,8 +107,8 @@ export class NeoDapi implements INeoDapi {
   }
 
   invokeMulti(params: {
-    invokeArgs: Invocation[];
-    attrs?: TransactionAttribute[];
+    invocations: Invocation[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;

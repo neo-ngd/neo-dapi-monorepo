@@ -162,7 +162,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   async invokeReadMulti(params: {
-    invokeArgs: Invocation[];
+    invocations: Invocation[];
     signers?: Signer[];
     network?: string;
   }): Promise<{
@@ -172,7 +172,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     gasConsumed: string;
     stack: Argument[];
   }> {
-    const script = sc.createScript(...params.invokeArgs);
+    const script = sc.createScript(...params.invocations);
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.transport.request({
       method: 'invokescript',
@@ -191,7 +191,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     scriptHash: string;
     operation: string;
     args?: Argument[];
-    attrs?: TransactionAttribute[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
@@ -206,8 +206,8 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   invokeMulti(_params: {
-    invokeArgs: Invocation[];
-    attrs?: TransactionAttribute[];
+    invocations: Invocation[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;

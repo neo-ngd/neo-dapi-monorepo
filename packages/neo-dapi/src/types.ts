@@ -142,7 +142,7 @@ export interface INeoDapi {
   }>;
 
   invokeReadMulti(params: {
-    invokeArgs: Invocation[];
+    invocations: Invocation[];
     signers?: Signer[];
     network?: string;
   }): Promise<{
@@ -157,7 +157,7 @@ export interface INeoDapi {
     scriptHash: string;
     operation: string;
     args?: Argument[];
-    attrs?: TransactionAttribute[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
@@ -170,8 +170,8 @@ export interface INeoDapi {
   }>;
 
   invokeMulti(params: {
-    invokeArgs: Invocation[];
-    attrs?: TransactionAttribute[];
+    invocations: Invocation[];
+    attributes?: TransactionAttribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
