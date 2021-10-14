@@ -12,26 +12,26 @@ This library can be used as CommonJS/ES module or directly referencing in web pa
 
 ### Install CommonJS/ES module
 
-```bash
+```sh
 npm install @neongd/neo-dapi
 ```
 
 or
 
-```bash
+```sh
 yarn add @neongd/neo-dapi
 ```
 
 ### Import CommonJS
 
 ```typescript
-const NeoDapi = require("@neongd/neo-dapi").NeoDapi;
+const NeoDapi = require('@neongd/neo-dapi').NeoDapi;
 ```
 
 ### Import ES module
 
 ```typescript
-import { NeoDapi } from "@neongd/neo-dapi";
+import { NeoDapi } from '@neongd/neo-dapi';
 ```
 
 ### Web require
@@ -91,20 +91,16 @@ _(none)_
 const provider = await dapi.getProvider();
 
 /* Example Response */
-{
-  "name": "Awesome Wallet",
-  "website": "https://awesome-wallet.org/",
-  "version": "1.0.0",
-  "compatibility": [
-    "NEP-14",
-    "NEP-23",
-    "NEP-29"
-  ],
-  "extra": {
-    "theme": "Dark Mode",
-    "currency": "USD"
-  }
-}
+({
+  name: 'Awesome Wallet',
+  website: 'https://awesome-wallet.org/',
+  version: '1.0.0',
+  compatibility: ['NEP-14', 'NEP-23', 'NEP-29'],
+  extra: {
+    theme: 'Dark Mode',
+    currency: 'USD',
+  },
+});
 ```
 
 #### getNetworks
@@ -131,10 +127,10 @@ _(none)_
 const networks = await dapi.getNetworks();
 
 /* Example Response */
-{
-  "networks": ["MainNet", "TestNet"],
-  "defaultNetwork": "TestNet"
-}
+({
+  networks: ['MainNet', 'TestNet'],
+  defaultNetwork: 'TestNet',
+});
 ```
 
 #### getAccount
@@ -162,11 +158,12 @@ _(none)_
 const account = await dapi.getAccount();
 
 /* Example Response */
-{
-  "address": "NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp",
-  "publicKey": "0267c8a9872df89d8da5bcb5ae6a30966495bbd6721d2a68d37ba2b842ea09b4c6",
-  "label": "My Account"
-}
+({
+  address: 'NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp',
+  publicKey:
+    '0267c8a9872df89d8da5bcb5ae6a30966495bbd6721d2a68d37ba2b842ea09b4c6',
+  label: 'My Account',
+});
 ```
 
 #### getNep17Balances
@@ -194,17 +191,17 @@ Gets NEP17 balances of a specific asset for the given account.
 ```typescript
 /* Example */
 const balances = await dapi.getNep17Balances({
-  address: "NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp",
-  assetHashes: ["0xd2a4cff31913016155e38e474a2c06d08be276cf"],
+  address: 'NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp',
+  assetHashes: ['0xd2a4cff31913016155e38e474a2c06d08be276cf'],
 });
 
 /* Example Response */
 [
   {
-    "assetHash": "0xd2a4cff31913016155e38e474a2c06d08be276cf",
-    "amount": "10000000",
+    assetHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+    amount: '10000000',
   },
-]
+];
 ```
 
 #### getBlockCount
@@ -229,7 +226,7 @@ Gets the block count of the blockchain.
 const count = await dapi.getBlockCount({});
 
 /* Example Response */
-26537
+26537;
 ```
 
 #### getBlock
@@ -255,26 +252,31 @@ Gets information about a specific block.
 const count = await dapi.getBlock({ blockIndex: 26536 });
 
 /* Example Response */
-{
-	"hash": "0xd373a9afdbe57d79ad788196aa4ef37dbfb28c7d8f22ffa1ccbc236d56268bca",
-  "size": 5317,
-  "version": 0,
-  "previousBlockHash": "0x2f384bc40c608333fa9d67179d276381dea3dff33b11cfad8ae6a3b2afa15dce",
-  "merkleRoot": "0xefd4080cb996b8d44dcc313d207a5adb7ed614488a0d636bbfe9d37d157c8e9b",
-  "time": 1615348136186,
-  "index": 26536,
-  "primary": 6,
-  "nextConsensus": "NiY2NJTPFPyqjrGtdEhQnryJpJbxnQTvpR",
-  "witnesses": [
+({
+  hash: '0xd373a9afdbe57d79ad788196aa4ef37dbfb28c7d8f22ffa1ccbc236d56268bca',
+  size: 5317,
+  version: 0,
+  previousBlockHash:
+    '0x2f384bc40c608333fa9d67179d276381dea3dff33b11cfad8ae6a3b2afa15dce',
+  merkleRoot:
+    '0xefd4080cb996b8d44dcc313d207a5adb7ed614488a0d636bbfe9d37d157c8e9b',
+  time: 1615348136186,
+  index: 26536,
+  primary: 6,
+  nextConsensus: 'NiY2NJTPFPyqjrGtdEhQnryJpJbxnQTvpR',
+  witnesses: [
     {
-      "invocation": "DEA2ZR0uduwN/5tFVCKoHJtAnSJINfqlRDcNXnYl0H0Jcb3YBy1M0G4Z1LB3PQMIb6J4kOtFm7TBL0B6vfPuDpigDEBLHKna+SPlL9vn755blCr3vxvc2HLP5dUch0isPARVDbg24QwVuvx3mbQ6awn0cQ/h+Jym/9xFo0MR0ddKXKzCDEAIcXyoqzFq4+3N9JtyK46LLeyx9ikidPLiXg9HWQk9Ps5wx9+XIe8zziS9dRAOqT4od7tW1SA6cRU3U8ZCexJ1DECxN+nyE15RaIvwpJ0JK3/RJvAM++YKou/ljVef5atDx9pce5nkuibfZzvzrjcoJF53qnP8ZSXBKThjrN2kGCxlDEBSVfUQAFNm4j4KihACjt5Kx1A9hN8RIDQkLw7udpcFm7Nf4PtDtucw7pS7WGEkmu3c+yt2BV3KeCzNBAreypb7",
-      "verification": "FQwhAwIkKx3O1j4b9+sUh29+8Ca3lWf5xb6D3hlD3Rhewo5oDCECDfiFi2b/TXsKamjRHd7cx9kNKmT/os0IfExdq/QVC0AMIQIXlUMAAYR4HlRHs/D7rOZk6pK34xInyOcbxOfNr8zbjgwhAl6ElJA7k9w2nwiivX4iH1dMddlnVZHwSQfLqdruuD0QDCEDhBXQvo3BK2HT47drmPRk36t/3e50Jxw14t5iS7UQI6YMIQPJscicbi1KvWKaLbi30DrO1RilZ5O8kPSYXvftPxtIGgwhA+irUYbh3qvNEOwOUJ3tT/+t5v3fU0rD4FBiaLrj/USmF0F7zmyl"
-    }
+      invocation:
+        'DEA2ZR0uduwN/5tFVCKoHJtAnSJINfqlRDcNXnYl0H0Jcb3YBy1M0G4Z1LB3PQMIb6J4kOtFm7TBL0B6vfPuDpigDEBLHKna+SPlL9vn755blCr3vxvc2HLP5dUch0isPARVDbg24QwVuvx3mbQ6awn0cQ/h+Jym/9xFo0MR0ddKXKzCDEAIcXyoqzFq4+3N9JtyK46LLeyx9ikidPLiXg9HWQk9Ps5wx9+XIe8zziS9dRAOqT4od7tW1SA6cRU3U8ZCexJ1DECxN+nyE15RaIvwpJ0JK3/RJvAM++YKou/ljVef5atDx9pce5nkuibfZzvzrjcoJF53qnP8ZSXBKThjrN2kGCxlDEBSVfUQAFNm4j4KihACjt5Kx1A9hN8RIDQkLw7udpcFm7Nf4PtDtucw7pS7WGEkmu3c+yt2BV3KeCzNBAreypb7',
+      verification:
+        'FQwhAwIkKx3O1j4b9+sUh29+8Ca3lWf5xb6D3hlD3Rhewo5oDCECDfiFi2b/TXsKamjRHd7cx9kNKmT/os0IfExdq/QVC0AMIQIXlUMAAYR4HlRHs/D7rOZk6pK34xInyOcbxOfNr8zbjgwhAl6ElJA7k9w2nwiivX4iH1dMddlnVZHwSQfLqdruuD0QDCEDhBXQvo3BK2HT47drmPRk36t/3e50Jxw14t5iS7UQI6YMIQPJscicbi1KvWKaLbi30DrO1RilZ5O8kPSYXvftPxtIGgwhA+irUYbh3qvNEOwOUJ3tT/+t5v3fU0rD4FBiaLrj/USmF0F7zmyl',
+    },
   ],
-  "tx": [],
-  "confirmations": 50,
-  "nextBlockHash": "0x568b1d99c5abd460e4a05230d2a70bc7fd432b9f372354076eacd3b9f5cd399e"
-}
+  tx: [],
+  confirmations: 50,
+  nextBlockHash:
+    '0x568b1d99c5abd460e4a05230d2a70bc7fd432b9f372354076eacd3b9f5cd399e',
+});
 ```
 
 #### getTransaction
@@ -298,45 +300,50 @@ Gets information about a specific transaction.
 ```typescript
 /* Example */
 const count = await dapi.getTransaction({
-	txid: "0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c"
+  txid: '0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c',
 });
 
 /* Example Response */
-{
-  "hash": "0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c",
-  "size": 386,
-  "version": 0,
-  "nonce": 246876555,
-  "sender": "NikhQp1aAD1YFCiwknhM5LQQebj4464bCJ",
-  "systemFee": "0.0999954",
-  "networkFee": "0.0235316",
-  "validUntilBlock": 5899,
-  "signers": [
+({
+  hash: '0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c',
+  size: 386,
+  version: 0,
+  nonce: 246876555,
+  sender: 'NikhQp1aAD1YFCiwknhM5LQQebj4464bCJ',
+  systemFee: '0.0999954',
+  networkFee: '0.0235316',
+  validUntilBlock: 5899,
+  signers: [
     {
-      "account": "0xebae4ab3f21765e5f604dfdd590fdf142cfb89fa",
-      "scopes": "None"
+      account: '0xebae4ab3f21765e5f604dfdd590fdf142cfb89fa',
+      scopes: 'None',
     },
     {
-      "account": "0x86df72a6b4ab5335d506294f9ce993722253b6e2",
-      "scopes": "CalledByEntry"
-    }
+      account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
+      scopes: 'CalledByEntry',
+    },
   ],
-  "attributes": [],
-  "script": "CwMA5AtUAgAAAAwU+on7LBTfD1nd3wT25WUX8rNKrusMFOK2UyJyk+mcTykG1TVTq7Smct+GFMAfDAh0cmFuc2ZlcgwUKLOtq3Jp+cIYHbPLdB6/VRkw4nBBYn1bUjk=",
-  "witnesses": [
+  attributes: [],
+  script:
+    'CwMA5AtUAgAAAAwU+on7LBTfD1nd3wT25WUX8rNKrusMFOK2UyJyk+mcTykG1TVTq7Smct+GFMAfDAh0cmFuc2ZlcgwUKLOtq3Jp+cIYHbPLdB6/VRkw4nBBYn1bUjk=',
+  witnesses: [
     {
-      "invocation": "DEC31ZE1kiIFPan7qal/h9FYsD2LTk6Lf0m0Kbbh1GExUqTAfye7BDjyEylfR50/AVNQkr+g+jXXMHGcxF4MUYBQ",
-      "verification": "DCECztQyOX3cRO26AxwLw7kz8o/dlnd5LXsg5sA23aqs8eILQZVEDXg="
+      invocation:
+        'DEC31ZE1kiIFPan7qal/h9FYsD2LTk6Lf0m0Kbbh1GExUqTAfye7BDjyEylfR50/AVNQkr+g+jXXMHGcxF4MUYBQ',
+      verification: 'DCECztQyOX3cRO26AxwLw7kz8o/dlnd5LXsg5sA23aqs8eILQZVEDXg=',
     },
     {
-      "invocation": "DED8PagPv03pnEbsxUY7XgFk/qniHcha36hDCzZsmaJkpFg5vbgxk5+QE46K0GFsNpsqDJHNToGD9jeXsPzSvD5T",
-      "verification": "EQwhAs7UMjl93ETtugMcC8O5M/KP3ZZ3eS17IObANt2qrPHiEQtBE43vrw=="
-    }
+      invocation:
+        'DED8PagPv03pnEbsxUY7XgFk/qniHcha36hDCzZsmaJkpFg5vbgxk5+QE46K0GFsNpsqDJHNToGD9jeXsPzSvD5T',
+      verification:
+        'EQwhAs7UMjl93ETtugMcC8O5M/KP3ZZ3eS17IObANt2qrPHiEQtBE43vrw==',
+    },
   ],
-  "blockHash": "0x3d87f53c51c93fc08e5ccc09dbd9e21fcfad4dbea66af454bed334824a90262c",
-  "confirmations": 26,
-  "blockTime": 1612687482881
-}
+  blockHash:
+    '0x3d87f53c51c93fc08e5ccc09dbd9e21fcfad4dbea66af454bed334824a90262c',
+  confirmations: 26,
+  blockTime: 1612687482881,
+});
 ```
 
 #### getApplicationLog
@@ -360,45 +367,45 @@ Gets the application log for a given transaction.
 ```typescript
 /* Example */
 const count = await dapi.getApplicationLog({
-	txid: "0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c"
+  txid: '0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c',
 });
 
 /* Example Response */
-{
-  "txid": "0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c",
-  "executions": [
+({
+  txid: '0x7da6ae7ff9d0b7af3d32f3a2feb2aa96c2a27ef8b651f9a132cfaad6ef20724c',
+  executions: [
     {
-      "trigger": "Application",
-      "vmState": "HALT",
-      "exception": null,
-      "gasConsumed": "9999540",
-      "stack": [],
-      "notifications": [
+      trigger: 'Application',
+      vmState: 'HALT',
+      exception: null,
+      gasConsumed: '9999540',
+      stack: [],
+      notifications: [
         {
-          "contract": "0x70e2301955bf1e74cbb31d18c2f96972abadb328",
-          "eventName": "Transfer",
-          "state": {
-            "type": "Array",
-            "value": [
+          contract: '0x70e2301955bf1e74cbb31d18c2f96972abadb328',
+          eventName: 'Transfer',
+          state: {
+            type: 'Array',
+            value: [
               {
-                "type": "ByteString",
-                "value": "4rZTInKT6ZxPKQbVNVOrtKZy34Y="
+                type: 'ByteString',
+                value: '4rZTInKT6ZxPKQbVNVOrtKZy34Y=',
               },
               {
-                "type": "ByteString",
-                "value": "+on7LBTfD1nd3wT25WUX8rNKrus="
+                type: 'ByteString',
+                value: '+on7LBTfD1nd3wT25WUX8rNKrus=',
               },
               {
-                "type": "Integer",
-                "value": "10000000000"
-              }
-            ]
-          }
-        }
-      ]
-    }
-  ]
-}
+                type: 'Integer',
+                value: '10000000000',
+              },
+            ],
+          },
+        },
+      ],
+    },
+  ],
+});
 ```
 
 #### getStorage
@@ -423,12 +430,12 @@ Reads the raw value in smart contract storage.
 ```typescript
 /* Example */
 const count = await dapi.getStorage({
-  scriptHash: "0x99042d380f2b754175717bb932a911bc0bb0ad7d",
-  key: "aGVsbG8=",
+  scriptHash: '0x99042d380f2b754175717bb932a911bc0bb0ad7d',
+  key: 'aGVsbG8=',
 });
 
 /* Example Response */
-"d29ybGQ="
+('d29ybGQ=');
 ```
 
 #### invokeRead
