@@ -1,4 +1,4 @@
-import { ErrorResponse, StandardErrorCodes } from '@neongd/json-rpc';
+import { ErrorResponse, getStandardError, StandardErrorCodes } from '@neongd/json-rpc';
 
 export enum NeoDapiErrorCodes {
   UserRejected = -32001,
@@ -9,7 +9,6 @@ export enum NeoDapiErrorCodes {
 }
 
 const ERROR_MESSAGE_MAP = {
-  [StandardErrorCodes.InternalError]: 'Internal error',
   [NeoDapiErrorCodes.UserRejected]: 'User rejected',
   [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
   [NeoDapiErrorCodes.NoAccount]: 'No account',
@@ -22,9 +21,11 @@ export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
 }
 
 export function getNeoDapiError(code: number): ErrorResponse {
-  const finalCode = isNeoDapiErrorCode(code) ? code : StandardErrorCodes.InternalError;
-  return {
-    code: finalCode,
-    message: ERROR_MESSAGE_MAP[finalCode],
-  };
+  if (isNeoDapiErrorCode(code)) {
+    return {
+      code,
+      message: ERROR_MESSAGE_MAP[code],
+    };
+  }
+  return getStandardError(StandardErrorCodes.InternalError);
 }
