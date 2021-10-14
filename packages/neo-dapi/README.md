@@ -589,7 +589,7 @@ Triggers a contract invocation that requires a user's signature.
    - `scriptHash: string` - script hash of the smart contract to invoke
    - `operation: string` - operation on the smart contract to call
    - `args?: Argument[]` - any input arguments for the operation
-   - `attributes?: TransactionAttribute[]` - adds transaction attributes for the transaction
+   - `attributes?: Attribute[]` - adds attributes for the transaction
    - `signers?: Signer[]` - sender and the scope of signature
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
    - `extraSystemFee?: string` - this fee will be added to system fee
@@ -647,7 +647,7 @@ Same as Invoke, but allows to execute multiple invokes in the same transaction.
      - `scriptHash: string` - script hash of the smart contract to invoke
      - `operation: string` - operation on the smart contract to call
      - `args?: Argument[]` - any input arguments for the operation
-   - `attributes?: TransactionAttribute[]` - adds transaction attributes for the transaction
+   - `attributes?: Attribute[]` - adds attributes for the transaction
    - `signers?: Signer[]` - sender and the scope of signature
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
    - `extraSystemFee?: string` - this fee will be added to system fee

@@ -30,11 +30,11 @@ export enum ArgumentType {
   Void = 'Void',
 }
 
-export enum TransactionAttributeUsage {
+export enum AttributeUsage {
   Url = 'Url',
 }
 
-export enum SingerScope {
+export enum SignerScope {
   None = 'None',
   CalledByEntry = 'CalledByEntry',
   CustomContracts = 'CustomContracts',

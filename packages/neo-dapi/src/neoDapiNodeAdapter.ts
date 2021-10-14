@@ -18,7 +18,7 @@ import {
   Provider,
   Signer,
   Transaction,
-  TransactionAttribute,
+  Attribute,
 } from './types';
 
 export class NeoDapiNodeAdapter implements INeoDapi {
@@ -191,7 +191,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     scriptHash: string;
     operation: string;
     args?: Argument[];
-    attributes?: TransactionAttribute[];
+    attributes?: Attribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
@@ -207,7 +207,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
 
   invokeMulti(_params: {
     invocations: Invocation[];
-    attributes?: TransactionAttribute[];
+    attributes?: Attribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;

@@ -53,7 +53,7 @@ export interface Transaction {
   networkFee: string;
   validUntilBlock: number;
   signers: Signer[];
-  attributes: TransactionAttribute[];
+  attributes: Attribute[];
   script: string;
   witnesses: Witness[];
   blockHash: string;
@@ -61,7 +61,7 @@ export interface Transaction {
   blockTime: number;
 }
 
-export interface TransactionAttribute {
+export interface Attribute {
   usage: string;
   data: string;
 }
@@ -157,7 +157,7 @@ export interface INeoDapi {
     scriptHash: string;
     operation: string;
     args?: Argument[];
-    attributes?: TransactionAttribute[];
+    attributes?: Attribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
@@ -171,7 +171,7 @@ export interface INeoDapi {
 
   invokeMulti(params: {
     invocations: Invocation[];
-    attributes?: TransactionAttribute[];
+    attributes?: Attribute[];
     signers?: Signer[];
     network?: string;
     extraSystemFee?: string;
