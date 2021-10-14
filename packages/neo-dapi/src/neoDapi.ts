@@ -7,8 +7,6 @@ import {
   Block,
   INeoDapi,
   Invocation,
-  InvokeReadResult,
-  InvokeResult,
   Nep17Balance,
   Networks,
   Provider,
@@ -66,7 +64,13 @@ export class NeoDapi implements INeoDapi {
     args?: Argument[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult> {
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }> {
     return this.provider.request({ method: MethodName.InvokeRead, params });
   }
 
@@ -74,7 +78,13 @@ export class NeoDapi implements INeoDapi {
     invokeArgs: Invocation[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult> {
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }> {
     return this.provider.request({ method: MethodName.InvokeReadMulti, params });
   }
 
@@ -88,7 +98,11 @@ export class NeoDapi implements INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult> {
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }> {
     return this.provider.request({ method: MethodName.Invoke, params });
   }
 
@@ -100,7 +114,11 @@ export class NeoDapi implements INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult> {
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }> {
     return this.provider.request({ method: MethodName.InvokeMulti, params });
   }
 }

@@ -13,8 +13,6 @@ import {
   Block,
   INeoDapi,
   Invocation,
-  InvokeReadResult,
-  InvokeResult,
   Nep17Balance,
   Networks,
   Provider,
@@ -138,7 +136,13 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     args?: Argument[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult> {
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }> {
     const result = await this.transport.request({
       method: 'invokefunction',
       params: [
@@ -151,6 +155,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     return {
       script: result.script,
       state: result.state,
+      exception: result.exception,
       gasConsumed: result.gasconsumed,
       stack: result.stack,
     };
@@ -160,7 +165,13 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     invokeArgs: Invocation[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult> {
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }> {
     const script = sc.createScript(...params.invokeArgs);
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.transport.request({
@@ -170,6 +181,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     return {
       script: result.script,
       state: result.state,
+      exception: result.exception,
       gasConsumed: result.gasconsumed,
       stack: result.stack,
     };
@@ -185,7 +197,11 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult> {
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }> {
     throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 
@@ -197,7 +213,11 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult> {
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }> {
     throw getStandardError(StandardErrorCodes.MethodNotFound);
   }
 

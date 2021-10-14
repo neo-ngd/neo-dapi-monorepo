@@ -97,24 +97,11 @@ export interface Argument {
   value: any;
 }
 
-export interface InvokeReadResult {
-  script: string;
-  state: string;
-  gasConsumed: string;
-  stack: Argument[];
-}
-
 export interface Signer {
   account: string;
   scopes: string;
   allowedContracts?: string[];
   allowedGroups?: string[];
-}
-
-export interface InvokeResult {
-  txid: string;
-  nodeUrl?: string;
-  signedTx?: string;
 }
 
 export interface INeoDapi {
@@ -146,13 +133,25 @@ export interface INeoDapi {
     args?: Argument[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult>;
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }>;
 
   invokeReadMulti(params: {
     invokeArgs: Invocation[];
     signers?: Signer[];
     network?: string;
-  }): Promise<InvokeReadResult>;
+  }): Promise<{
+    script: string;
+    state: string;
+    exception: string | null;
+    gasConsumed: string;
+    stack: Argument[];
+  }>;
 
   invoke(params: {
     scriptHash: string;
@@ -164,7 +163,11 @@ export interface INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult>;
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }>;
 
   invokeMulti(params: {
     invokeArgs: Invocation[];
@@ -174,5 +177,9 @@ export interface INeoDapi {
     extraSystemFee?: string;
     extraNetworkFee?: string;
     broadcastOverride?: boolean;
-  }): Promise<InvokeResult>;
+  }): Promise<{
+    txid: string;
+    nodeUrl?: string;
+    signedTx?: string;
+  }>;
 }
