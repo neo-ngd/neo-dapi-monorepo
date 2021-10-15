@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-provider",
-  "version": "0.0.10-alpha.9",
+  "version": "0.0.10-alpha.10",
   "description": "Neo Provider types and toolings",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo",
   "dependencies": {
-    "@neongd/json-rpc": "^0.0.10-alpha.7",
+    "@neongd/json-rpc": "^0.0.10-alpha.10",
     "events": "^3.3.0"
   },
   "devDependencies": {
