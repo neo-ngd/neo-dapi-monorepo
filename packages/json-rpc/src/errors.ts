@@ -29,7 +29,7 @@ const ERROR_MESSAGE_MAP = {
   [StandardErrorCodes.NetworkError]: 'Network error',
 };
 
-export function isValidErrorCode(code: number): boolean {
+export function isValidErrorCode(code: unknown): code is number {
   return typeof code === 'number';
 }
 

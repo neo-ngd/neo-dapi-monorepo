@@ -1,9 +1,4 @@
-import {
-  getStandardError,
-  isStandardErrorCode,
-  isValidErrorCode,
-  StandardErrorCodes,
-} from './errors';
+import { getStandardError, isValidErrorCode, StandardErrorCodes } from './errors';
 import {
   ErrorResponse,
   JsonRpcError,
@@ -50,7 +45,7 @@ export function formatJsonRpcResult<T = any>(id: number, result: T): JsonRpcResu
   };
 }
 
-export function formatJsonRpcError(id: number, error?: string | ErrorResponse): JsonRpcError {
+export function formatJsonRpcError(id: number, error: ErrorResponse): JsonRpcError {
   return {
     id,
     jsonrpc: '2.0',
@@ -58,28 +53,23 @@ export function formatJsonRpcError(id: number, error?: string | ErrorResponse): 
   };
 }
 
-export function formatErrorResponse(error?: string | ErrorResponse): ErrorResponse {
+export function formatErrorResponse(error: string | Error | ErrorResponse): ErrorResponse {
+  let code: number = StandardErrorCodes.InternalError;
+  let message: string = getStandardError(code).message;
+  let data: any;
+
   if (error == null) {
-    return getStandardError(StandardErrorCodes.InternalError);
+    // noop
+  } else if (typeof error === 'string') {
+    message = error;
+  } else if (error instanceof Error) {
+    code = isValidErrorCode((error as any).code) ? (error as any).code : code;
+    message = error.message;
+    data = (error as any).data;
+  } else {
+    code = isValidErrorCode(error.code) ? error.code : code;
+    message = error.message ?? getStandardError(code).message;
+    data = error.data;
   }
-  if (typeof error === 'string') {
-    return {
-      ...getStandardError(StandardErrorCodes.InternalError),
-      message: error,
-    };
-  }
-  if (!isValidErrorCode(error.code)) {
-    return {
-      ...getStandardError(StandardErrorCodes.InternalError),
-      ...error,
-      code: StandardErrorCodes.InternalError,
-    };
-  }
-  if (isStandardErrorCode(error.code)) {
-    return {
-      ...getStandardError(error.code),
-      ...error,
-    };
-  }
-  return error;
+  return { code, message, data };
 }

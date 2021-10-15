@@ -80,7 +80,7 @@ _(none)_
 
 - `name: string` - name of the provider
 - `website: string` - website of the provider
-- `version: string` - version of the dAPI that the the provider supports
+- `version: string` - version of the provider
 - `compatibility: string[]` - a list of all applicable NEPs which the provider supports
 - `extra: object` - this object can contain any attributes specific to the provider, such as an app theme
 
