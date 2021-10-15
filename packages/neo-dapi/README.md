@@ -592,8 +592,8 @@ Triggers a contract invocation that requires a user's signature.
    - `attributes?: Attribute[]` - adds attributes for the transaction
    - `signers?: Signer[]` - sender and the scope of signature
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
-   - `extraSystemFee?: string` - this fee will be added to system fee
-   - `extraNetworkFee?: string` - this fee will be added to network fee
+   - `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
+   - `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
    - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
@@ -650,8 +650,8 @@ Same as Invoke, but allows to execute multiple invokes in the same transaction.
    - `attributes?: Attribute[]` - adds attributes for the transaction
    - `signers?: Signer[]` - sender and the scope of signature
    - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
-   - `extraSystemFee?: string` - this fee will be added to system fee
-   - `extraNetworkFee?: string` - this fee will be added to network fee
+   - `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
+   - `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
    - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
