@@ -10,6 +10,7 @@ import {
   Account,
   ApplicationLog,
   Argument,
+  Attribute,
   Block,
   INeoDapi,
   Invocation,
@@ -18,7 +19,6 @@ import {
   Provider,
   Signer,
   Transaction,
-  Attribute,
 } from './types';
 
 export class NeoDapiNodeAdapter implements INeoDapi {
