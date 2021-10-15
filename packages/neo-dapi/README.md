@@ -50,7 +50,7 @@ const NeoDapi = neoDapi.NeoDapi;
 
 ### Initialization
 
-Create a Neo dAPI instance requires a Neo Provider, assuming we already have one (e.g., window.neo, window.OneGate):
+Creating a Neo dAPI instance requires a Neo Provider, assuming we already have one (e.g., window.neo, window.OneGate):
 
 ```typescript
 const dapi = new NeoDapi(window.neo);
@@ -68,7 +68,7 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
 
 ##### Description
 
-Gets information about the provider, including who this provider is, the version of their dAPI, and the NEP that the interface is compatible with.
+Gets information about the provider, including who this provider is, the version the provider, and the NEPs that the provider is compatible with.
 
 ##### Parameters
 
@@ -81,7 +81,7 @@ _(none)_
 - `name: string` - name of the provider
 - `website: string` - website of the provider
 - `version: string` - version of the provider
-- `compatibility: string[]` - a list of all applicable NEPs which the provider supports
+- `compatibility: string[]` - a list of all the NEPs which the provider supports
 - `extra: object` - this object can contain any attributes specific to the provider, such as an app theme
 
 ##### Example
@@ -506,7 +506,7 @@ const result = await dapi.invokeRead({
 
 ##### Description
 
-Same as InvokeRead, but allows to execute multiple read-only invocation in one request.
+Same as [`invokeRead`](#invokeread), but allows to execute multiple read-only invocations in one request.
 
 ##### Parameters
 
@@ -638,7 +638,7 @@ const result = await dapi.invoke({
 
 ##### Description
 
-Same as Invoke, but allows to execute multiple invokes in the same transaction.
+Same as [`invoke`](#invoke), but allows to execute multiple invocations in one transaction.
 
 ##### Parameters
 
