@@ -8,8 +8,7 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "declaration": true
+    "resolveJsonModule": true
   },
-  "include": ["./src", "./test"]
+  "include": ["src", "test"]
 }

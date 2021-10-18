@@ -3,19 +3,18 @@
   "version": "0.0.10-alpha.14",
   "description": "Neo Dapi types and toolings",
   "main": "dist/cjs/index.js",
-  "types": "dist/cjs/index.d.ts",
-  "browser": "dist/umd/index.js",
   "module": "dist/esm/index.js",
+  "browser": "dist/umd/index.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "run-s build:cjs build:umd build:esm",
-    "build:cjs": "npx tsc -p tsconfig.cjs.json",
-    "build:umd": "webpack",
-    "build:esm": "npx tsc -p tsconfig.esm.json",
+    "build": "run-p build:types build:code",
+    "build:code": "rollup -c",
+    "build:types": "tsc -p tsconfig.build.json",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
     "test": "jest --passWithNoTests",
-    "watch": "tsc -p tsconfig.json --watch"
+    "watch": "run-p 'build:types -- -w' 'build:code -- -w'"
   },
   "repository": {
     "type": "git",
@@ -35,6 +34,7 @@
     "@neongd/neo-provider": "^0.0.10-alpha.14"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.2.3",
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
@@ -43,14 +43,15 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.6",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
+    "rollup": "^2.53.2",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.5",
-    "webpack": "^5.58.2",
-    "webpack-cli": "^4.9.0"
+    "typescript": "^4.3.5"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "adb9e0f43af37453884180144512c1a4df685cbb"
 }
