@@ -4,7 +4,7 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import globals from 'rollup-plugin-node-globals';
-import polyfills from 'rollup-plugin-node-polyfills';
+import polyfill from 'rollup-plugin-polyfill-node';
 import pkg from './package.json';
 
 const input = './src/index.ts';
@@ -20,7 +20,7 @@ export default [
       resolve({ preferBuiltins: false }), // so Rollup can find dependencies
       commonjs(), // so Rollup can convert dependencies to an ES module
       globals(), // insert node globals including so code that works with browserify
-      polyfills(), // node built-in modules pollyfill for browser
+      polyfill(), // node built-in modules pollyfill for browser
     ],
     output: { name: 'neoProvider', dir: path.dirname(pkg.browser), format: 'umd', sourcemap: true },
   },
