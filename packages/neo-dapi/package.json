@@ -8,10 +8,10 @@
   "unpkg": "dist/umd/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "run-s build:cjs build:umd build:esm",
+    "build": "run-s build:cjs build:esm build:umd",
     "build:cjs": "npx tsc -p tsconfig.cjs.json",
-    "build:umd": "webpack",
     "build:esm": "npx tsc -p tsconfig.esm.json",
+    "build:umd": "webpack",
     "lint": "eslint . --fix",
     "format": "prettier --write .",
     "test": "jest --passWithNoTests",
