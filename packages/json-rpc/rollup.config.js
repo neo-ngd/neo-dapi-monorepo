@@ -14,15 +14,22 @@ export default [
   // browser-friendly UMD build
   {
     input,
+    external: ['axios'],
     plugins: [
       typescript(),
       json(), // so Rollup can import json files
-      resolve({ preferBuiltins: false }), // so Rollup can find dependencies
+      resolve({ preferBuiltins: false, browser: true }), // so Rollup can find dependencies
       commonjs(), // so Rollup can convert dependencies to an ES module
       globals(), // insert node globals including so code that works with browserify
       polyfill(), // node built-in modules pollyfill for browser
     ],
-    output: { name: 'jsonRpc', dir: path.dirname(pkg.browser), format: 'umd', sourcemap: true },
+    output: {
+      name: 'jsonRpc',
+      dir: path.dirname(pkg.browser),
+      format: 'umd',
+      sourcemap: true,
+      globals: { axios: 'axios' },
+    },
   },
   // CommonJS (for Node)
   {
