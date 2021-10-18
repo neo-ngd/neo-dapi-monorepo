@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { IJsonRpcTransport, JsonRpcNotification } from '@neongd/json-rpc';
+import { ErrorResponse, IJsonRpcTransport, JsonRpcNotification } from '@neongd/json-rpc';
 import {
   INeoProvider,
   ProviderAccount,
@@ -10,6 +10,17 @@ import {
 } from './types';
 
 export * from './types';
+
+export class JsonRpcProviderRpcError extends Error implements ProviderRpcError {
+  code: number;
+  data?: any;
+
+  constructor(error: ErrorResponse) {
+    super(error.message);
+    this.code = error.code;
+    this.data = error.data;
+  }
+}
 
 export class JsonRpcNeoProvider implements INeoProvider {
   private events = new EventEmitter();
@@ -32,7 +43,11 @@ export class JsonRpcNeoProvider implements INeoProvider {
   }
 
   request<R = any, P = any>(args: RequestArguments<P>): Promise<R> {
-    return this.transport.request<R, P>(args);
+    try {
+      return this.transport.request<R, P>(args);
+    } catch (error) {
+      throw new JsonRpcProviderRpcError(error as ErrorResponse);
+    }
   }
 
   private registerEventListeners() {
@@ -47,7 +62,11 @@ export class JsonRpcNeoProvider implements INeoProvider {
   private onNotification(notification: JsonRpcNotification) {
     const providerEvents = ['connect', 'disconnect', 'message', 'networkChanged', 'accountChanged'];
     if (providerEvents.includes(notification.method)) {
-      this.events.emit(notification.method, notification.params);
+      if (notification.method === 'disconnect' && notification.params != null) {
+        this.events.emit(notification.method, new JsonRpcProviderRpcError(notification.params));
+      } else {
+        this.events.emit(notification.method, notification.params);
+      }
     }
   }
 }
