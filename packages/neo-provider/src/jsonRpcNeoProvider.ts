@@ -1,13 +1,6 @@
 import { EventEmitter } from 'events';
 import { ErrorResponse, IJsonRpcTransport, JsonRpcNotification } from '@neongd/json-rpc';
-import {
-  INeoProvider,
-  ProviderAccount,
-  ProviderMessage,
-  ProviderNetwork,
-  ProviderRpcError,
-  RequestArguments,
-} from './types';
+import { INeoProvider, ProviderMessage, ProviderRpcError, RequestArguments } from './types';
 
 export * from './types';
 
@@ -32,8 +25,8 @@ export class JsonRpcNeoProvider implements INeoProvider {
   on(event: 'connect', listener: () => void): void;
   on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;
-  on(event: 'networkChanged', listener: (network: ProviderNetwork) => void): void;
-  on(event: 'accountChanged', listener: (account: ProviderAccount) => void): void;
+  on(event: 'networkChanged', listener: (network: string) => void): void;
+  on(event: 'accountChanged', listener: (account: string) => void): void;
   on(event: string, listener: any): void {
     this.events.on(event, listener);
   }
