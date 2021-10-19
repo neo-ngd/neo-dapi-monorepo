@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "0.0.12-alpha.0",
+  "version": "0.0.12",
   "description": "Neo Dapi types and toolings",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -32,8 +32,8 @@
   "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo",
   "dependencies": {
     "@cityofzion/neon-js": "^5.0.0-next.13",
-    "@neongd/json-rpc": "^0.0.11",
-    "@neongd/neo-provider": "^0.0.12-alpha.0"
+    "@neongd/json-rpc": "^0.0.12",
+    "@neongd/neo-provider": "^0.0.12"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
