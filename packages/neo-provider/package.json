@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-provider",
-  "version": "0.0.11",
+  "version": "0.0.12-alpha.0",
   "description": "Neo Provider types and toolings",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
