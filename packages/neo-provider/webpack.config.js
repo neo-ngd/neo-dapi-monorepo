@@ -13,23 +13,8 @@ module.exports = {
     umdNamedDefine: true,
     globalObject: 'this',
   },
-  resolve: {
-    fallback: {
-      process: false,
-      net: false,
-      zlib: false,
-      stream: false,
-      tls: false,
-      crypto: false,
-      http: false,
-      https: false,
-      fs: false,
-      path: false,
-      os: false,
-      url: false,
-    },
-  },
   optimization: {
     minimize: false,
   },
+  devtool: 'nosources-source-map',
 };

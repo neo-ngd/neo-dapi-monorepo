@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "rootDir": ".",
-    "module": "ESNext",
-    "target": "ES6",
-    "moduleResolution": "node",
-    "strict": true,
-    "sourceMap": true,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "declaration": true
+    "rootDir": ".",
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext"
   },
   "include": ["./src", "./test"]
 }

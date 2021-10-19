@@ -15,21 +15,21 @@ module.exports = {
   },
   resolve: {
     fallback: {
-      process: false,
-      net: false,
+      fs: false,
+      path: false,
+      os: false,
       zlib: false,
       stream: false,
+      net: false,
       tls: false,
       crypto: false,
       http: false,
       https: false,
-      fs: false,
-      path: false,
-      os: false,
       url: false,
     },
   },
   optimization: {
     minimize: false,
   },
+  devtool: 'nosources-source-map',
 };
