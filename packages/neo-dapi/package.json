@@ -22,7 +22,8 @@
     "url": "git+https://github.com/neo-ngd/neo-dapi-monorepo.git"
   },
   "keywords": [
-    "neo-dapi"
+    "neo",
+    "dapi"
   ],
   "author": "neo-ngd <github.com/neo-ngd>",
   "license": "MIT",
