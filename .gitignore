@@ -1,11 +1,13 @@
-# Output
-dist/
+# dependencies
+/node_modules
 
-# OSX
-.DS_Store
-
-# node.js
-node_modules/
+# debug
 npm-debug.log
 yarn-error.log
 lerna-debug.log
+
+# production
+dist/
+
+# misc
+.DS_Store
