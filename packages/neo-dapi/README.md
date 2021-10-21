@@ -243,7 +243,7 @@ Gets information about a specific block.
 
 ##### Returns
 
-: `null | Block` - `null` if no block is found, otherwise a block object returned from remote RPC
+: `Block` - a block object returned from remote RPC
 
 ##### Example
 
@@ -293,7 +293,7 @@ Gets information about a specific transaction.
 
 ##### Returns
 
-: `null | Transaction` - `null` if no transaction is found, otherwise a transaction object returned from remote RPC
+: `Transaction` - a transaction object returned from remote RPC
 
 ##### Example
 
@@ -360,7 +360,7 @@ Gets the application log for a given transaction.
 
 ##### Returns
 
-: `null | ApplicationLog` - `null` if no application log is found, otherwise an application log object returned from remote RPC
+: `ApplicationLog` - an application log object returned from remote RPC
 
 ##### Example
 
@@ -423,7 +423,7 @@ Reads the raw value in smart contract storage.
 
 ##### Returns
 
-: `null | string` - `null` if no value is found, otherwise an base64-encoded raw value
+: `string` - a base64-encoded raw value
 
 ##### Example
 
@@ -581,7 +581,7 @@ const result = await dapi.invokeReadMulti({
 
 ##### Description
 
-Triggers a contract invocation that requires a user's signature.
+Executes a contract invocation that requires a user's signature.
 
 #### Parameters
 
