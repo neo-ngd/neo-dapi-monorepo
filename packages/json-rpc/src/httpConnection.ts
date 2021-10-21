@@ -104,7 +104,7 @@ export class HttpConnection implements IJsonRpcConnection {
   }
 
   private onError(id: number, e: Error) {
-    const message = e.message ?? e.toString();
+    const message = e.message;
     const error = {
       ...getStandardErrorResponse(StandardErrorCodes.NetworkError),
       message,

@@ -1,6 +1,6 @@
 import { sc } from '@cityofzion/neon-js';
 import {
-  ErrorResponse,
+  formatErrorResponse,
   getStandardErrorResponse,
   IJsonRpcTransport,
   JsonRpcTransport,
@@ -277,10 +277,10 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  private convertRemoteRpcError(error: ErrorResponse): any {
+  private convertRemoteRpcError(error: RpcError): any {
     throw new RpcError({
       ...getNeoDapiErrorResponse(NeoDapiErrorCodes.RemoteRpcError),
-      data: error,
+      data: formatErrorResponse(error),
     });
   }
 }
