@@ -1,6 +1,6 @@
 {
   "name": "@neongd/json-rpc",
-  "version": "0.0.13-alpha.2",
+  "version": "0.0.13",
   "description": "Json Rpc types and toolings",
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
