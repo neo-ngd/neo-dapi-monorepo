@@ -8,7 +8,7 @@ This library is written in TypeScript, so all the methods and objects are typed.
 
 ## Getting Started
 
-This library can be used as CommonJS/ES module or directly referencing in web page html.
+This library can be used as CommonJS/ES module or directly referenced in web page html.
 
 ### Install CommonJS/ES module
 
@@ -34,7 +34,7 @@ const NeoDapi = require('@neongd/neo-dapi').NeoDapi;
 import { NeoDapi } from '@neongd/neo-dapi';
 ```
 
-### Web require
+### Web requirement
 
 The index.js file under the "/dist/umd" folder needs to be referenced from the page:
 
@@ -50,7 +50,7 @@ const NeoDapi = neoDapi.NeoDapi;
 
 ### Initialization
 
-Creating a Neo dAPI instance requires a Neo Provider, assuming we already have one (e.g., window.neo, window.OneGate):
+Create a Neo dAPI instance, assuming we already have a Neo Provider (e.g., window.neo, window.OneGate):
 
 ```typescript
 const dapi = new NeoDapi(window.neo);
@@ -68,7 +68,7 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
 
 ##### Description
 
-Gets information about the provider, including who this provider is, the version the provider, and the NEPs that the provider is compatible with.
+Gets information about the provider, including the provider, the provider version, and the NEPs that the provider is compatible with.
 
 ##### Parameters
 
@@ -76,12 +76,12 @@ _(none)_
 
 ##### Returns
 
-`: Provider` - a provider object with following members:
+`: Provider` - a provider object with the following parameters:
 
-- `name: string` - name of the provider
-- `website: string` - website of the provider
-- `version: string` - version of the provider
-- `compatibility: string[]` - a list of all the NEPs which the provider supports
+- `name: string` - the provider name
+- `website: string` - the provider website
+- `version: string` - the provider version
+- `compatibility: string[]` - a list of all the NEPs supported by the provider
 - `extra: object` - this object can contain any attributes specific to the provider, such as an app theme
 
 ##### Example
@@ -107,7 +107,7 @@ const provider = await dapi.getProvider();
 
 ##### Description
 
-Gets the networks the provider has available to connect to, along with the default network the provider is currently set to.
+Gets the networks the provider is available to connect to, along with the default network the provider is currently set to.
 
 ##### Parameters
 
@@ -115,10 +115,10 @@ _(none)_
 
 ##### Returns
 
-`: Networks` - a networks object with following members:
+`: Networks` - a networks object with the following parameters:
 
-- `networks: string[]` - array of network names the provider has available for the dApp developer to connect to
-- `defaultNetwork: string` - network the provider is currently set to
+- `networks: string[]` - array of network names to which the provider is available to connect for the dApp developers
+- `defaultNetwork: string` - the network the provider connects to by default
 
 ##### Example
 
@@ -145,11 +145,11 @@ _(none)_
 
 ##### Returns
 
-`: Account` - an account object with following members:
+`: Account` - an account object with the following parameters:
 
 - `address: string` - address of the connected account
 - `publicKey: string` - public key of the connected account
-- `label?: string` - a label the users has set to identify their account
+- `label?: string` - a label set by users to identify their account
 
 ##### Example
 
@@ -170,21 +170,22 @@ const account = await dapi.getAccount();
 
 ##### Description
 
-Gets NEP17 balances of a specific asset for the given account.
+Gets a specific NEP17 asset balance in the given account.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `address: string` - address to check balances
-   - `assetHashes?: string` - NEP17 asset hashes to check balance, If omited, all NEP17 asset balances will be returned
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `address: string` - address to check the balance
+- `assetHashes?: string` - NEP17 asset hashes to check the balance. If omitted, all NEP17 assets balance will be returned
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used.
 
 ##### Returns
 
-: `Nep17Balance[]` - array of Nep17 balance object with following members:
+: `Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
 
 - `assetHash: string` - NEP17 asset hash
-- `amount: string` - Integer Value of the balance represented as a String
+- `amount: string` - Integer value of the balance, represented as a String
 
 ##### Example
 
@@ -212,8 +213,9 @@ Gets the block count of the blockchain.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameter:
+
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
@@ -237,9 +239,10 @@ Gets information about a specific block.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `blockIndex: number` - index of the block to get information about
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with following members:
+
+- `blockIndex: number` - index of the block to get information about
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
@@ -283,13 +286,14 @@ const block = await dapi.getBlock({ blockIndex: 26536 });
 
 ##### Description
 
-Gets information about a specific transaction.
+Gets the information about a specific transaction.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `txid: string` - transaction ID of the transaction to get information about
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `txid: string` - transaction ID of the transaction to get information about
+- `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
 
 ##### Returns
 
