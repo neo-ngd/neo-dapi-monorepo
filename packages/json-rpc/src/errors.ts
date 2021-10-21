@@ -26,10 +26,21 @@ export function isStandardErrorCode(code: number): code is StandardErrorCodes {
   return Object.values(StandardErrorCodes).includes(code);
 }
 
-export function getStandardError(code: number): ErrorResponse {
+export function getStandardErrorResponse(code: number): ErrorResponse {
   const finalCode = isStandardErrorCode(code) ? code : StandardErrorCodes.InternalError;
   return {
     code: finalCode,
     message: ERROR_MESSAGE_MAP[finalCode],
   };
+}
+
+export class RpcError extends Error implements ErrorResponse {
+  code: number;
+  data?: any;
+
+  constructor(error: ErrorResponse) {
+    super(error.message);
+    this.code = error.code;
+    this.data = error.data;
+  }
 }

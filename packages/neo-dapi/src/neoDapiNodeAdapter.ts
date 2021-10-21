@@ -1,11 +1,12 @@
 import { sc } from '@cityofzion/neon-js';
 import {
-  getStandardError,
+  ErrorResponse,
+  getStandardErrorResponse,
   IJsonRpcTransport,
   JsonRpcTransport,
+  RpcError,
   StandardErrorCodes,
 } from '@neongd/json-rpc';
-import { JsonRpcProviderRpcError } from '@neongd/neo-provider';
 import {
   Account,
   ApplicationLog,
@@ -20,6 +21,7 @@ import {
   Signer,
   Transaction,
 } from './types';
+import { getNeoDapiErrorResponse, NeoDapiErrorCodes } from '.';
 
 export class NeoDapiNodeAdapter implements INeoDapi {
   protected transport: IJsonRpcTransport;
@@ -29,15 +31,15 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   getProvider(): Promise<Provider> {
-    throw new JsonRpcProviderRpcError(getStandardError(StandardErrorCodes.MethodNotFound));
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
   getNetworks(): Promise<Networks> {
-    throw new JsonRpcProviderRpcError(getStandardError(StandardErrorCodes.MethodNotFound));
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
   getAccount(): Promise<Account> {
-    throw new JsonRpcProviderRpcError(getStandardError(StandardErrorCodes.MethodNotFound));
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
   async getNep17Balances(params: {
@@ -45,10 +47,12 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     assetHashes?: string[];
     network?: string;
   }): Promise<Nep17Balance[]> {
-    const result = await this.transport.request({
-      method: 'getnep17balances',
-      params: [params.address],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getnep17balances',
+        params: [params.address],
+      })
+      .catch(this.convertRemoteRpcError);
     const balanceMap = result.balance.reduce(
       (acc: any, cur: any) => Object.assign(acc, { [cur.assethash]: cur }),
       {} as any,
@@ -63,18 +67,22 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   async getBlockCount(): Promise<number> {
-    const result = await this.transport.request({
-      method: 'getblockcount',
-      params: [],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getblockcount',
+        params: [],
+      })
+      .catch(this.convertRemoteRpcError);
     return result;
   }
 
   async getBlock(params: { blockIndex: number; network?: string }): Promise<Block> {
-    const result = await this.transport.request({
-      method: 'getblock',
-      params: [params.blockIndex, true],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getblock',
+        params: [params.blockIndex, true],
+      })
+      .catch(this.convertRemoteRpcError);
     return {
       hash: result.hash,
       size: result.size,
@@ -93,18 +101,22 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   async getTransaction(params: { txid: string; network?: string }): Promise<Transaction> {
-    const result = await this.transport.request({
-      method: 'getrawtransaction',
-      params: [params.txid, true],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getrawtransaction',
+        params: [params.txid, true],
+      })
+      .catch(this.convertRemoteRpcError);
     return this.deserializeTransaction(result);
   }
 
   async getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog> {
-    const result = await this.transport.request({
-      method: 'getapplicationlog',
-      params: [params.txid],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getapplicationlog',
+        params: [params.txid],
+      })
+      .catch(this.convertRemoteRpcError);
     return {
       txid: result.txid,
       executions: result.executions.map((execution: any) => ({
@@ -123,10 +135,12 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }
 
   async getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string> {
-    const result = await this.transport.request({
-      method: 'getstorage',
-      params: [params.scriptHash, params.key],
-    });
+    const result = await this.transport
+      .request({
+        method: 'getstorage',
+        params: [params.scriptHash, params.key],
+      })
+      .catch(this.convertRemoteRpcError);
     return result;
   }
 
@@ -143,15 +157,17 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     gasConsumed: string;
     stack: Argument[];
   }> {
-    const result = await this.transport.request({
-      method: 'invokefunction',
-      params: [
-        params.scriptHash,
-        params.operation,
-        params.args ?? [],
-        (params.signers ?? []).map(this.serializeSigner.bind(this)),
-      ],
-    });
+    const result = await this.transport
+      .request({
+        method: 'invokefunction',
+        params: [
+          params.scriptHash,
+          params.operation,
+          params.args ?? [],
+          (params.signers ?? []).map(this.serializeSigner.bind(this)),
+        ],
+      })
+      .catch(this.convertRemoteRpcError);
     return {
       script: result.script,
       state: result.state,
@@ -174,10 +190,12 @@ export class NeoDapiNodeAdapter implements INeoDapi {
   }> {
     const script = sc.createScript(...params.invocations);
     const base64Script = Buffer.from(script, 'hex').toString('base64');
-    const result = await this.transport.request({
-      method: 'invokescript',
-      params: [base64Script, (params.signers ?? []).map(this.serializeSigner.bind(this))],
-    });
+    const result = await this.transport
+      .request({
+        method: 'invokescript',
+        params: [base64Script, (params.signers ?? []).map(this.serializeSigner.bind(this))],
+      })
+      .catch(this.convertRemoteRpcError);
     return {
       script: result.script,
       state: result.state,
@@ -202,7 +220,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     nodeUrl?: string;
     signedTx?: string;
   }> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
   invokeMulti(_params: {
@@ -218,7 +236,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     nodeUrl?: string;
     signedTx?: string;
   }> {
-    throw getStandardError(StandardErrorCodes.MethodNotFound);
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
   private deserializeTransaction(transation: any): Transaction {
@@ -257,5 +275,12 @@ export class NeoDapiNodeAdapter implements INeoDapi {
       allowedcontracts: signer.allowedContracts,
       allowedgroups: signer.allowedGroups,
     };
+  }
+
+  private convertRemoteRpcError(error: ErrorResponse): any {
+    throw new RpcError({
+      ...getNeoDapiErrorResponse(NeoDapiErrorCodes.RemoteRpcError),
+      data: error,
+    });
   }
 }

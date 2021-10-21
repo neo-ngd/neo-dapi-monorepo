@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import axios, { AxiosInstance } from 'axios';
-import { getStandardError, StandardErrorCodes } from './errors';
+import { getStandardErrorResponse, StandardErrorCodes } from './errors';
 import { formatJsonRpcError } from './formatters';
 import { parse } from './json';
 import { IJsonRpcConnection, JsonRpcPayload } from './types';
@@ -106,7 +106,7 @@ export class HttpConnection implements IJsonRpcConnection {
   private onError(id: number, e: Error) {
     const message = e.message ?? e.toString();
     const error = {
-      ...getStandardError(StandardErrorCodes.NetworkError),
+      ...getStandardErrorResponse(StandardErrorCodes.NetworkError),
       message,
     };
     const payload = formatJsonRpcError(id, error);

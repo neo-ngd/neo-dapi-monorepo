@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { RpcError } from './errors';
 import {
   formatJsonRpcError,
   formatJsonRpcNotification,
@@ -92,7 +93,7 @@ export class JsonRpcTransport implements IJsonRpcTransport {
     return new Promise((resolve, reject) => {
       this.events.on(`${request.id}`, (response: JsonRpcResponse) => {
         if (isJsonRpcError(response)) {
-          reject(response.error);
+          reject(new RpcError(response.error));
         } else {
           resolve(response.result);
         }

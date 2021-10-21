@@ -1,4 +1,4 @@
-import { getStandardError, isValidErrorCode, StandardErrorCodes } from './errors';
+import { getStandardErrorResponse, isValidErrorCode, StandardErrorCodes } from './errors';
 import {
   ErrorResponse,
   JsonRpcError,
@@ -55,7 +55,7 @@ export function formatJsonRpcError(id: number, error: ErrorResponse): JsonRpcErr
 
 export function formatErrorResponse(error: string | Error | ErrorResponse): ErrorResponse {
   let code: number = StandardErrorCodes.InternalError;
-  let message: string = getStandardError(code).message;
+  let message: string = getStandardErrorResponse(code).message;
   let data: any;
 
   if (error == null) {
@@ -68,7 +68,7 @@ export function formatErrorResponse(error: string | Error | ErrorResponse): Erro
     data = (error as any).data;
   } else {
     code = isValidErrorCode(error.code) ? error.code : code;
-    message = error.message ?? getStandardError(code).message;
+    message = error.message ?? getStandardErrorResponse(code).message;
     data = error.data;
   }
   return { code, message, data };

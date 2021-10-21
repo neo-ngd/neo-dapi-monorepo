@@ -1,4 +1,4 @@
-import { ErrorResponse, getStandardError, StandardErrorCodes } from '@neongd/json-rpc';
+import { ErrorResponse, getStandardErrorResponse, StandardErrorCodes } from '@neongd/json-rpc';
 
 export enum NeoDapiErrorCodes {
   UserRejected = -32001,
@@ -20,12 +20,12 @@ export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
   return Object.values(NeoDapiErrorCodes).includes(code);
 }
 
-export function getNeoDapiError(code: number): ErrorResponse {
+export function getNeoDapiErrorResponse(code: number): ErrorResponse {
   if (isNeoDapiErrorCode(code)) {
     return {
       code,
       message: ERROR_MESSAGE_MAP[code],
     };
   }
-  return getStandardError(StandardErrorCodes.InternalError);
+  return getStandardErrorResponse(StandardErrorCodes.InternalError);
 }
