@@ -3,13 +3,13 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "rootDir": ".",
     "sourceMap": true,
     "strict": true,
-    "target": "esnext"
+    "target": "es6"
   },
   "include": ["./src", "./test"]
 }
