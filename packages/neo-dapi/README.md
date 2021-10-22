@@ -1,6 +1,6 @@
 # Neo dAPI
 
-API for dApps on Neo blockchain.
+This document describes API for dApps on Neo blockchain.
 
 When using Neo dAPI, a suitable Neo Provider is required. The definition of Neo Provider can be found [here](../neo-provider).
 
@@ -219,7 +219,7 @@ Gets the block count of the blockchain.
 
 ##### Returns
 
-: `number` - block count of target network
+: `number` - block count of the target network
 
 ##### Example
 
@@ -239,14 +239,14 @@ Gets information about a specific block.
 
 ##### Parameters
 
-`params: object` - an object with following members:
+`params: object` - an object with the following members:
 
 - `blockIndex: number` - index of the block to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `Block` - a block object returned from remote RPC
+: `Block` - a block object returned from the remote RPC
 
 ##### Example
 
@@ -293,11 +293,11 @@ Gets the information about a specific transaction.
 `params: object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the transaction to get information about
-- `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `Transaction` - a transaction object returned from remote RPC
+: `Transaction` - a transaction object returned from the remote RPC
 
 ##### Example
 
@@ -358,13 +358,14 @@ Gets the application log for a given transaction.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `txid: string` - transaction ID of the transaction to get application log for
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `txid: string` - transaction ID of the transaction to get application log for
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `ApplicationLog` - an application log object returned from remote RPC
+: `ApplicationLog` - an application log object returned from the remote RPC
 
 ##### Example
 
@@ -416,14 +417,15 @@ const applicationLog = await dapi.getApplicationLog({
 
 ##### Description
 
-Reads the raw value in smart contract storage.
+Reads the raw value in the smart contract storage.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `scriptHash: string` - script hash of the smart contract to invoke a read on
-   - `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `scriptHash: string` - script hash of the smart contract to invoke a read on
+- `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
@@ -450,16 +452,17 @@ Executes a contract invocation in read-only mode.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `scriptHash: string` - script hash of the smart contract to invoke
-   - `operation: string` - operation on the smart contract to call
-   - `args?: Argument[]` - any input arguments for the operation
-   - `signers?: Signer[]` - sender and the scope of signature
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `scriptHash: string` - script hash of the smart contract to invoke
+- `operation: string` - operation on the smart contract to call
+- `args?: Argument[]` - any input arguments for the operation
+- `signers?: Signer[]` - sender and the scope of the signature
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: object` - an object with following members:
+`: object` - an object with the following parameters:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -510,21 +513,22 @@ const result = await dapi.invokeRead({
 
 ##### Description
 
-Same as [`invokeRead`](#invokeread), but allows to execute multiple read-only invocations in one request.
+Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only invocations in one request.
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `invocations: Invocation[]` - array of invocation object with following members:
-     - `scriptHash: string` - script hash of the smart contract to invoke
-     - `operation: string` - operation on the smart contract to call
-     - `args?: Argument[]` - any input arguments for the operation
-   - `signers?: Signer[]` - sender and the scope of signature
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
+`params: object` - an object with the following parameters:
+
+- `invocations: Invocation[]` - array of invocation object with following members:
+   - `scriptHash: string` - script hash of the smart contract to invoke
+   - `operation: string` - operation on the smart contract to call
+   - `args?: Argument[]` - any input arguments for the operation
+- `signers?: Signer[]` - sender and the scope of the signature
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: object` - an object with following members:
+`: object` - an object with the following parameters:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -589,20 +593,21 @@ Executes a contract invocation that requires a user's signature.
 
 #### Parameters
 
-1. `params: object` - an object with following members:
-   - `scriptHash: string` - script hash of the smart contract to invoke
-   - `operation: string` - operation on the smart contract to call
-   - `args?: Argument[]` - any input arguments for the operation
-   - `attributes?: Attribute[]` - adds attributes for the transaction
-   - `signers?: Signer[]` - sender and the scope of signature
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
-   - `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
-   - `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
-   - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
+`params: object` - an object with the following parameters:
+
+- `scriptHash: string` - script hash of the smart contract to invoke
+- `operation: string` - operation on the smart contract to call
+- `args?: Argument[]` - any input arguments for the operation
+- `attributes?: Attribute[]` - adds attributes for the transaction
+- `signers?: Signer[]` - sender and the scope of signature
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
+- `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
+- `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
+- `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
 
-`: object` - an object with following members:
+`: object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the invocation
 - `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
@@ -646,24 +651,25 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Parameters
 
-1. `params: object` - an object with following members:
-   - `invocations: Invocation[]` - array of invocation object with following members:
-     - `scriptHash: string` - script hash of the smart contract to invoke
-     - `operation: string` - operation on the smart contract to call
-     - `args?: Argument[]` - any input arguments for the operation
-   - `attributes?: Attribute[]` - adds attributes for the transaction
-   - `signers?: Signer[]` - sender and the scope of signature
-   - `network?: string` - network to submit this request to. If omitted, will default to network the provider is currently set to
-   - `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
-   - `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
-   - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
+`params: object` - an object with the following parameters:
+
+- `invocations: Invocation[]` - array of invocation object with the following parameters:
+   - `scriptHash: string` - script hash of the smart contract to invoke
+   - `operation: string` - operation on the smart contract to call
+   - `args?: Argument[]` - any input arguments for the operation
+- `attributes?: Attribute[]` - adds attributes to the transaction
+- `signers?: Signer[]` - sender and the scope of signature
+- `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
+- `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
+- `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
+- `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
 
-`: object` - an object with following members:
+`: object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the invocation
-- `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
+- `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcast by the provider
 - `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
 
 ##### Example
