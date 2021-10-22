@@ -188,7 +188,12 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     gasConsumed: string;
     stack: Argument[];
   }> {
-    const script = sc.createScript(...params.invocations);
+    const script = sc.createScript(
+      ...params.invocations.map(invocation => ({
+        ...invocation,
+        args: invocation.args?.map(arg => sc.ContractParam.fromJson(arg)),
+      })),
+    );
     const base64Script = Buffer.from(script, 'hex').toString('base64');
     const result = await this.transport
       .request({
