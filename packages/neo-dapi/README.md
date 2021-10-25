@@ -174,7 +174,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `address: string` - address to check the balance
 - `assetHashes?: string` - NEP17 asset hashes to check the balance. If omitted, all NEP17 assets balance will be returned
@@ -182,7 +182,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Returns
 
-: `Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
+`: Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
 
 - `assetHash: string` - NEP17 asset hash
 - `amount: string` - Integer value of the balance, represented as a String
@@ -213,13 +213,13 @@ Gets the block count of the blockchain.
 
 ##### Parameters
 
-`params: object` - an object with the following parameter:
+`: object` - an object with the following parameter:
 
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `number` - block count of the target network
+`: number` - block count of the target network
 
 ##### Example
 
@@ -239,14 +239,14 @@ Gets information about a specific block.
 
 ##### Parameters
 
-`params: object` - an object with the following members:
+`: object` - an object with the following members:
 
 - `blockIndex: number` - index of the block to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `Block` - a block object returned from the remote RPC
+`: Block` - a block object returned from the remote RPC
 
 ##### Example
 
@@ -290,14 +290,14 @@ Gets the information about a specific transaction.
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the transaction to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `Transaction` - a transaction object returned from the remote RPC
+`: Transaction` - a transaction object returned from the remote RPC
 
 ##### Example
 
@@ -358,14 +358,14 @@ Gets the application log for a given transaction.
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the transaction to get application log for
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-: `ApplicationLog` - an application log object returned from the remote RPC
+`: ApplicationLog` - an application log object returned from the remote RPC
 
 ##### Example
 
@@ -421,7 +421,7 @@ Reads the raw value in the smart contract storage.
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke a read on
 - `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
@@ -429,7 +429,7 @@ Reads the raw value in the smart contract storage.
 
 ##### Returns
 
-: `string` - a base64-encoded raw value
+`: string` - a base64-encoded raw value
 
 ##### Example
 
@@ -452,7 +452,7 @@ Executes a contract invocation in read-only mode.
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -517,12 +517,12 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `invocations: Invocation[]` - array of invocation object with following members:
-   - `scriptHash: string` - script hash of the smart contract to invoke
-   - `operation: string` - operation on the smart contract to call
-   - `args?: Argument[]` - any input arguments for the operation
+  - `scriptHash: string` - script hash of the smart contract to invoke
+  - `operation: string` - operation on the smart contract to call
+  - `args?: Argument[]` - any input arguments for the operation
 - `signers?: Signer[]` - sender and the scope of the signature
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
@@ -593,7 +593,7 @@ Executes a contract invocation that requires a user's signature.
 
 #### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -651,12 +651,12 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Parameters
 
-`params: object` - an object with the following parameters:
+`: object` - an object with the following parameters:
 
 - `invocations: Invocation[]` - array of invocation object with the following parameters:
-   - `scriptHash: string` - script hash of the smart contract to invoke
-   - `operation: string` - operation on the smart contract to call
-   - `args?: Argument[]` - any input arguments for the operation
+  - `scriptHash: string` - script hash of the smart contract to invoke
+  - `operation: string` - operation on the smart contract to call
+  - `args?: Argument[]` - any input arguments for the operation
 - `attributes?: Attribute[]` - adds attributes to the transaction
 - `signers?: Signer[]` - sender and the scope of signature
 - `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
