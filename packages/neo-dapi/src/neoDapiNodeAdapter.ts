@@ -282,7 +282,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     };
   }
 
-  private convertRemoteRpcError(error: RpcError): any {
+  private convertRemoteRpcError(error: Error) {
     throw new RpcError({
       ...getNeoDapiErrorResponse(NeoDapiErrorCodes.RemoteRpcError),
       data: formatErrorResponse(error),
