@@ -2,6 +2,7 @@ export interface Provider {
   name: string;
   website: string;
   version: string;
+  dapiVersion: string;
   compatibility: string[];
   extra: Record<string, any>;
 }

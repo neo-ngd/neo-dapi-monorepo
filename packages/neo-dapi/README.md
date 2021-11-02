@@ -81,6 +81,7 @@ _(none)_
 - `name: string` - the provider name
 - `website: string` - the provider website
 - `version: string` - the provider version
+- `dapiVersion: string` - the dapi version used by the provider
 - `compatibility: string[]` - a list of all the NEPs supported by the provider
 - `extra: object` - this object can contain any attributes specific to the provider, such as an app theme
 
@@ -95,6 +96,7 @@ const provider = await dapi.getProvider();
   name: 'Awesome Wallet',
   website: 'https://awesome-wallet.org',
   version: '1.0.0',
+  dapiVersion: '1.0.0',
   compatibility: ['NEP-14', 'NEP-23', 'NEP-29'],
   extra: {
     theme: 'Dark Mode',
@@ -601,8 +603,8 @@ Executes a contract invocation that requires a user's signature.
 - `attributes?: Attribute[]` - adds attributes for the transaction
 - `signers?: Signer[]` - sender and the scope of signature
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
-- `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
-- `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
+- `extraSystemFee?: string` - this fee will be added to system fee (Integer Value represented as a String)
+- `extraNetworkFee?: string` - this fee will be added to network fee (Integer Value represented as a String)
 - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
@@ -660,8 +662,8 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 - `attributes?: Attribute[]` - adds attributes to the transaction
 - `signers?: Signer[]` - sender and the scope of signature
 - `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
-- `extraSystemFee?: string` - this fee will be added to system fee (Double Value represented as a String)
-- `extraNetworkFee?: string` - this fee will be added to network fee (Double Value represented as a String)
+- `extraSystemFee?: string` - this fee will be added to system fee (Integer Value represented as a String)
+- `extraNetworkFee?: string` - this fee will be added to network fee (Integer Value represented as a String)
 - `broadcastOverride?: boolean` - in the case that the dApp would like to be responsible for broadcasting the signed transaction rather than the provider
 
 ##### Returns
