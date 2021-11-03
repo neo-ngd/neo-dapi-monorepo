@@ -316,8 +316,8 @@ const count = await dapi.getTransaction({
   version: 0,
   nonce: 246876555,
   sender: 'NikhQp1aAD1YFCiwknhM5LQQebj4464bCJ',
-  systemFee: '0.0999954',
-  networkFee: '0.0235316',
+  systemFee: '9999540',
+  networkFee: '2353160',
   validUntilBlock: 5899,
   signers: [
     {
