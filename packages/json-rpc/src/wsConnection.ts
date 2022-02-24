@@ -1,10 +1,9 @@
 import { EventEmitter } from 'events';
+import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from './json';
 import { IJsonRpcConnection, JsonRpcPayload } from './types';
 import { isWsUrl } from './url';
 import { isJsonRpcPayload } from './validators';
-
-const WS = typeof WebSocket !== 'undefined' ? WebSocket : require('ws');
 
 export class WsConnection implements IJsonRpcConnection {
   public events = new EventEmitter();
@@ -75,20 +74,20 @@ export class WsConnection implements IJsonRpcConnection {
     this.registering = true;
 
     return new Promise((resolve, reject) => {
-      const socket: WebSocket = new WS(url);
+      const socket = new WebSocket(url);
       socket.onopen = () => {
         this.onOpen(socket);
         resolve(socket);
       };
-      socket.onerror = (event: Event) => {
-        this.events.emit('error', event);
-        reject(event);
+      socket.onerror = error => {
+        this.events.emit('error', error);
+        reject(error);
       };
     });
   }
 
   private onOpen(socket: WebSocket) {
-    socket.onmessage = (event: MessageEvent) => this.onPayload(event.data);
+    socket.onmessage = event => this.onPayload(event.data);
     socket.onclose = () => this.onClose();
     this.socket = socket;
     this.registering = false;

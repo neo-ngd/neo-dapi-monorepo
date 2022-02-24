@@ -31,11 +31,10 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo",
   "dependencies": {
+    "@types/websocket": "^1.0.5",
     "axios": "^0.21.1",
-    "bufferutil": "^4.0.3",
     "events": "^3.3.0",
-    "utf-8-validate": "^5.0.5",
-    "ws": "^8.2.2"
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
