@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "module": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "rootDir": ".",
     "sourceMap": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "es6"
   },
-  "include": ["./src", "./test"]
+  "include": ["./src"]
 }

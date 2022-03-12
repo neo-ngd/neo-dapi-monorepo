@@ -2,7 +2,7 @@
 
 Neo Provider is a JavaScript API for consistency between dApps and wallets.
 
-In the Neo web application ("dApp") ecosystem, the key management softwares ("wallets") expose their API via a JavaScript object in the web page. This object is called the  "Provider".
+In the Neo web application ("dApp") ecosystem, the key management softwares ("wallets") expose their API via a JavaScript object in the web page. This object is called the "Provider".
 
 Historically, Provider implementations have exhibited conflicting interfaces and behaviors between wallets. This project defines some interfaces that the wallet should comply with to improve the interoperability between dapps and wallets. It is designed to be minimal, event-driven, and agnostic of transport and RPC protocols. Its functionality is easily extended by defining new RPC methods and `message` event types.
 

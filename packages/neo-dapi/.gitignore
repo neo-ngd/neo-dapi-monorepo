@@ -1,13 +1,12 @@
 # dependencies
 /node_modules
 
-# debug
-npm-debug.log
-yarn-error.log
-lerna-debug.log
-
 # production
-dist/
+/dist
 
 # misc
 .DS_Store
+
+npm-debug.log*
+yarn-error.log*
+lerna-debug.log*
