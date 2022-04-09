@@ -183,4 +183,15 @@ export interface INeoDapi {
     nodeUrl?: string;
     signedTx?: string;
   }>;
+
+  signMessage(params: {
+    message: string;
+  }): Promise<{ salt: string; signature: string; publicKey: string }>;
+
+  verifyMessage(params: {
+    message: string;
+    salt: string;
+    signature: string;
+    publicKey: string;
+  }): Promise<boolean>;
 }

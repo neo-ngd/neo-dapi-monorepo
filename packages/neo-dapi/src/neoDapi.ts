@@ -121,4 +121,19 @@ export class NeoDapi implements INeoDapi {
   }> {
     return this.provider.request({ method: MethodName.InvokeMulti, params });
   }
+
+  signMessage(params: {
+    message: string;
+  }): Promise<{ salt: string; signature: string; publicKey: string }> {
+    return this.provider.request({ method: MethodName.SignMessage, params });
+  }
+
+  verifyMessage(params: {
+    message: string;
+    salt: string;
+    signature: string;
+    publicKey: string;
+  }): Promise<boolean> {
+    return this.provider.request({ method: MethodName.VerifyMessage, params });
+  }
 }

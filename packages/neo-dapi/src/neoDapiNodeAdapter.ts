@@ -244,6 +244,21 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
+  signMessage(_params: {
+    message: string;
+  }): Promise<{ salt: string; signature: string; publicKey: string }> {
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
+  }
+
+  verifyMessage(_params: {
+    message: string;
+    salt: string;
+    signature: string;
+    publicKey: string;
+  }): Promise<boolean> {
+    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
+  }
+
   private deserializeTransaction(transation: any): Transaction {
     return {
       hash: transation.hash,

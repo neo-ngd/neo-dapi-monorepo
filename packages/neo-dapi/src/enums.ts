@@ -12,6 +12,8 @@ export enum MethodName {
   InvokeReadMulti = 'invokeReadMulti',
   Invoke = 'invoke',
   InvokeMulti = 'invokeMulti',
+  SignMessage = 'signMessage',
+  VerifyMessage = 'verifyMessage',
 }
 
 export enum ArgumentType {
