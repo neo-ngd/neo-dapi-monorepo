@@ -136,4 +136,26 @@ export class NeoDapi implements INeoDapi {
   }): Promise<boolean> {
     return this.provider.request({ method: MethodName.VerifyMessage, params });
   }
+
+  signTransation(params: {
+    version: number;
+    nounce: number;
+    systemFee: string;
+    networkFee: string;
+    validUntilBlock: string;
+    script: string;
+    invocations?: Invocation[];
+    attributes?: Attribute[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<{ signature: string; publicKey: string }> {
+    return this.provider.request({ method: MethodName.SignTransation, params });
+  }
+
+  relayTransaction(params: { signedTx: string; network?: string }): Promise<{
+    txid: string;
+    nodeUrl: string;
+  }> {
+    return this.provider.request({ method: MethodName.RelayTransation, params });
+  }
 }

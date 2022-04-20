@@ -194,4 +194,22 @@ export interface INeoDapi {
     signature: string;
     publicKey: string;
   }): Promise<boolean>;
+
+  signTransation(params: {
+    version: number;
+    nounce: number;
+    systemFee: string;
+    networkFee: string;
+    validUntilBlock: string;
+    script: string;
+    invocations?: Invocation[];
+    attributes?: Attribute[];
+    signers?: Signer[];
+    network?: string;
+  }): Promise<{ signature: string; publicKey: string }>;
+
+  relayTransaction(params: { signedTx: string; network?: string }): Promise<{
+    txid: string;
+    nodeUrl: string;
+  }>;
 }
