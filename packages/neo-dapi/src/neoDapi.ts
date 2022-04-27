@@ -137,7 +137,7 @@ export class NeoDapi implements INeoDapi {
     return this.provider.request({ method: MethodName.VerifyMessage, params });
   }
 
-  signTransation(params: {
+  signTransaction(params: {
     version: number;
     nonce: number;
     systemFee: string;
@@ -149,13 +149,13 @@ export class NeoDapi implements INeoDapi {
     signers?: Signer[];
     network?: string;
   }): Promise<{ signature: string; publicKey: string }> {
-    return this.provider.request({ method: MethodName.SignTransation, params });
+    return this.provider.request({ method: MethodName.SignTransaction, params });
   }
 
   relayTransaction(params: { signedTx: string; network?: string }): Promise<{
     txid: string;
     nodeUrl: string;
   }> {
-    return this.provider.request({ method: MethodName.RelayTransation, params });
+    return this.provider.request({ method: MethodName.RelayTransaction, params });
   }
 }

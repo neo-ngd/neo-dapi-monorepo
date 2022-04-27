@@ -259,7 +259,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  signTransation(_params: {
+  signTransaction(_params: {
     version: number;
     nonce: number;
     systemFee: string;
@@ -281,23 +281,23 @@ export class NeoDapiNodeAdapter implements INeoDapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  private deserializeTransaction(transation: any): Transaction {
+  private deserializeTransaction(transaction: any): Transaction {
     return {
-      hash: transation.hash,
-      size: transation.size,
-      version: transation.version,
-      nonce: transation.nonce,
-      sender: transation.sender,
-      systemFee: transation.sysfee,
-      networkFee: transation.netfee,
-      validUntilBlock: transation.validuntilblock,
-      signers: transation.signers.map(this.deserializeSigner.bind(this)),
-      attributes: transation.attributes,
-      script: transation.script,
-      witnesses: transation.witnesses,
-      blockHash: transation.blockhash,
-      confirmations: transation.confirmations,
-      blockTime: transation.blocktime,
+      hash: transaction.hash,
+      size: transaction.size,
+      version: transaction.version,
+      nonce: transaction.nonce,
+      sender: transaction.sender,
+      systemFee: transaction.sysfee,
+      networkFee: transaction.netfee,
+      validUntilBlock: transaction.validuntilblock,
+      signers: transaction.signers.map(this.deserializeSigner.bind(this)),
+      attributes: transaction.attributes,
+      script: transaction.script,
+      witnesses: transaction.witnesses,
+      blockHash: transaction.blockhash,
+      confirmations: transaction.confirmations,
+      blockTime: transaction.blocktime,
     };
   }
 

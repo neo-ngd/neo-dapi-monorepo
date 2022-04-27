@@ -14,8 +14,8 @@ export enum MethodName {
   InvokeMulti = 'invokeMulti',
   SignMessage = 'signMessage',
   VerifyMessage = 'verifyMessage',
-  SignTransation = 'signTransaction',
-  RelayTransation = 'relayTransaction',
+  SignTransaction = 'signTransaction',
+  RelayTransaction = 'relayTransaction',
 }
 
 export enum ArgumentType {

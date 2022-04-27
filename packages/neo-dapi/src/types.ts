@@ -195,7 +195,7 @@ export interface INeoDapi {
     publicKey: string;
   }): Promise<boolean>;
 
-  signTransation(params: {
+  signTransaction(params: {
     version: number;
     nonce: number;
     systemFee: string;
