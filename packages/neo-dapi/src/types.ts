@@ -197,7 +197,7 @@ export interface INeoDapi {
 
   signTransation(params: {
     version: number;
-    nounce: number;
+    nonce: number;
     systemFee: string;
     networkFee: string;
     validUntilBlock: string;

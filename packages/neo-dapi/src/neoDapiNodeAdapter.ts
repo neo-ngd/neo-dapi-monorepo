@@ -261,7 +261,7 @@ export class NeoDapiNodeAdapter implements INeoDapi {
 
   signTransation(_params: {
     version: number;
-    nounce: number;
+    nonce: number;
     systemFee: string;
     networkFee: string;
     validUntilBlock: string;
