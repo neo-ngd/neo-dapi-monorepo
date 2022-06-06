@@ -1,8 +1,8 @@
 import { sc } from '@cityofzion/neon-js';
 import {
+  BaseJsonRpcTransport,
   formatErrorResponse,
   getStandardErrorResponse,
-  IJsonRpcTransport,
   JsonRpcTransport,
   RpcError,
   StandardErrorCodes,
@@ -13,8 +13,8 @@ import {
   Argument,
   Attribute,
   Block,
-  INeoDapi,
   Invocation,
+  NeoDapi,
   Nep17Balance,
   Networks,
   Provider,
@@ -23,12 +23,12 @@ import {
 } from './types';
 import { getNeoDapiErrorResponse, NeoDapiErrorCodes } from '.';
 
-export class NeoDapiNodeAdapter implements INeoDapi {
-  protected transport: IJsonRpcTransport;
+export class NodeAdapterNeoDapi implements NeoDapi {
+  protected transport: JsonRpcTransport;
 
-  constructor(urlOrTransport: string | IJsonRpcTransport) {
+  constructor(urlOrTransport: string | JsonRpcTransport) {
     if (typeof urlOrTransport === 'string') {
-      this.transport = new JsonRpcTransport(urlOrTransport);
+      this.transport = new BaseJsonRpcTransport(urlOrTransport);
     } else {
       this.transport = urlOrTransport;
     }

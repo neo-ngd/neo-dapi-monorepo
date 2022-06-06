@@ -7,4 +7,4 @@ export * from './postMessageConnection';
 export * from './url';
 export * from './httpConnection';
 export * from './wsConnection';
-export * from './jsonRpcTransport';
+export * from './baseJsonRpcTransport';

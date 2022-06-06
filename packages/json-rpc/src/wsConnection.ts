@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
 import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from './json';
-import { IJsonRpcConnection, JsonRpcPayload } from './types';
+import { JsonRpcConnection, JsonRpcPayload } from './types';
 import { isWsUrl } from './url';
 import { isJsonRpcPayload } from './validators';
 
-export class WsConnection implements IJsonRpcConnection {
+export class WsConnection implements JsonRpcConnection {
   public events = new EventEmitter();
 
   private socket: WebSocket | null = null;

@@ -105,7 +105,7 @@ export interface Signer {
   allowedGroups?: string[];
 }
 
-export interface INeoDapi {
+export interface NeoDapi {
   getProvider(): Promise<Provider>;
 
   getNetworks(): Promise<Networks>;

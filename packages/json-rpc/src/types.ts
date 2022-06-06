@@ -1,4 +1,4 @@
-export interface IEvents {
+export interface EventDispatcher {
   on(event: string, listener: any): void;
   removeListener(event: string, listener: any): void;
 }
@@ -42,7 +42,7 @@ export type JsonRpcPayload<RP = any, NP = any, R = any> =
   | JsonRpcNotification<NP>
   | JsonRpcResponse<R>;
 
-export interface IJsonRpcConnection extends IEvents {
+export interface JsonRpcConnection extends EventDispatcher {
   connected: boolean;
   connecting: boolean;
   open(opts?: any): Promise<void>;
@@ -50,9 +50,9 @@ export interface IJsonRpcConnection extends IEvents {
   send(payload: JsonRpcPayload, context?: any): Promise<void>;
 }
 
-export interface IJsonRpcTransport extends IEvents {
-  connection: IJsonRpcConnection;
-  connect(connection?: IJsonRpcConnection): Promise<void>;
+export interface JsonRpcTransport extends EventDispatcher {
+  connection: JsonRpcConnection;
+  connect(connection?: JsonRpcConnection): Promise<void>;
   disconnect(): Promise<void>;
 
   request<Result = any, Params = any>(

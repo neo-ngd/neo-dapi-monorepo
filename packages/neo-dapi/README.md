@@ -45,7 +45,7 @@ The index.js file under the "/dist/umd" folder needs to be referenced from the p
 The use of the code is required under the global namespace of `neoDapi`.
 
 ```typescript
-const NeoDapi = neoDapi.NeoDapi;
+const NeoDapi = neoDapi.BaseNeoDapi;
 ```
 
 ### Initialization
@@ -53,7 +53,7 @@ const NeoDapi = neoDapi.NeoDapi;
 Create a Neo dAPI instance, assuming we already have a Neo Provider (e.g., window.neo, window.OneGate):
 
 ```typescript
-const dapi = new NeoDapi(window.neo);
+const dapi = new BaseNeoDapi(window.neo);
 ```
 
 ### Example

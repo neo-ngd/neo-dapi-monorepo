@@ -1,4 +1,4 @@
-export interface IEvents {
+export interface EventDispatcher {
   on(event: string, listener: any): void;
   removeListener(event: string, listener: any): void;
 }
@@ -18,7 +18,7 @@ export interface RequestArguments<T = any> {
   params?: T;
 }
 
-export interface INeoProvider extends IEvents {
+export interface NeoProvider extends EventDispatcher {
   on(event: 'connect', listener: () => void): void;
   on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;

@@ -3,11 +3,11 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getStandardErrorResponse, StandardErrorCodes } from './errors';
 import { formatJsonRpcError } from './formatters';
 import { parse } from './json';
-import { IJsonRpcConnection, JsonRpcPayload } from './types';
+import { JsonRpcConnection, JsonRpcPayload } from './types';
 import { isHttpUrl } from './url';
 import { isJsonRpcPayload } from './validators';
 
-export class HttpConnection implements IJsonRpcConnection {
+export class HttpConnection implements JsonRpcConnection {
   public events = new EventEmitter();
 
   private api: AxiosInstance | null = null;

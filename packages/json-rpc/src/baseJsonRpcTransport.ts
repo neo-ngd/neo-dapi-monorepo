@@ -9,12 +9,12 @@ import {
 import { HttpConnection } from './httpConnection';
 import {
   ErrorResponse,
-  IJsonRpcConnection,
-  IJsonRpcTransport,
+  JsonRpcConnection,
   JsonRpcNotification,
   JsonRpcPayload,
   JsonRpcRequest,
   JsonRpcResponse,
+  JsonRpcTransport,
   RequestArguments,
 } from './types';
 import { isHttpUrl } from './url';
@@ -26,19 +26,19 @@ import {
 } from './validators';
 import { WsConnection } from './wsConnection';
 
-export class JsonRpcTransport implements IJsonRpcTransport {
-  public connection: IJsonRpcConnection;
+export class BaseJsonRpcTransport implements JsonRpcTransport {
+  public connection: JsonRpcConnection;
 
   private events = new EventEmitter();
 
-  constructor(connection: string | IJsonRpcConnection) {
+  constructor(connection: string | JsonRpcConnection) {
     this.connection = this.parseConnection(connection);
     this.onConnectionPayload = this.onConnectionPayload.bind(this);
     this.onConnectionClose = this.onConnectionClose.bind(this);
     this.onConnectionError = this.onConnectionError.bind(this);
   }
 
-  async connect(connection: IJsonRpcConnection | string = this.connection): Promise<void> {
+  async connect(connection: JsonRpcConnection | string = this.connection): Promise<void> {
     await this.open(this.parseConnection(connection));
   }
 
@@ -75,7 +75,7 @@ export class JsonRpcTransport implements IJsonRpcTransport {
 
   // ---------- Private ----------------------------------------------- //
 
-  private parseConnection(connection: string | IJsonRpcConnection) {
+  private parseConnection(connection: string | JsonRpcConnection) {
     return typeof connection === 'string'
       ? isHttpUrl(connection)
         ? new HttpConnection(connection)
@@ -141,7 +141,7 @@ export class JsonRpcTransport implements IJsonRpcTransport {
     this.events.emit('error');
   }
 
-  private async open(connection: IJsonRpcConnection = this.connection) {
+  private async open(connection: JsonRpcConnection = this.connection) {
     if (this.connection === connection && this.connection.connected) {
       return;
     }

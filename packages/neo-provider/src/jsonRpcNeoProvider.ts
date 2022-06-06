@@ -1,13 +1,13 @@
 import { EventEmitter } from 'events';
-import { IJsonRpcTransport, JsonRpcNotification, RpcError } from '@neongd/json-rpc';
-import { INeoProvider, ProviderMessage, ProviderRpcError, RequestArguments } from './types';
+import { JsonRpcNotification, JsonRpcTransport, RpcError } from '@neongd/json-rpc';
+import { NeoProvider, ProviderMessage, ProviderRpcError, RequestArguments } from './types';
 
 export * from './types';
 
-export class JsonRpcNeoProvider implements INeoProvider {
+export class JsonRpcNeoProvider implements NeoProvider {
   private events = new EventEmitter();
 
-  constructor(private transport: IJsonRpcTransport) {
+  constructor(private transport: JsonRpcTransport) {
     this.registerEventListeners();
   }
 

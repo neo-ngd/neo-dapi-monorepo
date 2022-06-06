@@ -3,14 +3,14 @@ import { parse, stringify } from './json';
 import {
   AddMessageListener,
   Disposer,
-  IJsonRpcConnection,
+  JsonRpcConnection,
   JsonRpcPayload,
   Logger,
   PostMessage,
 } from './types';
 import { isJsonRpcPayload } from './validators';
 
-export class PostMessageConnection implements IJsonRpcConnection {
+export class PostMessageConnection implements JsonRpcConnection {
   private events = new EventEmitter();
 
   private disposer: Disposer | null = null;
