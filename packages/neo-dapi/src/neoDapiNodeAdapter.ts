@@ -26,8 +26,12 @@ import { getNeoDapiErrorResponse, NeoDapiErrorCodes } from '.';
 export class NeoDapiNodeAdapter implements INeoDapi {
   protected transport: IJsonRpcTransport;
 
-  constructor(nodeUrl: string) {
-    this.transport = new JsonRpcTransport(nodeUrl);
+  constructor(urlOrTransport: string | IJsonRpcTransport) {
+    if (typeof urlOrTransport === 'string') {
+      this.transport = new JsonRpcTransport(urlOrTransport);
+    } else {
+      this.transport = urlOrTransport;
+    }
   }
 
   getProvider(): Promise<Provider> {

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getStandardErrorResponse, StandardErrorCodes } from './errors';
 import { formatJsonRpcError } from './formatters';
 import { parse } from './json';
@@ -14,7 +14,7 @@ export class HttpConnection implements IJsonRpcConnection {
 
   private registering = false;
 
-  constructor(public url: string) {
+  constructor(public url: string, private axiosConfig?: AxiosRequestConfig) {
     if (!isHttpUrl(url)) {
       throw new Error(`Provided URL is not compatible with HTTP connection: ${url}`);
     }
@@ -80,6 +80,7 @@ export class HttpConnection implements IJsonRpcConnection {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      ...this.axiosConfig,
     });
     this.onOpen(api);
     return api;
