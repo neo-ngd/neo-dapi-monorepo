@@ -98,11 +98,72 @@ export interface Argument {
   value: any;
 }
 
+export interface BooleanWitnessCondition {
+  type: 'Boolean';
+  expression: boolean;
+}
+
+export interface NotWitnessCondition {
+  type: 'Not';
+  expression: WitnessCondition;
+}
+
+export interface AndWitnessCondition {
+  type: 'And';
+  expressions: WitnessCondition[];
+}
+
+export interface OrWitnessCondition {
+  type: 'Or';
+  expressions: WitnessCondition[];
+}
+
+export interface ScriptHashWitnessCondition {
+  type: 'ScriptHash';
+  hash: string;
+}
+
+export interface GroupWitnessCondition {
+  type: 'Group';
+  group: string;
+}
+
+export interface CalledByEntryWitnessCondition {
+  type: 'CalledByEntry';
+}
+
+export interface CalledByContractWitnessCondition {
+  type: 'CalledByContract';
+  hash: string;
+}
+
+export interface CalledByGroupWitnessCondition {
+  type: 'CalledByGroup';
+  group: string;
+}
+
+export type WitnessCondition =
+  | BooleanWitnessCondition
+  | AndWitnessCondition
+  | NotWitnessCondition
+  | OrWitnessCondition
+  | ScriptHashWitnessCondition
+  | GroupWitnessCondition
+  | CalledByEntryWitnessCondition
+  | CalledByContractWitnessCondition
+  | CalledByGroupWitnessCondition;
+
+export interface WitnessRule {
+  action: string;
+  condition: WitnessCondition;
+}
+
 export interface Signer {
   account: string;
   scopes: string;
   allowedContracts?: string[];
   allowedGroups?: string[];
+  rules?: WitnessRule[];
 }
 
 export interface NeoDapi {

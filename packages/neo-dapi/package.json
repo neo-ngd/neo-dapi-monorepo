@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo",
   "dependencies": {
-    "@cityofzion/neon-js": "^5.0.0-next.13",
+    "@cityofzion/neon-js": "^5.2.0",
     "@neongd/json-rpc": "^1.0.3",
     "@neongd/neo-provider": "^1.0.3"
   },
