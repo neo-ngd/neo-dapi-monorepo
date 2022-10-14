@@ -16,7 +16,7 @@
     "lerna-publish:alpha": "lerna publish from-package --dist-tag alpha --yes",
     "release": "run-s lerna-version lerna-publish",
     "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha",
-    "clean-tags": "git tag | grep alpha | xargs sh -c 'git push origin --delete $@ && git tag -d $@' sh"
+    "clear-alpha-tags": "git tag | grep alpha | xargs sh -c 'git push origin --delete $@ && git tag -d $@' sh"
   },
   "repository": {
     "type": "git",
