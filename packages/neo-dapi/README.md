@@ -25,13 +25,13 @@ yarn add @neongd/neo-dapi
 ### Import CommonJS
 
 ```typescript
-const NeoDapi = require('@neongd/neo-dapi').NeoDapi;
+const NeoDapi = require('@neongd/neo-dapi').BaseNeoDapi;
 ```
 
 ### Import ES module
 
 ```typescript
-import { NeoDapi } from '@neongd/neo-dapi';
+import { BaseNeoDapi } from '@neongd/neo-dapi';
 ```
 
 ### Web requirement
