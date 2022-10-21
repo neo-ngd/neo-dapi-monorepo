@@ -76,7 +76,7 @@ _(none)_
 
 ##### Returns
 
-`: Provider` - a provider object with the following parameters:
+`Provider` - a provider object with the following parameters:
 
 - `name: string` - the provider name
 - `website: string` - the provider website
@@ -117,7 +117,7 @@ _(none)_
 
 ##### Returns
 
-`: Networks` - a networks object with the following parameters:
+`Networks` - a networks object with the following parameters:
 
 - `networks: string[]` - array of network names to which the provider is available to connect for the dApp developers
 - `defaultNetwork: string` - the network the provider connects to by default
@@ -147,7 +147,7 @@ _(none)_
 
 ##### Returns
 
-`: Account` - an account object with the following parameters:
+`Account` - an account object with the following parameters:
 
 - `address: string` - address of the connected account
 - `publicKey: string` - public key of the connected account
@@ -176,7 +176,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `address: string` - address to check the balance
 - `assetHashes?: string` - NEP17 asset hashes to check the balance. If omitted, all NEP17 assets balance will be returned
@@ -184,7 +184,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Returns
 
-`: Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
+`Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
 
 - `assetHash: string` - NEP17 asset hash
 - `amount: string` - Integer value of the balance, represented as a String
@@ -215,13 +215,13 @@ Gets the block count of the blockchain.
 
 ##### Parameters
 
-`: object` - an object with the following parameter:
+`object` - an object with the following parameter:
 
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: number` - block count of the target network
+`number` - block count of the target network
 
 ##### Example
 
@@ -241,14 +241,14 @@ Gets information about a specific block.
 
 ##### Parameters
 
-`: object` - an object with the following members:
+`object` - an object with the following members:
 
 - `blockIndex: number` - index of the block to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: Block` - a block object returned from the remote RPC
+`Block` - a block object returned from the remote RPC
 
 ##### Example
 
@@ -292,14 +292,14 @@ Gets the information about a specific transaction.
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the transaction to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: Transaction` - a transaction object returned from the remote RPC
+`Transaction` - a transaction object returned from the remote RPC
 
 ##### Example
 
@@ -360,14 +360,14 @@ Gets the application log for a given transaction.
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the transaction to get application log for
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
 
-`: ApplicationLog` - an application log object returned from the remote RPC
+`ApplicationLog` - an application log object returned from the remote RPC
 
 ##### Example
 
@@ -423,7 +423,7 @@ Reads the raw value in the smart contract storage.
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke a read on
 - `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
@@ -431,7 +431,7 @@ Reads the raw value in the smart contract storage.
 
 ##### Returns
 
-`: string` - a base64-encoded raw value
+`string` - a base64-encoded raw value
 
 ##### Example
 
@@ -454,7 +454,7 @@ Executes a contract invocation in read-only mode.
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -464,7 +464,7 @@ Executes a contract invocation in read-only mode.
 
 ##### Returns
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -519,7 +519,7 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `invocations: Invocation[]` - array of invocation object with following members:
   - `scriptHash: string` - script hash of the smart contract to invoke
@@ -530,7 +530,7 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
 
 ##### Returns
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -595,7 +595,7 @@ Executes a contract invocation that requires a user's signature.
 
 #### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -609,7 +609,7 @@ Executes a contract invocation that requires a user's signature.
 
 ##### Returns
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the invocation
 - `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
@@ -653,7 +653,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Parameters
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `invocations: Invocation[]` - array of invocation object with the following parameters:
   - `scriptHash: string` - script hash of the smart contract to invoke
@@ -668,7 +668,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Returns
 
-`: object` - an object with the following parameters:
+`object` - an object with the following parameters:
 
 - `txid: string` - transaction ID of the invocation
 - `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcast by the provider
