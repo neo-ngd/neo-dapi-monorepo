@@ -62,14 +62,36 @@ export interface Transaction {
   blockTime: number;
 }
 
+export type AttributeUsage = 'Url';
+
 export interface Attribute {
-  usage: string;
+  usage: AttributeUsage;
   data: string;
 }
 
 export interface ApplicationLog {
   txid: string;
   executions: Execution[];
+}
+
+export type ArgumentType =
+  | 'Any'
+  | 'Boolean'
+  | 'Integer'
+  | 'ByteArray'
+  | 'String'
+  | 'Hash160'
+  | 'Hash256'
+  | 'PublicKey'
+  | 'Signature'
+  | 'Array'
+  | 'Map'
+  | 'InteropInterface'
+  | 'Void';
+
+export interface Argument {
+  type: ArgumentType;
+  value: any;
 }
 
 export interface Execution {
@@ -91,11 +113,6 @@ export interface Invocation {
   scriptHash: string;
   operation: string;
   args?: Argument[];
-}
-
-export interface Argument {
-  type: string;
-  value: any;
 }
 
 export interface BooleanWitnessCondition {
@@ -158,9 +175,17 @@ export interface WitnessRule {
   condition: WitnessCondition;
 }
 
+export type SignerScope =
+  | 'None'
+  | 'CalledByEntry'
+  | 'CustomContracts'
+  | 'CustomGroups'
+  | 'Global'
+  | 'WitnessRules';
+
 export interface Signer {
   account: string;
-  scopes: string;
+  scopes: SignerScope;
   allowedContracts?: string[];
   allowedGroups?: string[];
   rules?: WitnessRule[];
