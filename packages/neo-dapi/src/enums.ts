@@ -44,4 +44,5 @@ export enum SignerScope {
   CustomContracts = 'CustomContracts',
   CustomGroups = 'CustomGroups',
   Global = 'Global',
+  WitnessRules = 'WitnessRules',
 }
