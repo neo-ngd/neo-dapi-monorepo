@@ -23,97 +23,18 @@ export interface Nep17Balance {
   amount: string;
 }
 
-export interface Block {
-  hash: string;
-  size: number;
-  version: number;
-  previousBlockHash: string;
-  merkleRoot: string;
-  time: number;
-  index: number;
-  primary: number;
-  nextConsensus: string;
-  witnesses: Witness[];
-  tx: Transaction[];
-  confirmations: number;
-  nextBlockHash: string;
-}
-
 export interface Witness {
   invocation: string;
   verification: string;
 }
 
-export interface Transaction {
-  hash: string;
-  size: number;
-  version: number;
-  nonce: number;
-  sender: string;
-  systemFee: string;
-  networkFee: string;
-  validUntilBlock: number;
-  signers: Signer[];
-  attributes: Attribute[];
-  script: string;
-  witnesses: Witness[];
-  blockHash: string;
-  confirmations: number;
-  blockTime: number;
-}
-
-export type AttributeUsage = 'Url';
-
-export interface Attribute {
-  usage: AttributeUsage;
-  data: string;
-}
-
-export interface ApplicationLog {
-  txid: string;
-  executions: Execution[];
-}
-
-export type ArgumentType =
-  | 'Any'
-  | 'Boolean'
-  | 'Integer'
-  | 'ByteArray'
-  | 'String'
-  | 'Hash160'
-  | 'Hash256'
-  | 'PublicKey'
-  | 'Signature'
-  | 'Array'
-  | 'Map'
-  | 'InteropInterface'
-  | 'Void';
-
-export interface Argument {
-  type: ArgumentType;
-  value: any;
-}
-
-export interface Execution {
-  trigger: string;
-  vmState: string;
-  exception: string | null;
-  gasConsumed: string;
-  stack: Argument[];
-  notifications: Notification[];
-}
-
-export interface Notification {
-  contract: string;
-  eventName: string;
-  state: Argument;
-}
-
-export interface Invocation {
-  scriptHash: string;
-  operation: string;
-  args?: Argument[];
-}
+export type SignerScope =
+  | 'None'
+  | 'CalledByEntry'
+  | 'CustomContracts'
+  | 'CustomGroups'
+  | 'Global'
+  | 'WitnessRules';
 
 export interface BooleanWitnessCondition {
   type: 'Boolean';
@@ -175,20 +96,99 @@ export interface WitnessRule {
   condition: WitnessCondition;
 }
 
-export type SignerScope =
-  | 'None'
-  | 'CalledByEntry'
-  | 'CustomContracts'
-  | 'CustomGroups'
-  | 'Global'
-  | 'WitnessRules';
-
 export interface Signer {
   account: string;
   scopes: SignerScope;
   allowedContracts?: string[];
   allowedGroups?: string[];
   rules?: WitnessRule[];
+}
+
+export type AttributeUsage = 'Url';
+
+export interface Attribute {
+  usage: AttributeUsage;
+  data: string;
+}
+
+export interface Transaction {
+  hash: string;
+  size: number;
+  version: number;
+  nonce: number;
+  sender: string;
+  systemFee: string;
+  networkFee: string;
+  validUntilBlock: number;
+  signers: Signer[];
+  attributes: Attribute[];
+  script: string;
+  witnesses: Witness[];
+  blockHash: string;
+  confirmations: number;
+  blockTime: number;
+}
+
+export interface Block {
+  hash: string;
+  size: number;
+  version: number;
+  previousBlockHash: string;
+  merkleRoot: string;
+  time: number;
+  index: number;
+  primary: number;
+  nextConsensus: string;
+  witnesses: Witness[];
+  tx: Transaction[];
+  confirmations: number;
+  nextBlockHash: string;
+}
+
+export type ArgumentType =
+  | 'Any'
+  | 'Boolean'
+  | 'Integer'
+  | 'ByteArray'
+  | 'String'
+  | 'Hash160'
+  | 'Hash256'
+  | 'PublicKey'
+  | 'Signature'
+  | 'Array'
+  | 'Map'
+  | 'InteropInterface'
+  | 'Void';
+
+export interface Argument {
+  type: ArgumentType;
+  value: any;
+}
+
+export interface Notification {
+  contract: string;
+  eventName: string;
+  state: Argument;
+}
+
+export interface Execution {
+  trigger: string;
+  vmState: string;
+  exception: string | null;
+  gasConsumed: string;
+  stack: Argument[];
+  notifications: Notification[];
+}
+
+export interface ApplicationLog {
+  txid: string;
+  executions: Execution[];
+}
+
+export interface Invocation {
+  scriptHash: string;
+  operation: string;
+  args?: Argument[];
 }
 
 export interface NeoDapi {

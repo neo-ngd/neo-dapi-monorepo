@@ -23,16 +23,16 @@ export interface JsonRpcResult<T = any> {
   result: T;
 }
 
-export interface JsonRpcError {
-  id: number;
-  jsonrpc: string;
-  error: ErrorResponse;
-}
-
 export interface ErrorResponse {
   code: number;
   message: string;
   data?: any;
+}
+
+export interface JsonRpcError {
+  id: number;
+  jsonrpc: string;
+  error: ErrorResponse;
 }
 
 export type JsonRpcResponse<T = any> = JsonRpcResult<T> | JsonRpcError;
