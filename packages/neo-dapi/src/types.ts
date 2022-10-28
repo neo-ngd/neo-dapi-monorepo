@@ -38,6 +38,8 @@ export type SignerScope =
   | 'Global'
   | 'WitnessRules';
 
+export type WitnessRuleAction = 'Deny' | 'Allow';
+
 export interface BooleanWitnessCondition {
   type: 'Boolean';
   expression: boolean;
@@ -92,8 +94,6 @@ export type WitnessCondition =
   | CalledByEntryWitnessCondition
   | CalledByContractWitnessCondition
   | CalledByGroupWitnessCondition;
-
-export type WitnessRuleAction = 'Deny' | 'Allow';
 
 export interface WitnessRule {
   action: WitnessRuleAction;
