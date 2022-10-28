@@ -77,6 +77,8 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [invokeReadMulti](#invokereadmulti)
   - [invoke](#invoke)
   - [invokeMulti](#invokemulti)
+  - [signMessage](#signmessage)
+  - [verifyMessage](#verifymessage)
 - [Events](#events)
 - [Errors](#errors)
 
@@ -94,7 +96,7 @@ _(none)_
 
 ##### Returns
 
-`Provider` - a provider object with the following parameters:
+`Provider` - a provider object with the following properties:
 
 - `name: string` - the provider name
 - `website: string` - the provider website
@@ -135,7 +137,7 @@ _(none)_
 
 ##### Returns
 
-`Networks` - a networks object with the following parameters:
+`Networks` - a networks object with the following properties:
 
 - `networks: string[]` - array of network names to which the provider is available to connect for the dApp developers
 - `defaultNetwork: string` - the network the provider connects to by default
@@ -165,7 +167,7 @@ _(none)_
 
 ##### Returns
 
-`Account` - an account object with the following parameters:
+`Account` - an account object with the following properties:
 
 - `address: string` - address of the connected account
 - `publicKey: string` - public key of the connected account
@@ -194,7 +196,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `address: string` - address to check the balance
 - `assetHashes?: string` - NEP17 asset hashes to check the balance. If omitted, all NEP17 assets balance will be returned
@@ -202,7 +204,7 @@ Gets a specific NEP17 asset balance in the given account.
 
 ##### Returns
 
-`Nep17Balance[]` - array of the Nep17 balance object with the following parameters:
+`Nep17Balance[]` - array of the Nep17 balance object with the following properties:
 
 - `assetHash: string` - NEP17 asset hash
 - `amount: string` - Integer value of the balance, represented as a String
@@ -310,7 +312,7 @@ Gets the information about a specific transaction.
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the transaction to get information about
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
@@ -378,7 +380,7 @@ Gets the application log for a given transaction.
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the transaction to get application log for
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
@@ -441,7 +443,7 @@ Reads the raw value in the smart contract storage.
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `scriptHash: string` - script hash of the smart contract to invoke a read on
 - `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
@@ -472,7 +474,7 @@ Executes a contract invocation in read-only mode.
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -482,7 +484,7 @@ Executes a contract invocation in read-only mode.
 
 ##### Returns
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -537,7 +539,7 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `invocations: Invocation[]` - array of invocation object with following members:
   - `scriptHash: string` - script hash of the smart contract to invoke
@@ -548,7 +550,7 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
 
 ##### Returns
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `script: string` - the script which was run
 - `state: string` - status of the invocation
@@ -613,7 +615,7 @@ Executes a contract invocation that requires a user's signature.
 
 #### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
@@ -627,7 +629,7 @@ Executes a contract invocation that requires a user's signature.
 
 ##### Returns
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the invocation
 - `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
@@ -670,9 +672,9 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Parameters
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
-- `invocations: Invocation[]` - array of invocation object with the following parameters:
+- `invocations: Invocation[]` - array of invocation object with the following properties:
   - `scriptHash: string` - script hash of the smart contract to invoke
   - `operation: string` - operation on the smart contract to call
   - `args?: Argument[]` - any input arguments for the operation
@@ -685,7 +687,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 ##### Returns
 
-`object` - an object with the following parameters:
+`object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the invocation
 - `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcast by the provider
@@ -728,6 +730,80 @@ const result = await dapi.invokeMulti({
 ({
   txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
 });
+```
+
+#### signMessage
+
+##### Description
+
+Signs a provided messaged with an account selected by user.
+
+##### Parameters
+
+`object` - an object with the following properties:
+
+- `message: string` - the message to sign
+
+##### Returns
+
+`object` - an object with the following properties:
+
+- `salt: string` - salt added to the input string before signing
+- `signature: string` - signed result
+- `publicKey: string` - public key of the account signed the message
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.signMessage({
+  message: 'Hello world!',
+});
+
+/* Example Response */
+({
+  salt: 'b3085013f5edcffe089c029a98794dab',
+  signature:
+    '2953200f24dfa8730302906d752cd33f135020f84828ad4f5d39e3563161029716369fdbec7e4cc9aa03dfd2e665f4ce37f149addccc8e336fdf707a5eba4d16',
+  publicKey:
+    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+});
+```
+
+#### verifyMessage
+
+##### Description
+
+Verify whether the signature is valid.
+
+##### Parameters
+
+`object` - an object with the following properties:
+
+- `message: string` - the original message
+- `salt: string` - the salt added to the input string before signing
+- `signature: string` - the signed result
+- `publicKey: string` - the public key of the account signed the message
+
+##### Returns
+
+`boolean` - whether the signature is valid
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.verifyMessage({
+  message: 'Hello world!',
+  salt: 'b3085013f5edcffe089c029a98794dab',
+  signature:
+    '2953200f24dfa8730302906d752cd33f135020f84828ad4f5d39e3563161029716369fdbec7e4cc9aa03dfd2e665f4ce37f149addccc8e336fdf707a5eba4d16',
+  publicKey:
+    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+});
+
+/* Example Response */
+true;
 ```
 
 ### Events
