@@ -1,3 +1,5 @@
+import { UnionConcat } from './utils';
+
 export interface Provider {
   name: string;
   website: string;
@@ -91,14 +93,16 @@ export type WitnessCondition =
   | CalledByContractWitnessCondition
   | CalledByGroupWitnessCondition;
 
+export type WitnessRuleAction = 'Deny' | 'Allow';
+
 export interface WitnessRule {
-  action: string;
+  action: WitnessRuleAction;
   condition: WitnessCondition;
 }
 
 export interface Signer {
   account: string;
-  scopes: SignerScope;
+  scopes: UnionConcat<SignerScope, ','>;
   allowedContracts?: string[];
   allowedGroups?: string[];
   rules?: WitnessRule[];
