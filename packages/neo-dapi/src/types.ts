@@ -290,7 +290,7 @@ export interface NeoDapi {
     nonce: number;
     systemFee: string;
     networkFee: string;
-    validUntilBlock: string;
+    validUntilBlock: number;
     script: string;
     invocations?: Invocation[];
     attributes?: Attribute[];

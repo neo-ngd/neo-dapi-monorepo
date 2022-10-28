@@ -79,6 +79,8 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [invokeMulti](#invokemulti)
   - [signMessage](#signmessage)
   - [verifyMessage](#verifymessage)
+  - [signTransaction](#signtransaction)
+  - [relayTransaction](#relaytransaction)
 - [Events](#events)
 - [Errors](#errors)
 
@@ -171,7 +173,7 @@ _(none)_
 
 - `address: string` - address of the connected account
 - `publicKey: string` - public key of the connected account
-- `label?: string` - a label set by users to identify their account
+- `label?: string` - a label set by user to identify their account
 
 ##### Example
 
@@ -689,7 +691,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 
 `object` - an object with the following properties:
 
-- `txid: string` - transaction ID of the invocation
+- `txid: string` - transaction ID of the invocations
 - `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcast by the provider
 - `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
 
@@ -736,7 +738,7 @@ const result = await dapi.invokeMulti({
 
 ##### Description
 
-Signs a provided messaged with an account selected by user.
+Signs a provided message with an account selected by user.
 
 ##### Parameters
 
@@ -774,16 +776,16 @@ const result = await dapi.signMessage({
 
 ##### Description
 
-Verify whether the signature is valid.
+Verifies whether a signature is valid.
 
 ##### Parameters
 
 `object` - an object with the following properties:
 
-- `message: string` - the original message
-- `salt: string` - the salt added to the input string before signing
-- `signature: string` - the signed result
-- `publicKey: string` - the public key of the account signed the message
+- `message: string` - original message
+- `salt: string` - salt added to the input string before signing
+- `signature: string` - signed result
+- `publicKey: string` - public key of the account signed the message
 
 ##### Returns
 
@@ -804,6 +806,120 @@ const result = await dapi.verifyMessage({
 
 /* Example Response */
 true;
+```
+
+#### signTransaction
+
+##### Description
+
+Signs a provided transaction with an account selected by user.
+
+##### Parameters
+
+`object` - an object with the following properties:
+
+- `version: number` - transaction version, currently 0
+- `nonce: number` - random number
+- `systemFee: string` - system fee paid for network resource
+- `networkFee: string` - network fee paid for the validator packaging transactions
+- `validUntilBlock: number` - transaction validity period
+- `script: string` - script executed on the NeoVM
+- `invocations?: Invocation[]` - the invocations corresponding to script. If omitted, the wallet will display a warning to user, because of script is not readable
+- `attributes?: Attribute[]` - adds attributes to the transaction
+- `signers?: Signer[]` - sender and the scope of signature
+- `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
+
+##### Returns
+
+`object` - an object with the following properties:
+
+- `signature: string` - signed result
+- `publicKey: string` - public key of the account signed the transaction
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.signTransaction({
+  version: 0,
+  nonce: 2204045078,
+  systemFee: '2338018',
+  networkFee: '323456',
+  validUntilBlock: 1688607,
+  script:
+    '0c148b9391801e7e795f2063c356ecfd462bb0dab8000c0b646564656275672e6e656f12c01f0c0873657441646d696e0c141a89d48d89f8c1a66d3d3d0ef4832cebcea92f1541627d5b52',
+  signers: [
+    {
+      account: '0x69ee19eba1d8f7b43ad64aeaafb64c2939c9baad',
+      scopes: 'CalledByEntry',
+    },
+    {
+      account: '0x00b8dab02b46fdec56c363205f797e1e8091938b',
+      scopes: 'CalledByEntry',
+    },
+  ],
+  attributes: [],
+  invocations: [
+    {
+      scriptHash: '0x152fa9ceeb2c83f40e3d3d6da6c1f8898dd4891a',
+      operation: 'setAdmin',
+      args: [
+        {
+          type: 'String',
+          value: 'dedebug.neo',
+        },
+        {
+          type: 'Hash160',
+          value: '0x00b8dab02b46fdec56c363205f797e1e8091938b',
+        },
+      ],
+    },
+  ],
+});
+
+/* Example Response */
+({
+  signature:
+    '0ca24f47ec6221e283532d0f623f5f8416f638ffd4b9eaba517019933b89893f169d23cf00013443e226d6ce63d28908d5be1addf935349b340a4ff9eae73a27',
+  publicKey:
+    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+});
+```
+
+#### relayTransaction
+
+##### Description
+
+Broadcasts a serialized signed transaction to the network.
+
+##### Parameters
+
+`object` - an object with the following properties:
+
+- `signedTx: string` - the signed transaction to broadcast
+- `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
+
+##### Returns
+
+`object` - an object with the following properties:
+
+- `txid: string` - transaction ID of the transaction
+- `nodeUrl: string` - the node that the transaction was broadcast to
+
+##### Example
+
+```typescript
+/* Example */
+const result = await dapi.relayTransaction({
+  signedTx:
+    'AEG4RerXn0UAAAAAAIPdCwAAAAAA/tMkAAI85lDDWBenYOF3/1box7mlLLdT7AGLUH0kAMoqaP0rMEv2rQ0xrWg+hgEASgwKc0Vid2VWU3ZBcgwUi1B9JADKKmj9KzBL9q0NMa1oPoYSwB8MCG1pbnRVbml2DBS0S9Spjsr+prUeSDg9hC031DhiTkFifVtSAgAAQgxAxFTXpq6kTcPrWvzVcmaWa348mYfNYpjCk6AItQMgH1X0fGDiSbb1JX5NzWji0IHPSsFbsGyqkQOUu7iA+hFLRCgMIQMf435mzS1tcRutKy/UD6vyrM5N70Vs7WL8W6RFrLbyfEFW57Mn',
+});
+
+/* Example Response */
+({
+  txid: '0xf1d546c55aade2f25110cfd73b063019d241c69bac289870ec514cb648a4908e',
+  nodeUrl: 'https://n3seed2.ngd.network:10332',
+});
 ```
 
 ### Events
