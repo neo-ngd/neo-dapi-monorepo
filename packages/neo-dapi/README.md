@@ -58,7 +58,7 @@ const dapi = new BaseNeoDapi(window.neo);
 
 ### Example
 
-Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo-dapi-monorepo-demo).
+Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo-dapi-demo).
 
 ## API Reference
 
