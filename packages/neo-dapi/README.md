@@ -824,7 +824,7 @@ Signs a provided transaction with an account selected by user.
 - `networkFee: string` - network fee paid for the validator packaging transactions
 - `validUntilBlock: number` - transaction validity period
 - `script: string` - script executed on the NeoVM
-- `invocations?: Invocation[]` - the invocations corresponding to script. If omitted, the wallet will display a warning to user, because of script is not readable
+- `invocations?: Invocation[]` - the invocations corresponding to script. If omitted, the provider will display a warning to user, because script is not read-friendly
 - `attributes?: Attribute[]` - adds attributes to the transaction
 - `signers?: Signer[]` - sender and the scope of signature
 - `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
