@@ -311,6 +311,7 @@ export class NodeAdapterNeoDapi implements NeoDapi {
       scopes: signer.scopes,
       allowedContracts: signer.allowedcontracts,
       allowedGroups: signer.allowedgroups,
+      rules: signer.rules,
     };
   }
 
@@ -320,6 +321,7 @@ export class NodeAdapterNeoDapi implements NeoDapi {
       scopes: signer.scopes,
       allowedcontracts: signer.allowedContracts,
       allowedgroups: signer.allowedGroups,
+      rules: signer.rules,
     };
   }
 
