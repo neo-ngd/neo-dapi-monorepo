@@ -25,7 +25,7 @@ yarn add @neongd/neo-dapi
 ### Import CommonJS
 
 ```typescript
-const NeoDapi = require('@neongd/neo-dapi').BaseNeoDapi;
+const BaseNeoDapi = require('@neongd/neo-dapi').BaseNeoDapi;
 ```
 
 ### Import ES module
@@ -61,6 +61,24 @@ const dapi = new BaseNeoDapi(window.neo);
 Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo-dapi-monorepo-demo).
 
 ## API Reference
+
+### Table of Contents
+
+- [Methods](#methods)
+  - [getProvider](#getprovider)
+  - [getNetworks](#getnetworks)
+  - [getAccount](#getaccount)
+  - [getNep17Balances](#getnep17balances)
+  - [getBlockCount](#getblockcount)
+  - [getTransaction](#gettransaction)
+  - [getApplicationLog](#getapplicationlog)
+  - [getStorage](#getstorage)
+  - [invokeRead](#invokeread)
+  - [invokeReadMulti](#invokereadmulti)
+  - [invoke](#invoke)
+  - [invokeMulti](#invokemulti)
+- [Events](#events)
+- [Errors](#errors)
 
 ### Methods
 
@@ -489,8 +507,8 @@ const result = await dapi.invokeRead({
     {
       account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
       scopes: 'CalledByEntry',
-      allowedcontracts: [],
-      allowedgroups: [],
+      allowedContracts: [],
+      allowedGroups: [],
     },
   ],
 });
@@ -565,8 +583,8 @@ const result = await dapi.invokeReadMulti({
     {
       account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
       scopes: 'CalledByEntry',
-      allowedcontracts: [],
-      allowedgroups: [],
+      allowedContracts: [],
+      allowedGroups: [],
     },
   ],
 });
@@ -632,8 +650,8 @@ const result = await dapi.invoke({
     {
       account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
       scopes: 'CalledByEntry',
-      allowedcontracts: [],
-      allowedgroups: [],
+      allowedContracts: [],
+      allowedGroups: [],
     },
   ],
 });
@@ -641,7 +659,6 @@ const result = await dapi.invoke({
 /* Example Response */
 ({
   txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
-  nodeURL: 'https://n3seed2.ngd.network:20332',
 });
 ```
 
@@ -701,8 +718,8 @@ const result = await dapi.invokeMulti({
     {
       account: '0x86df72a6b4ab5335d506294f9ce993722253b6e2',
       scopes: 'CalledByEntry',
-      allowedcontracts: [],
-      allowedgroups: [],
+      allowedContracts: [],
+      allowedGroups: [],
     },
   ],
 });
@@ -710,7 +727,6 @@ const result = await dapi.invokeMulti({
 /* Example Response */
 ({
   txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
-  nodeURL: 'https://n3seed2.ngd.network:20332',
 });
 ```
 
