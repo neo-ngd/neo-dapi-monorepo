@@ -70,6 +70,7 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [getAccount](#getaccount)
   - [getNep17Balances](#getnep17balances)
   - [getBlockCount](#getblockcount)
+  - [getBlock](#getblock)
   - [getTransaction](#gettransaction)
   - [getApplicationLog](#getapplicationlog)
   - [getStorage](#getstorage)
