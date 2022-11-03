@@ -46,30 +46,6 @@ export class NodeAdapterNeoDapi implements NeoDapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  async getNep17Balances(params: {
-    address: string;
-    assetHashes?: string[];
-    network?: string;
-  }): Promise<Nep17Balance[]> {
-    const result = await this.transport
-      .request({
-        method: 'getnep17balances',
-        params: [params.address],
-      })
-      .catch(this.convertRemoteRpcError);
-    const balanceMap = result.balance.reduce(
-      (acc: any, cur: any) => Object.assign(acc, { [cur.assethash]: cur }),
-      {} as any,
-    );
-    const assetHashes =
-      params.assetHashes ?? result.balance.map((balance: any) => balance.assethash);
-
-    return assetHashes.map((assetHash: string) => ({
-      assetHash,
-      amount: balanceMap[assetHash]?.amount ?? '0',
-    }));
-  }
-
   async getBlockCount(): Promise<number> {
     const result = await this.transport
       .request({
@@ -146,6 +122,19 @@ export class NodeAdapterNeoDapi implements NeoDapi {
       })
       .catch(this.convertRemoteRpcError);
     return result;
+  }
+
+  async getNep17Balances(params: { address: string; network?: string }): Promise<Nep17Balance[]> {
+    const result = await this.transport
+      .request({
+        method: 'getnep17balances',
+        params: [params.address],
+      })
+      .catch(this.convertRemoteRpcError);
+    return result.balance.map((balance: any) => ({
+      assetHash: balance.assetHash,
+      amount: balance.amount,
+    }));
   }
 
   async invokeRead(params: {

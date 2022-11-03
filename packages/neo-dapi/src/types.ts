@@ -20,11 +20,6 @@ export interface Account {
   label?: string;
 }
 
-export interface Nep17Balance {
-  assetHash: string;
-  amount: string;
-}
-
 export interface Witness {
   invocation: string;
   verification: string;
@@ -189,6 +184,11 @@ export interface ApplicationLog {
   executions: Execution[];
 }
 
+export interface Nep17Balance {
+  assetHash: string;
+  amount: string;
+}
+
 export interface Invocation {
   scriptHash: string;
   operation: string;
@@ -202,12 +202,6 @@ export interface NeoDapi {
 
   getAccount(): Promise<Account>;
 
-  getNep17Balances(params: {
-    address: string;
-    assetHashes?: string[];
-    network?: string;
-  }): Promise<Nep17Balance[]>;
-
   getBlockCount(params: { network?: string }): Promise<number>;
 
   getBlock(params: { blockIndex: number; network?: string }): Promise<Block>;
@@ -217,6 +211,8 @@ export interface NeoDapi {
   getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog>;
 
   getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string>;
+
+  getNep17Balances(params: { address: string; network?: string }): Promise<Nep17Balance[]>;
 
   invokeRead(params: {
     scriptHash: string;

@@ -68,12 +68,12 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [getProvider](#getprovider)
   - [getNetworks](#getnetworks)
   - [getAccount](#getaccount)
-  - [getNep17Balances](#getnep17balances)
   - [getBlockCount](#getblockcount)
   - [getBlock](#getblock)
   - [getTransaction](#gettransaction)
   - [getApplicationLog](#getapplicationlog)
   - [getStorage](#getstorage)
+  - [getNep17Balances](#getnep17balances)
   - [invokeRead](#invokeread)
   - [invokeReadMulti](#invokereadmulti)
   - [invoke](#invoke)
@@ -189,45 +189,6 @@ const account = await dapi.getAccount();
     '0267c8a9872df89d8da5bcb5ae6a30966495bbd6721d2a68d37ba2b842ea09b4c6',
   label: 'My Account',
 });
-```
-
-#### getNep17Balances
-
-##### Description
-
-Gets a specific NEP17 asset balance in the given account.
-
-##### Parameters
-
-`object` - an object with the following properties:
-
-- `address: string` - address to check the balance
-- `assetHashes?: string` - NEP17 asset hashes to check the balance. If omitted, all NEP17 assets balance will be returned
-- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used.
-
-##### Returns
-
-`Nep17Balance[]` - array of the Nep17 balance object with the following properties:
-
-- `assetHash: string` - NEP17 asset hash
-- `amount: string` - Integer value of the balance, represented as a String
-
-##### Example
-
-```typescript
-/* Example */
-const balances = await dapi.getNep17Balances({
-  address: 'NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp',
-  assetHashes: ['0xd2a4cff31913016155e38e474a2c06d08be276cf'],
-});
-
-/* Example Response */
-[
-  {
-    assetHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
-    amount: '10000000',
-  },
-];
 ```
 
 #### getBlockCount
@@ -467,6 +428,43 @@ const value = await dapi.getStorage({
 
 /* Example Response */
 ('d29ybGQ=');
+```
+
+#### getNep17Balances
+
+##### Description
+
+Gets all NEP17 asset balances in the given account.
+
+##### Parameters
+
+`object` - an object with the following properties:
+
+- `address: string` - address to check the balance
+- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used.
+
+##### Returns
+
+`Nep17Balance[]` - array of the Nep17 balance object with the following properties:
+
+- `assetHash: string` - NEP17 asset hash
+- `amount: string` - Integer value of the balance, represented as a String
+
+##### Example
+
+```typescript
+/* Example */
+const balances = await dapi.getNep17Balances({
+  address: 'NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp',
+});
+
+/* Example Response */
+[
+  {
+    assetHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
+    amount: '10000000',
+  },
+];
 ```
 
 #### invokeRead

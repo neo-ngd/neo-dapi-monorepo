@@ -30,14 +30,6 @@ export class BaseNeoDapi implements NeoDapi {
     return this.provider.request({ method: MethodName.GetAccount });
   }
 
-  getNep17Balances(params: {
-    address: string;
-    assetHashes?: string[];
-    network?: string;
-  }): Promise<Nep17Balance[]> {
-    return this.provider.request({ method: MethodName.GetNep17Balances, params });
-  }
-
   getBlockCount(params: { network?: string }): Promise<number> {
     return this.provider.request({ method: MethodName.GetBlockCount, params });
   }
@@ -56,6 +48,10 @@ export class BaseNeoDapi implements NeoDapi {
 
   getStorage(params: { scriptHash: string; key: string; network?: string }): Promise<string> {
     return this.provider.request({ method: MethodName.GetStorage, params });
+  }
+
+  getNep17Balances(params: { address: string; network?: string }): Promise<Nep17Balance[]> {
+    return this.provider.request({ method: MethodName.GetNep17Balances, params });
   }
 
   invokeRead(params: {
