@@ -103,12 +103,30 @@ export interface Signer {
   rules?: WitnessRule[];
 }
 
-export type AttributeUsage = 'Url';
-
-export interface Attribute {
-  usage: AttributeUsage;
-  data: string;
+export interface HighPriorityAttribute {
+  type: 'HighPriority';
 }
+
+export type OracleResponseCode =
+  | 'Success'
+  | 'ProtocolNotSupported'
+  | 'ConsensusUnreachable'
+  | 'NotFound'
+  | 'Timeout'
+  | 'Forbidden'
+  | 'ResponseTooLarge'
+  | 'InsufficientFunds'
+  | 'ContentTypeNotSupported'
+  | 'Error';
+
+export interface OracleResponseAttribute {
+  type: 'OracleResponse';
+  id: number;
+  code: OracleResponseCode;
+  result: string;
+}
+
+export type Attribute = HighPriorityAttribute | OracleResponseAttribute;
 
 export interface Transaction {
   hash: string;
