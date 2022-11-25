@@ -124,13 +124,10 @@ export class BaseNeoDapi implements NeoDapi {
     return this.provider.request({ method: MethodName.SignMessage, params });
   }
 
-  verifyMessage(params: {
+  signMessageWithoutSalt(params: {
     message: string;
-    salt: string;
-    signature: string;
-    publicKey: string;
-  }): Promise<boolean> {
-    return this.provider.request({ method: MethodName.VerifyMessage, params });
+  }): Promise<{ signature: string; publicKey: string }> {
+    return this.provider.request({ method: MethodName.SignMessage, params });
   }
 
   signTransaction(params: {

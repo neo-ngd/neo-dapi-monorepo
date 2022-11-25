@@ -292,12 +292,9 @@ export interface NeoDapi {
     message: string;
   }): Promise<{ salt: string; signature: string; publicKey: string }>;
 
-  verifyMessage(params: {
+  signMessageWithoutSalt(params: {
     message: string;
-    salt: string;
-    signature: string;
-    publicKey: string;
-  }): Promise<boolean>;
+  }): Promise<{ signature: string; publicKey: string }>;
 
   signTransaction(params: {
     version: number;

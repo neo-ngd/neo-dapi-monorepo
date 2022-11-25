@@ -79,7 +79,7 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [invoke](#invoke)
   - [invokeMulti](#invokemulti)
   - [signMessage](#signmessage)
-  - [verifyMessage](#verifymessage)
+  - [signMessageWithoutSalt](#signmessagewithoutsalt)
   - [signTransaction](#signtransaction)
   - [relayTransaction](#relaytransaction)
 - [Events](#events)
@@ -771,40 +771,40 @@ const result = await dapi.signMessage({
 });
 ```
 
-#### verifyMessage
+#### signMessageWithoutSalt
 
 ##### Description
 
-Verifies whether a signature is valid.
+Signs a provided message with an account selected by user. This method does not add a random salt as prefix.
 
 ##### Parameters
 
 `object` - an object with the following properties:
 
-- `message: string` - original message
-- `salt: string` - salt added to the input string before signing
-- `signature: string` - signed result
-- `publicKey: string` - public key of the account signed the message
+- `message: string` - the message to sign
 
 ##### Returns
 
-`boolean` - whether the signature is valid
+`object` - an object with the following properties:
+
+- `signature: string` - signed result
+- `publicKey: string` - public key of the account signed the message
 
 ##### Example
 
 ```typescript
 /* Example */
-const result = await dapi.verifyMessage({
+const result = await dapi.signMessageWithoutSalt({
   message: 'Hello world!',
-  salt: 'b3085013f5edcffe089c029a98794dab',
+});
+
+/* Example Response */
+({
   signature:
     '2953200f24dfa8730302906d752cd33f135020f84828ad4f5d39e3563161029716369fdbec7e4cc9aa03dfd2e665f4ce37f149addccc8e336fdf707a5eba4d16',
   publicKey:
     '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
 });
-
-/* Example Response */
-true;
 ```
 
 #### signTransaction

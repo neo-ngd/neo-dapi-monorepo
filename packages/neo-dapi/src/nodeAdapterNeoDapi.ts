@@ -243,12 +243,9 @@ export class NodeAdapterNeoDapi implements NeoDapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  verifyMessage(_params: {
+  signMessageWithoutSalt(_params: {
     message: string;
-    salt: string;
-    signature: string;
-    publicKey: string;
-  }): Promise<boolean> {
+  }): Promise<{ signature: string; publicKey: string }> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
