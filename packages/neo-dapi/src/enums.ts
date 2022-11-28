@@ -13,6 +13,7 @@ export enum MethodName {
   Invoke = 'invoke',
   InvokeMulti = 'invokeMulti',
   SignMessage = 'signMessage',
+  SignMessageWithoutSalt = 'signMessageWithoutSalt',
   SignTransaction = 'signTransaction',
   RelayTransaction = 'relayTransaction',
 }
