@@ -132,7 +132,7 @@ export class NodeAdapterNeoDapi implements NeoDapi {
       })
       .catch(this.convertRemoteRpcError);
     return result.balance.map((balance: any) => ({
-      assetHash: balance.assetHash,
+      assetHash: balance.assethash,
       amount: balance.amount,
     }));
   }
