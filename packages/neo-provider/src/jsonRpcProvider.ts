@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
 import { JsonRpcNotification, JsonRpcTransport, RpcError } from '@neongd/json-rpc';
-import { NeoProvider, ProviderMessage, ProviderRpcError, RequestArguments } from './types';
+import { Provider, ProviderMessage, ProviderRpcError, RequestArguments } from './types';
 
 export * from './types';
 
-export class JsonRpcNeoProvider implements NeoProvider {
+export class JsonRpcProvider implements Provider {
   private events = new EventEmitter();
 
   constructor(private transport: JsonRpcTransport) {

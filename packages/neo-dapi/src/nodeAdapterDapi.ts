@@ -13,17 +13,17 @@ import {
   Argument,
   Attribute,
   Block,
+  Dapi,
   Invocation,
-  NeoDapi,
   Nep17Balance,
   Networks,
-  Provider,
+  ProviderInformation,
   Signer,
   Transaction,
 } from './types';
-import { getNeoDapiErrorResponse, NeoDapiErrorCodes } from '.';
+import { DapiErrorCodes, getDapiErrorResponse } from '.';
 
-export class NodeAdapterNeoDapi implements NeoDapi {
+export class NodeAdapterDapi implements Dapi {
   protected transport: JsonRpcTransport;
 
   constructor(urlOrTransport: string | JsonRpcTransport) {
@@ -34,7 +34,7 @@ export class NodeAdapterNeoDapi implements NeoDapi {
     }
   }
 
-  getProvider(): Promise<Provider> {
+  getProvider(): Promise<ProviderInformation> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
@@ -313,7 +313,7 @@ export class NodeAdapterNeoDapi implements NeoDapi {
 
   private convertRemoteRpcError(error: Error) {
     throw new RpcError({
-      ...getNeoDapiErrorResponse(NeoDapiErrorCodes.RemoteRpcError),
+      ...getDapiErrorResponse(DapiErrorCodes.RemoteRpcError),
       data: formatErrorResponse(error),
     });
   }

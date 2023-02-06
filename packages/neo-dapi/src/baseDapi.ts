@@ -1,4 +1,4 @@
-import { NeoProvider } from '@neongd/neo-provider';
+import { Provider } from '@neongd/neo-provider';
 import { MethodName } from './enums';
 import {
   Account,
@@ -6,19 +6,19 @@ import {
   Argument,
   Attribute,
   Block,
+  Dapi,
   Invocation,
-  NeoDapi,
   Nep17Balance,
   Networks,
-  Provider,
+  ProviderInformation,
   Signer,
   Transaction,
 } from './types';
 
-export class BaseNeoDapi implements NeoDapi {
-  constructor(protected provider: NeoProvider) {}
+export class BaseDapi implements Dapi {
+  constructor(protected provider: Provider) {}
 
-  getProvider(): Promise<Provider> {
+  getProvider(): Promise<ProviderInformation> {
     return this.provider.request({ method: MethodName.GetProvider });
   }
 

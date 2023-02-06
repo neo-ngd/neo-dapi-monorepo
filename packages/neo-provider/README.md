@@ -20,7 +20,7 @@ interface RequestArguments<T = any> {
   params?: T;
 }
 
-NeoProvider.request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
+Provider.request<R = any, P = any>(args: RequestArguments<P>): Promise<R>;
 ```
 
 The Provider should identify the requested RPC method by the value of `RequestArguments.method`.

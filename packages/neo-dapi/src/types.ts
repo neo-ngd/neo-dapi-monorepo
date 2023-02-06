@@ -1,6 +1,6 @@
 import { UnionConcat } from './utils';
 
-export interface Provider {
+export interface ProviderInformation {
   name: string;
   website: string;
   version: string;
@@ -213,8 +213,8 @@ export interface Invocation {
   args?: Argument[];
 }
 
-export interface NeoDapi {
-  getProvider(): Promise<Provider>;
+export interface Dapi {
+  getProvider(): Promise<ProviderInformation>;
 
   getNetworks(): Promise<Networks>;
 

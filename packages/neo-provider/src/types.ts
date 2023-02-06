@@ -18,7 +18,7 @@ export interface RequestArguments<T = any> {
   params?: T;
 }
 
-export interface NeoProvider extends EventDispatcher {
+export interface Provider extends EventDispatcher {
   on(event: 'connect', listener: () => void): void;
   on(event: 'disconnect', listener: (error: ProviderRpcError) => void): void;
   on(event: 'message', listener: (message: ProviderMessage) => void): void;

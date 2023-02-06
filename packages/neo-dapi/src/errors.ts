@@ -1,6 +1,6 @@
 import { ErrorResponse, getStandardErrorResponse, StandardErrorCodes } from '@neongd/json-rpc';
 
-export enum NeoDapiErrorCodes {
+export enum DapiErrorCodes {
   UserRejected = -32001,
   UnsupportedNetwork = -32002,
   NoAccount = -32003,
@@ -9,19 +9,19 @@ export enum NeoDapiErrorCodes {
 }
 
 const ERROR_MESSAGE_MAP = {
-  [NeoDapiErrorCodes.UserRejected]: 'User rejected',
-  [NeoDapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
-  [NeoDapiErrorCodes.NoAccount]: 'No account',
-  [NeoDapiErrorCodes.InsufficientFunds]: 'Insufficient funds',
-  [NeoDapiErrorCodes.RemoteRpcError]: 'Remote rpc error',
+  [DapiErrorCodes.UserRejected]: 'User rejected',
+  [DapiErrorCodes.UnsupportedNetwork]: 'Unsupported network',
+  [DapiErrorCodes.NoAccount]: 'No account',
+  [DapiErrorCodes.InsufficientFunds]: 'Insufficient funds',
+  [DapiErrorCodes.RemoteRpcError]: 'Remote rpc error',
 };
 
-export function isNeoDapiErrorCode(code: number): code is NeoDapiErrorCodes {
-  return Object.values(NeoDapiErrorCodes).includes(code);
+export function isDapiErrorCode(code: number): code is DapiErrorCodes {
+  return Object.values(DapiErrorCodes).includes(code);
 }
 
-export function getNeoDapiErrorResponse(code: number): ErrorResponse {
-  if (isNeoDapiErrorCode(code)) {
+export function getDapiErrorResponse(code: number): ErrorResponse {
+  if (isDapiErrorCode(code)) {
     return {
       code,
       message: ERROR_MESSAGE_MAP[code],

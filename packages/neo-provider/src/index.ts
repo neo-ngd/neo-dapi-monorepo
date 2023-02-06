@@ -1,2 +1,2 @@
 export * from './types';
-export * from './jsonRpcNeoProvider';
+export * from './jsonRpcProvider';

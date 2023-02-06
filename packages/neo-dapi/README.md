@@ -25,13 +25,13 @@ yarn add @neongd/neo-dapi
 ### Import CommonJS
 
 ```typescript
-const BaseNeoDapi = require('@neongd/neo-dapi').BaseNeoDapi;
+const BaseDapi = require('@neongd/neo-dapi').BaseDapi;
 ```
 
 ### Import ES module
 
 ```typescript
-import { BaseNeoDapi } from '@neongd/neo-dapi';
+import { BaseDapi } from '@neongd/neo-dapi';
 ```
 
 ### Web requirement
@@ -45,7 +45,7 @@ The index.js file under the "/dist/umd" folder needs to be referenced from the p
 The use of the code is required under the global namespace of `neoDapi`.
 
 ```typescript
-const NeoDapi = neoDapi.BaseNeoDapi;
+const Dapi = neoDapi.BaseDapi;
 ```
 
 ### Initialization
@@ -53,7 +53,7 @@ const NeoDapi = neoDapi.BaseNeoDapi;
 Create a Neo dAPI instance, assuming we already have a Neo Provider (e.g., window.neo, window.OneGate):
 
 ```typescript
-const dapi = new BaseNeoDapi(window.neo);
+const dapi = new BaseDapi(window.neo);
 ```
 
 ### Example
