@@ -480,7 +480,7 @@ Executes a contract invocation in read-only mode.
 - `scriptHash: string` - script hash of the smart contract to invoke
 - `operation: string` - operation on the smart contract to call
 - `args?: Argument[]` - any input arguments for the operation
-- `signers?: Signer[]` - sender and the scope of the signature
+- `signers?: Signer[]` - sender and the scope of the signature. Read more about signers [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html#signers)
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
@@ -546,7 +546,7 @@ Same as [`invokeRead`](#invokeread), but it allows to execute multiple read-only
   - `scriptHash: string` - script hash of the smart contract to invoke
   - `operation: string` - operation on the smart contract to call
   - `args?: Argument[]` - any input arguments for the operation
-- `signers?: Signer[]` - sender and the scope of the signature
+- `signers?: Signer[]` - sender and the scope of the signature. Read more about signers [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html#signers)
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 
 ##### Returns
@@ -622,7 +622,7 @@ Executes a contract invocation that requires a user's signature.
 - `operation: string` - operation on the smart contract to call
 - `args?: Argument[]` - any input arguments for the operation
 - `attributes?: Attribute[]` - adds attributes for the transaction
-- `signers?: Signer[]` - sender and the scope of signature
+- `signers?: Signer[]` - sender and the scope of signature. Read more about signers [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html#signers)
 - `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
 - `extraSystemFee?: string` - this fee will be added to system fee (Integer Value represented as a String)
 - `extraNetworkFee?: string` - this fee will be added to network fee (Integer Value represented as a String)
@@ -680,7 +680,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
   - `operation: string` - operation on the smart contract to call
   - `args?: Argument[]` - any input arguments for the operation
 - `attributes?: Attribute[]` - adds attributes to the transaction
-- `signers?: Signer[]` - sender and the scope of signature
+- `signers?: Signer[]` - sender and the scope of signature. Read more about signers [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html#signers)
 - `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
 - `extraSystemFee?: string` - this fee will be added to system fee (Integer Value represented as a String)
 - `extraNetworkFee?: string` - this fee will be added to network fee (Integer Value represented as a String)
@@ -825,7 +825,7 @@ Signs a provided transaction with an account selected by user.
 - `script: string` - script executed on the NeoVM
 - `invocations?: Invocation[]` - the invocations corresponding to script. If omitted, the provider will display a warning to user, because script is not read-friendly
 - `attributes?: Attribute[]` - adds attributes to the transaction
-- `signers?: Signer[]` - sender and the scope of signature
+- `signers?: Signer[]` - sender and the scope of signature. Read more about signers [here](https://docs.neo.org/docs/en-us/basic/concept/transaction.html#signers)
 - `network?: string` - network to submit this request to. If omitted, the default network set the provider is used
 
 ##### Returns
