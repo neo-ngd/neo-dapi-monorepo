@@ -51,7 +51,7 @@ export class HttpConnection implements JsonRpcConnection {
     }
     this.api
       .post('/', payload)
-      .then(res => this.onPayload(res.data))
+      .then(res => 'id' in payload && this.onPayload(payload.id, res.data))
       .catch(err => 'id' in payload && this.onError(payload.id, err));
   }
 
@@ -97,9 +97,13 @@ export class HttpConnection implements JsonRpcConnection {
     this.events.emit('close');
   }
 
-  private onPayload(data: any) {
+  private onPayload(id: number, data: any) {
     const payload: JsonRpcPayload = typeof data === 'string' ? parse(data, {}) : data;
     if (isJsonRpcPayload(payload)) {
+      this.events.emit('payload', payload);
+    } else {
+      const error = getStandardErrorResponse(StandardErrorCodes.ParseError);
+      const payload = formatJsonRpcError(id, error);
       this.events.emit('payload', payload);
     }
   }
