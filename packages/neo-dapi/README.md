@@ -34,7 +34,7 @@ const BaseDapi = require('@neongd/neo-dapi').BaseDapi;
 import { BaseDapi } from '@neongd/neo-dapi';
 ```
 
-### Web requirement
+### Directly reference
 
 The index.js file under the "/dist/umd" folder needs to be referenced from the page:
 
@@ -232,7 +232,7 @@ Gets information about a specific block.
 
 ##### Returns
 
-`Block` - a block object returned from the remote RPC
+`Block` - a block object (See the type definitions [here](./src/types.ts))
 
 ##### Example
 
@@ -283,7 +283,7 @@ Gets the information about a specific transaction.
 
 ##### Returns
 
-`Transaction` - a transaction object returned from the remote RPC
+`Transaction` - a transaction object (See the type definitions [here](./src/types.ts))
 
 ##### Example
 
@@ -351,7 +351,7 @@ Gets the application log for a given transaction.
 
 ##### Returns
 
-`ApplicationLog` - an application log object returned from the remote RPC
+`ApplicationLog` - an application log object (See the type definitions [here](./src/types.ts))
 
 ##### Example
 
