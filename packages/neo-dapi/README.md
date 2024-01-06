@@ -81,7 +81,7 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [signMessage](#signmessage)
   - [signMessageWithoutSalt](#signmessagewithoutsalt)
   - [signTransaction](#signtransaction)
-  - [relayTransaction](#relaytransaction)
+  - [broadcastTransaction](#broadcasttransaction)
 - [Events](#events)
 - [Errors](#errors)
 
@@ -885,7 +885,7 @@ const result = await dapi.signTransaction({
 });
 ```
 
-#### relayTransaction
+#### broadcastTransaction
 
 ##### Description
 
@@ -909,7 +909,7 @@ Broadcasts a serialized signed transaction to the network.
 
 ```typescript
 /* Example */
-const result = await dapi.relayTransaction({
+const result = await dapi.broadcastTransaction({
   signedTx:
     'AEG4RerXn0UAAAAAAIPdCwAAAAAA/tMkAAI85lDDWBenYOF3/1box7mlLLdT7AGLUH0kAMoqaP0rMEv2rQ0xrWg+hgEASgwKc0Vid2VWU3ZBcgwUi1B9JADKKmj9KzBL9q0NMa1oPoYSwB8MCG1pbnRVbml2DBS0S9Spjsr+prUeSDg9hC031DhiTkFifVtSAgAAQgxAxFTXpq6kTcPrWvzVcmaWa348mYfNYpjCk6AItQMgH1X0fGDiSbb1JX5NzWji0IHPSsFbsGyqkQOUu7iA+hFLRCgMIQMf435mzS1tcRutKy/UD6vyrM5N70Vs7WL8W6RFrLbyfEFW57Mn',
 });

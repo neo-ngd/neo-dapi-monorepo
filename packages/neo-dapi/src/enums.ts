@@ -15,5 +15,5 @@ export enum MethodName {
   SignMessage = 'signMessage',
   SignMessageWithoutSalt = 'signMessageWithoutSalt',
   SignTransaction = 'signTransaction',
-  RelayTransaction = 'relayTransaction',
+  BroadcastTransaction = 'broadcastTransaction',
 }

@@ -26,23 +26,23 @@ import { DapiErrorCodes, getDapiErrorResponse } from '.';
 export class NodeAdapterDapi implements Dapi {
   protected transport: JsonRpcTransport;
 
-  constructor(urlOrTransport: string | JsonRpcTransport) {
-    if (typeof urlOrTransport === 'string') {
-      this.transport = new BaseJsonRpcTransport(urlOrTransport);
+  constructor(protected nodeUrl: string, transport?: JsonRpcTransport) {
+    if (transport == null) {
+      this.transport = new BaseJsonRpcTransport(nodeUrl);
     } else {
-      this.transport = urlOrTransport;
+      this.transport = transport;
     }
   }
 
-  getProvider(): Promise<ProviderInformation> {
+  async getProvider(): Promise<ProviderInformation> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  getNetworks(): Promise<Networks> {
+  async getNetworks(): Promise<Networks> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  getAccount(): Promise<Account> {
+  async getAccount(): Promise<Account> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
@@ -203,7 +203,7 @@ export class NodeAdapterDapi implements Dapi {
     };
   }
 
-  invoke(_params: {
+  async invoke(_params: {
     scriptHash: string;
     operation: string;
     args?: Argument[];
@@ -221,7 +221,7 @@ export class NodeAdapterDapi implements Dapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  invokeMulti(_params: {
+  async invokeMulti(_params: {
     invocations: Invocation[];
     attributes?: Attribute[];
     signers?: Signer[];
@@ -237,19 +237,19 @@ export class NodeAdapterDapi implements Dapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  signMessage(_params: {
+  async signMessage(_params: {
     message: string;
   }): Promise<{ salt: string; signature: string; publicKey: string }> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  signMessageWithoutSalt(_params: {
+  async signMessageWithoutSalt(_params: {
     message: string;
   }): Promise<{ signature: string; publicKey: string }> {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  signTransaction(_params: {
+  async signTransaction(_params: {
     version: number;
     nonce: number;
     systemFee: string;
@@ -264,11 +264,17 @@ export class NodeAdapterDapi implements Dapi {
     throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
   }
 
-  relayTransaction(_params: { signedTx: string; network?: string }): Promise<{
+  async broadcastTransaction(params: { signedTx: string; network?: string }): Promise<{
     txid: string;
     nodeUrl: string;
   }> {
-    throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
+    const result = await this.transport
+      .request({
+        method: 'sendrawtransaction',
+        params: [params.signedTx],
+      })
+      .catch(this.convertRemoteRpcError);
+    return { txid: result.hash, nodeUrl: this.nodeUrl };
   }
 
   private deserializeTransaction(transaction: any): Transaction {

@@ -56,7 +56,7 @@ export class WsConnection implements JsonRpcConnection {
 
   // ---------- Private ----------------------------------------------- //
 
-  private register(url = this.url): Promise<WebSocket> {
+  private async register(url = this.url): Promise<WebSocket> {
     if (!isWsUrl(url)) {
       throw new Error(`Provided URL is not compatible with WebSocket connection: ${url}`);
     }

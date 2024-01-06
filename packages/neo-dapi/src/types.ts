@@ -309,7 +309,7 @@ export interface Dapi {
     network?: string;
   }): Promise<{ signature: string; publicKey: string }>;
 
-  relayTransaction(params: { signedTx: string; network?: string }): Promise<{
+  broadcastTransaction(params: { signedTx: string; network?: string }): Promise<{
     txid: string;
     nodeUrl: string;
   }>;

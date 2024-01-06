@@ -145,10 +145,10 @@ export class BaseDapi implements Dapi {
     return this.provider.request({ method: MethodName.SignTransaction, params });
   }
 
-  relayTransaction(params: { signedTx: string; network?: string }): Promise<{
+  broadcastTransaction(params: { signedTx: string; network?: string }): Promise<{
     txid: string;
     nodeUrl: string;
   }> {
-    return this.provider.request({ method: MethodName.RelayTransaction, params });
+    return this.provider.request({ method: MethodName.BroadcastTransaction, params });
   }
 }
