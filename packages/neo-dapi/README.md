@@ -2,7 +2,7 @@
 
 This document describes API for dApps on Neo blockchain.
 
-When using Neo dAPI, a suitable Neo Provider is required. The definition of Neo Provider can be found [here](../neo-provider).
+When using Neo dAPI, a suitable Neo Provider is required. The definition of Neo Provider can be found [here](./docs/neo-provider.md).
 
 This library is written in TypeScript, so all the methods and objects are typed. It is therefore usable in TypeScript projects as well as vanilla JavaScript projects.
 
@@ -20,6 +20,12 @@ or
 
 ```sh
 yarn add @neongd/neo-dapi
+```
+
+or
+
+```sh
+pnpm add @neongd/neo-dapi
 ```
 
 ### Import CommonJS
@@ -58,7 +64,7 @@ const dapi = new BaseDapi(window.neo);
 
 ### Example
 
-Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo-dapi-demo).
+Examples of usage can be found in [test directory](./test).
 
 ## API Reference
 
@@ -72,7 +78,6 @@ Examples of usage can be found in [Neo dAPI Demo](https://github.com/neo-ngd/neo
   - [getBlock](#getblock)
   - [getTransaction](#gettransaction)
   - [getApplicationLog](#getapplicationlog)
-  - [getStorage](#getstorage)
   - [getNep17Balances](#getnep17balances)
   - [invokeRead](#invokeread)
   - [invokeReadMulti](#invokereadmulti)
@@ -120,7 +125,7 @@ const provider = await dapi.getProvider();
   website: 'https://awesome-wallet.org',
   version: '1.0.0',
   dapiVersion: '1.0.0',
-  compatibility: ['NEP-14', 'NEP-23', 'NEP-29'],
+  compatibility: ['NEP-11', 'NEP-17'],
   extra: {
     theme: 'Dark Mode',
     currency: 'USD',
@@ -185,8 +190,7 @@ const account = await dapi.getAccount();
 /* Example Response */
 ({
   address: 'NXufgyw4AAST8tkLqZ5AtFKErjPzPEwnQp',
-  publicKey:
-    '0267c8a9872df89d8da5bcb5ae6a30966495bbd6721d2a68d37ba2b842ea09b4c6',
+  publicKey: '0267c8a9872df89d8da5bcb5ae6a30966495bbd6721d2a68d37ba2b842ea09b4c6',
   label: 'My Account',
 });
 ```
@@ -245,10 +249,8 @@ const block = await dapi.getBlock({ blockIndex: 26536 });
   hash: '0xd373a9afdbe57d79ad788196aa4ef37dbfb28c7d8f22ffa1ccbc236d56268bca',
   size: 5317,
   version: 0,
-  previousBlockHash:
-    '0x2f384bc40c608333fa9d67179d276381dea3dff33b11cfad8ae6a3b2afa15dce',
-  merkleRoot:
-    '0xefd4080cb996b8d44dcc313d207a5adb7ed614488a0d636bbfe9d37d157c8e9b',
+  previousBlockHash: '0x2f384bc40c608333fa9d67179d276381dea3dff33b11cfad8ae6a3b2afa15dce',
+  merkleRoot: '0xefd4080cb996b8d44dcc313d207a5adb7ed614488a0d636bbfe9d37d157c8e9b',
   time: 1615348136186,
   index: 26536,
   primary: 6,
@@ -263,8 +265,7 @@ const block = await dapi.getBlock({ blockIndex: 26536 });
   ],
   tx: [],
   confirmations: 50,
-  nextBlockHash:
-    '0x568b1d99c5abd460e4a05230d2a70bc7fd432b9f372354076eacd3b9f5cd399e',
+  nextBlockHash: '0x568b1d99c5abd460e4a05230d2a70bc7fd432b9f372354076eacd3b9f5cd399e',
 });
 ```
 
@@ -325,12 +326,10 @@ const count = await dapi.getTransaction({
     {
       invocation:
         'DED8PagPv03pnEbsxUY7XgFk/qniHcha36hDCzZsmaJkpFg5vbgxk5+QE46K0GFsNpsqDJHNToGD9jeXsPzSvD5T',
-      verification:
-        'EQwhAs7UMjl93ETtugMcC8O5M/KP3ZZ3eS17IObANt2qrPHiEQtBE43vrw==',
+      verification: 'EQwhAs7UMjl93ETtugMcC8O5M/KP3ZZ3eS17IObANt2qrPHiEQtBE43vrw==',
     },
   ],
-  blockHash:
-    '0x3d87f53c51c93fc08e5ccc09dbd9e21fcfad4dbea66af454bed334824a90262c',
+  blockHash: '0x3d87f53c51c93fc08e5ccc09dbd9e21fcfad4dbea66af454bed334824a90262c',
   confirmations: 26,
   blockTime: 1612687482881,
 });
@@ -397,37 +396,6 @@ const applicationLog = await dapi.getApplicationLog({
     },
   ],
 });
-```
-
-#### getStorage
-
-##### Description
-
-Reads the raw value in the smart contract storage.
-
-##### Parameters
-
-`object` - an object with the following properties:
-
-- `scriptHash: string` - script hash of the smart contract to invoke a read on
-- `key: string` - key of the storage value to retrieve from the contract (base64-encoded)
-- `network?: string` - network to submit this request to. If omitted, the default network set to the provider is used
-
-##### Returns
-
-`string` - a base64-encoded raw value
-
-##### Example
-
-```typescript
-/* Example */
-const value = await dapi.getStorage({
-  scriptHash: '0x99042d380f2b754175717bb932a911bc0bb0ad7d',
-  key: 'aGVsbG8=',
-});
-
-/* Example Response */
-('d29ybGQ=');
 ```
 
 #### getNep17Balances
@@ -633,7 +601,7 @@ Executes a contract invocation that requires a user's signature.
 `object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the invocation
-- `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcast by the provider
+- `nodeUrl?: string` - the node which the transaction was broadcast to. Returned if transaction is broadcasted by the provider
 - `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
 
 ##### Example
@@ -662,6 +630,7 @@ const result = await dapi.invoke({
 /* Example Response */
 ({
   txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
+  nodeUrl: 'https://n3seed2.ngd.network:10332',
 });
 ```
 
@@ -691,7 +660,7 @@ Same as [`invoke`](#invoke), but allows to execute multiple invocations in one t
 `object` - an object with the following properties:
 
 - `txid: string` - transaction ID of the invocations
-- `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcast by the provider
+- `nodeUrl?: string` - the node that the transaction was broadcast to. Returned if the transaction is broadcasted by the provider
 - `signedTx?: string` - serialized signed transaction. Returned if the broadcastOverride input argument was set to true
 
 ##### Example
@@ -730,6 +699,7 @@ const result = await dapi.invokeMulti({
 /* Example Response */
 ({
   txid: '0xd6e4edeb66a75b79bec526d14664017eef9ccee5650c32facb1a4d4fe3640808',
+  nodeUrl: 'https://n3seed2.ngd.network:10332',
 });
 ```
 
@@ -766,8 +736,7 @@ const result = await dapi.signMessage({
   salt: 'b3085013f5edcffe089c029a98794dab',
   signature:
     '2953200f24dfa8730302906d752cd33f135020f84828ad4f5d39e3563161029716369fdbec7e4cc9aa03dfd2e665f4ce37f149addccc8e336fdf707a5eba4d16',
-  publicKey:
-    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+  publicKey: '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
 });
 ```
 
@@ -802,8 +771,7 @@ const result = await dapi.signMessageWithoutSalt({
 ({
   signature:
     '2953200f24dfa8730302906d752cd33f135020f84828ad4f5d39e3563161029716369fdbec7e4cc9aa03dfd2e665f4ce37f149addccc8e336fdf707a5eba4d16',
-  publicKey:
-    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+  publicKey: '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
 });
 ```
 
@@ -880,8 +848,7 @@ const result = await dapi.signTransaction({
 ({
   signature:
     '0ca24f47ec6221e283532d0f623f5f8416f638ffd4b9eaba517019933b89893f169d23cf00013443e226d6ce63d28908d5be1addf935349b340a4ff9eae73a27',
-  publicKey:
-    '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
+  publicKey: '031fe37e66cd2d6d711bad2b2fd40fabf2acce4def456ced62fc5ba445acb6f27c',
 });
 ```
 
@@ -923,7 +890,7 @@ const result = await dapi.broadcastTransaction({
 
 ### Events
 
-Events related functions are provided by [Neo Provider](../neo-provider#events).
+Events related functions are provided by [Neo Provider](./docs/neo-provider.md#events).
 
 ### Errors
 

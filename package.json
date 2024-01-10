@@ -1,45 +1,25 @@
 {
   "name": "neo-dapi-monorepo",
-  "description": "Monorepo for Neo dAPI",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "clean": "lerna clean",
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna run --no-private --stream build",
+    "build": "lerna run --no-private build",
     "lint": "lerna run --no-private lint",
-    "format": "lerna run --no-private format",
     "test": "lerna run --no-private test",
-    "version": "cross-env npm_execpath=yarn run-s lint build test",
+    "prepack": "lerna run --no-private build,lint,test",
     "lerna-version": "lerna version --force-publish",
     "lerna-version:alpha": "lerna version prerelease --yes",
     "lerna-publish": "lerna publish from-package",
     "lerna-publish:alpha": "lerna publish from-package --dist-tag alpha --yes",
     "release": "run-s lerna-version lerna-publish",
-    "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha",
-    "clear-alpha-tags": "git tag | grep alpha | xargs sh -c 'git push origin --delete $@ && git tag -d $@' sh"
+    "release:alpha": "run-s lerna-version:alpha lerna-publish:alpha clean-alpha-tags",
+    "clean-alpha-tags": "git tag | grep alpha | xargs sh -c 'git push origin --delete $@ && git tag -d $@' sh"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/neo-ngd/neo-dapi-monorepo.git"
-  },
-  "keywords": [
-    "neo",
-    "dapi",
-    "provider",
-    "jsonrpc"
-  ],
-  "author": "neo-ngd <github.com/neo-ngd>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/neo-ngd/neo-dapi-monorepo/issues"
-  },
-  "homepage": "https://github.com/neo-ngd/neo-dapi-monorepo#readme",
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "lerna": "^4.0.0",
+    "lerna": "^8.0.0",
     "npm-run-all": "^4.1.5"
   },
-  "workspaces": [
-    "packages/*"
-  ]
+  "volta": {
+    "node": "16.20.2"
+  }
 }

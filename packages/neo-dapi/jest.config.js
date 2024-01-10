@@ -1,7 +1,8 @@
-const pkg = require('./package');
-
 module.exports = {
   preset: 'ts-jest',
-  name: pkg.name,
-  displayName: pkg.name,
+  setupFilesAfterEnv: ['jest-extended/all'],
+  testTimeout: 30000,
+  passWithNoTests: true,
+  forceExit: true,
+  detectOpenHandles: true,
 };

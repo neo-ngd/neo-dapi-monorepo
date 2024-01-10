@@ -1,10 +1,6 @@
 module.exports = {
   root: true,
-  env: {
-    es6: true,
-    node: true,
-    jest: true,
-  },
+  env: { node: true, es2015: true },
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   plugins: ['import'],
   rules: {
@@ -16,21 +12,22 @@ module.exports = {
       {
         alphabetize: { order: 'asc' },
         groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object'],
-        pathGroups: [{ pattern: '@/**', group: 'internal' }],
         pathGroupsExcludedImportTypes: [],
       },
     ],
   },
+  reportUnusedDisableDirectives: true,
   overrides: [
     {
       files: ['*.ts'],
       extends: ['plugin:@typescript-eslint/recommended'],
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: __dirname,
       },
       rules: {
         '@typescript-eslint/explicit-module-boundary-types': [
-          'warn',
+          'error',
           { allowArgumentsExplicitlyTypedAsAny: true },
         ],
         '@typescript-eslint/no-explicit-any': 'off',
@@ -39,4 +36,5 @@ module.exports = {
       },
     },
   ],
+  ignorePatterns: ['!.*', 'node_modules', 'dist'],
 };
