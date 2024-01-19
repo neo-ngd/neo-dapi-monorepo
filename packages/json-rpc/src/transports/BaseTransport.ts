@@ -1,6 +1,9 @@
 import { Connection } from '../connections/Connection';
-import { HttpConnection } from '../connections/HttpConnection';
-import { WebSocketConnection } from '../connections/WebSocketConnection';
+import { HttpConnection, HttpConnectionOptions } from '../connections/HttpConnection';
+import {
+  WebSocketConnection,
+  WebSocketConnectionOptions,
+} from '../connections/WebSocketConnection';
 import { getStandardErrorResponse, RpcError, StandardErrorCodes } from '../utils/errors';
 import {
   formatJsonRpcError,
@@ -10,7 +13,6 @@ import {
 } from '../utils/formatters';
 import {
   ErrorResponse,
-  Logger,
   Notification,
   Payload,
   Request,
@@ -26,15 +28,12 @@ import {
 } from '../utils/validators';
 import { AbstractTransport } from './AbstractTransport';
 
-export interface BaseJsonRpcTransportOptions {
-  timeoutMs?: number;
-  logger?: Logger;
-}
+export type BaseTransportOptions = HttpConnectionOptions & WebSocketConnectionOptions;
 
 export class BaseTransport extends AbstractTransport {
   public connection: Connection;
 
-  constructor(connection: string | Connection, private options: BaseJsonRpcTransportOptions = {}) {
+  constructor(connection: string | Connection, private options: BaseTransportOptions = {}) {
     super();
     this.connection = this.parseConnection(connection);
     this.onConnectionPayload = this.onConnectionPayload.bind(this);

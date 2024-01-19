@@ -1,5 +1,6 @@
 import {
   BaseTransport,
+  BaseTransportOptions,
   formatErrorResponse,
   getStandardErrorResponse,
   RpcError,
@@ -36,10 +37,16 @@ export interface NetworkConfig {
   magicNumber: number;
 }
 
+export type NetworkProviderOptions = BaseTransportOptions;
+
 export class NetworkProvider extends AbstractProvider {
   protected transports: Partial<Record<string, Transport>> = {};
 
-  constructor(protected networkConfigs: NetworkConfig[], protected defaultNetworkName: string) {
+  constructor(
+    protected networkConfigs: NetworkConfig[],
+    protected defaultNetworkName: string,
+    protected options: NetworkProviderOptions = {},
+  ) {
     super();
     if (!networkConfigs.find(config => config.name === defaultNetworkName)) {
       throw new Error(`Unknown network name ${defaultNetworkName}`);
@@ -105,7 +112,7 @@ export class NetworkProvider extends AbstractProvider {
     let transport = this.transports[networkConfig.name];
 
     if (!transport) {
-      transport = new BaseTransport(networkConfig.nodeUrl);
+      transport = new BaseTransport(networkConfig.nodeUrl, this.options);
       this.transports[networkConfig.name] = transport;
     }
     return transport;

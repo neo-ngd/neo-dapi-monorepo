@@ -16,8 +16,10 @@ import {
   signerToSignerJson,
   stringToHex,
 } from '../utils/convertors';
-import { NetworkConfig, NetworkProvider } from './NetworkProvider';
+import { NetworkConfig, NetworkProvider, NetworkProviderOptions } from './NetworkProvider';
 import { RequestArguments } from './Provider';
+
+export type SigningNetworkProviderOptions = NetworkProviderOptions;
 
 export class SigningNetworkProvider extends NetworkProvider {
   account: wallet.Account;
@@ -27,8 +29,9 @@ export class SigningNetworkProvider extends NetworkProvider {
     defaultNetworkName: string,
     accountPrivateKey: string,
     protected accountLabel?: string,
+    protected options: SigningNetworkProviderOptions = {},
   ) {
-    super(networkConfigs, defaultNetworkName);
+    super(networkConfigs, defaultNetworkName, options);
     this.account = new wallet.Account(accountPrivateKey);
   }
 
