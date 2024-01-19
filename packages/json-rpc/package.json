@@ -36,7 +36,6 @@
   "dependencies": {
     "axios": "^0.21.1",
     "eventemitter3": "^5.0.1",
-    "events": "^3.3.0",
     "websocket": "^1.0.34"
   },
   "devDependencies": {

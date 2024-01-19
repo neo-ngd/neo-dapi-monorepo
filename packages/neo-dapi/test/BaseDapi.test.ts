@@ -128,21 +128,21 @@ describe('BaseDapi', () => {
 
     test.concurrent('get block', async () => {
       const result = await dapi.getBlock({ blockIndex: 0 });
-      expect(result).toMatchObject({});
+      expect(result).toBeObject();
     });
 
     test.concurrent('get transaction', async () => {
       const result = await dapi.getTransaction({
         txid: '0xfd7da54b831091d3dc261bdf8042d868427cd3480345328ba59d33b10e3c0905',
       });
-      expect(result).toMatchObject({});
+      expect(result).toBeObject();
     });
 
     test.concurrent('get application log', async () => {
       const result = await dapi.getApplicationLog({
         txid: '0xfd7da54b831091d3dc261bdf8042d868427cd3480345328ba59d33b10e3c0905',
       });
-      expect(result).toMatchObject({});
+      expect(result).toBeObject();
     });
 
     test.concurrent('get nep17 balances', async () => {
@@ -156,7 +156,7 @@ describe('BaseDapi', () => {
         operation: 'balanceOf',
         args: [{ type: 'Hash160', value: addressToScriptHash(address) }],
       });
-      expect(result).toMatchObject({});
+      expect(result).toBeObject();
     });
 
     test.concurrent('invoke read multi', async () => {
@@ -169,7 +169,7 @@ describe('BaseDapi', () => {
           },
         ],
       });
-      expect(result).toMatchObject({});
+      expect(result).toBeObject();
     });
 
     if (isSigningProvider) {

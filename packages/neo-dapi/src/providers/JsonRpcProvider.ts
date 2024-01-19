@@ -10,8 +10,13 @@ export class JsonRpcProvider extends AbstractProvider {
     this.registerEventListeners();
   }
 
-  request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R> {
+  async request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R> {
     return this.transport.request<R, P>(args);
+  }
+
+  async close(): Promise<void> {
+    this.closed = true;
+    return this.transport.disconnect();
   }
 
   private registerEventListeners() {
@@ -40,10 +45,5 @@ export class JsonRpcProvider extends AbstractProvider {
         this.events.emit(notification.method as keyof ProviderEvents, notification.params as any);
       }
     }
-  }
-
-  async close(): Promise<void> {
-    this.closed = true;
-    return this.transport.disconnect();
   }
 }
