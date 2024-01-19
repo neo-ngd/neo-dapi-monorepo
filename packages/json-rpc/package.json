@@ -1,6 +1,6 @@
 {
   "name": "@neongd/json-rpc",
-  "version": "2.0.0-alpha.12",
+  "version": "2.0.0-alpha.13",
   "description": "Json-rpc types and toolings",
   "keywords": [
     "jsonrpc"
@@ -34,7 +34,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^1.6.5",
     "eventemitter3": "^5.0.1",
     "websocket": "^1.0.34"
   },
