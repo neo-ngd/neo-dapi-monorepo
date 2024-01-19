@@ -220,11 +220,15 @@ export class SigningNetworkProvider extends NetworkProvider {
 
     const version = params.version ?? CONST.TX_VERSION;
     const nonce = params.nonce ?? parseInt(u.ab2hexstring(u.generateRandomArray(4)), 16);
-    const validUntilBlock =
-      params.validUntilBlock ??
-      (await transport
+
+    let validUntilBlock = params.validUntilBlock;
+    if (validUntilBlock == null) {
+      const blockCount = await transport
         .request<number>({ method: 'getblockcount' })
-        .catch(this.convertRemoteRpcError)) + 5000;
+        .catch(this.convertRemoteRpcError);
+
+      validUntilBlock = blockCount + 5000;
+    }
 
     const invocationsScript = params.invocations && invocationsToScript(params.invocations);
 
@@ -256,40 +260,46 @@ export class SigningNetworkProvider extends NetworkProvider {
       { account: addressToScriptHash(this.account.address), scopes: 'CalledByEntry' },
     ];
 
-    const { gasconsumed: estimatedSystemFee } = await transport
-      .request<any>({
-        method: 'invokescript',
-        params: [hexToBase64(script), signers.map(signerToSignerJson)],
-      })
-      .catch(this.convertRemoteRpcError);
+    let systemFee = params.systemFee;
+    if (systemFee == null) {
+      const { gasconsumed: estimatedSystemFee } = await transport
+        .request<any>({
+          method: 'invokescript',
+          params: [hexToBase64(script), signers.map(signerToSignerJson)],
+        })
+        .catch(this.convertRemoteRpcError);
 
-    const systemFee = new BigNumber(estimatedSystemFee)
-      .times(1.01)
-      .plus(params.extraSystemFee ?? 0)
-      .dp(0)
-      .toString();
+      systemFee = new BigNumber(estimatedSystemFee)
+        .times(1.01)
+        .plus(params.extraSystemFee ?? 0)
+        .dp(0)
+        .toString();
+    }
 
-    const fakeTx = new tx.Transaction({
-      version,
-      nonce,
-      validUntilBlock,
-      script,
-      attributes: attributes.map(attribute => tx.TransactionAttribute.fromJson(attribute)),
-      signers,
-      witnesses: [tx.Witness.fromSignature('0'.repeat(128), this.account.publicKey)],
-    });
+    let networkFee = params.networkFee;
+    if (networkFee == null) {
+      const fakeTx = new tx.Transaction({
+        version,
+        nonce,
+        validUntilBlock,
+        script,
+        attributes: attributes.map(attribute => tx.TransactionAttribute.fromJson(attribute)),
+        signers,
+        witnesses: [tx.Witness.fromSignature('0'.repeat(128), this.account.publicKey)],
+      });
 
-    const { networkfee: estimatedNetworkFee } = await transport
-      .request<any>({
-        method: 'calculatenetworkfee',
-        params: [hexToBase64(fakeTx.serialize(true))],
-      })
-      .catch(this.convertRemoteRpcError);
+      const { networkfee: estimatedNetworkFee } = await transport
+        .request<any>({
+          method: 'calculatenetworkfee',
+          params: [hexToBase64(fakeTx.serialize(true))],
+        })
+        .catch(this.convertRemoteRpcError);
 
-    const networkFee = new BigNumber(estimatedNetworkFee)
-      .plus(params.extraNetworkFee ?? 0)
-      .dp(0)
-      .toString();
+      networkFee = new BigNumber(estimatedNetworkFee)
+        .plus(params.extraNetworkFee ?? 0)
+        .dp(0)
+        .toString();
+    }
 
     return {
       version,
