@@ -1,5 +1,12 @@
 import { CONST, tx, u, wallet } from '@cityofzion/neon-core';
-import { getStandardErrorResponse, RpcError, StandardErrorCodes } from '@neongd/json-rpc';
+import {
+  getStandardErrorJson,
+  Json,
+  JsonRpcError,
+  Params,
+  RequestArguments,
+  StandardErrorCodes,
+} from '@neongd/json-rpc';
 import BigNumber from 'bignumber.js';
 import {
   GetAccountResult,
@@ -24,7 +31,6 @@ import {
 } from '../utils/convertors';
 import { Attribute, Invocation, Signer } from '../utils/types';
 import { NetworkConfig, NetworkProvider, NetworkProviderOptions } from './NetworkProvider';
-import { RequestArguments } from './Provider';
 
 export type SigningNetworkProviderOptions = NetworkProviderOptions;
 
@@ -42,24 +48,26 @@ export class SigningNetworkProvider extends NetworkProvider {
     this.account = new wallet.Account(accountPrivateKey);
   }
 
-  async request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R> {
+  async request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
+  ): Promise<R> {
     switch (args.method) {
       case 'getProvider':
-        return this.handleGetProvider() as R;
+        return this.handleGetProvider() as any;
       case 'getNetworks':
-        return this.handleGetNetworks() as R;
+        return this.handleGetNetworks() as any;
       case 'getAccount':
-        return this.handleGetAccount() as R;
+        return this.handleGetAccount() as any;
       case 'invoke':
-        return this.handleInvoke(args.params as any) as R;
+        return this.handleInvoke(args.params as any) as any;
       case 'invokeMulti':
-        return this.handleInvokeMulti(args.params as any) as R;
+        return this.handleInvokeMulti(args.params as any) as any;
       case 'signMessage':
-        return this.handleSignMessage(args.params as any) as R;
+        return this.handleSignMessage(args.params as any) as any;
       case 'signMessageWithoutSalt':
-        return this.handleSignMessageWithoutSalt(args.params as any) as R;
+        return this.handleSignMessageWithoutSalt(args.params as any) as any;
       case 'signTransaction':
-        return this.handleSignTransaction(args.params as any) as R;
+        return this.handleSignTransaction(args.params as any) as any;
       default:
         return super.request(args);
     }
@@ -208,8 +216,8 @@ export class SigningNetworkProvider extends NetworkProvider {
     let script: string;
     if (params.script != null) {
       if (invocationsScript != null && params.script !== invocationsScript) {
-        throw new RpcError(
-          getStandardErrorResponse(
+        throw new JsonRpcError(
+          getStandardErrorJson(
             StandardErrorCodes.InvalidParams,
             'Script and invocations are inconsistent',
           ),
@@ -218,8 +226,8 @@ export class SigningNetworkProvider extends NetworkProvider {
       script = params.script;
     } else {
       if (invocationsScript == null) {
-        throw new RpcError(
-          getStandardErrorResponse(
+        throw new JsonRpcError(
+          getStandardErrorJson(
             StandardErrorCodes.InvalidParams,
             'Both script and invocations are missing from params',
           ),

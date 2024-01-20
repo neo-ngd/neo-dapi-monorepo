@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { Connection } from '../connections/Connection';
-import { ErrorResponse, RequestArguments } from '../utils/types';
+import { ErrorJson, Json, Params, RequestArguments } from '../utils/types';
 import { Transport, TransportEvents } from './Transport';
 
 export abstract class AbstractTransport implements Transport {
@@ -26,17 +26,17 @@ export abstract class AbstractTransport implements Transport {
 
   abstract disconnect(): Promise<void>;
 
-  abstract request<Result = unknown, Params = unknown>(
-    args: RequestArguments<Params>,
+  abstract request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
     context?: unknown,
-  ): Promise<Result>;
+  ): Promise<R>;
 
-  abstract notify<Params = unknown>(
-    args: RequestArguments<Params>,
+  abstract notify<P extends Params = Params>(
+    args: RequestArguments<P>,
     context?: unknown,
   ): Promise<void>;
 
-  abstract resolve<Result = unknown>(id: number, result: Result, context?: unknown): Promise<void>;
+  abstract resolve<R extends Json = Json>(id: number, result: R, context?: unknown): Promise<void>;
 
-  abstract reject(id: number, error: ErrorResponse, context?: unknown): Promise<void>;
+  abstract reject(id: number, errorJson: ErrorJson, context?: unknown): Promise<void>;
 }

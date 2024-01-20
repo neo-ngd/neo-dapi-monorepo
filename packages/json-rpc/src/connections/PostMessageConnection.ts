@@ -1,11 +1,11 @@
 import { parse, stringify } from '../utils/json';
 import { Logger, Payload } from '../utils/types';
-import { isJsonRpcPayload } from '../utils/validators';
+import { isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export interface PostMessageConnectionOptions {
+export type PostMessageConnectionOptions = {
   logger?: Logger;
-}
+};
 
 export type PostMessage = (message: string) => void;
 
@@ -60,7 +60,7 @@ export class PostMessageConnection extends AbstractConnection {
       this.options.logger.info(`received: ${message}`);
     }
     const payload = parse(message, null);
-    if (isJsonRpcPayload(payload)) {
+    if (isPayload(payload)) {
       this.events.emit('payload', payload);
     }
   }

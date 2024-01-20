@@ -1,9 +1,12 @@
 import {
   BaseTransport,
   BaseTransportOptions,
-  formatErrorResponse,
-  getStandardErrorResponse,
-  RpcError,
+  formatErrorJson,
+  getStandardErrorJson,
+  Json,
+  JsonRpcError,
+  Params,
+  RequestArguments,
   StandardErrorCodes,
   Transport,
 } from '@neongd/json-rpc';
@@ -35,16 +38,15 @@ import {
   signerToSignerJson,
   transactionJsonToTransaction,
 } from '../utils/convertors';
-import { DapiErrorCodes, getDapiErrorResponse } from '../utils/errors';
-import { LIB_VERSION } from '../version';
+import { DapiErrorCodes, getDapiErrorJson } from '../utils/errors';
+import { VERSION } from '../version';
 import { AbstractProvider } from './AbstractProvider';
-import { RequestArguments } from './Provider';
 
-export interface NetworkConfig {
+export type NetworkConfig = {
   name: string;
   nodeUrl: string;
   magicNumber: number;
-}
+};
 
 export type NetworkProviderOptions = BaseTransportOptions;
 
@@ -62,30 +64,32 @@ export class NetworkProvider extends AbstractProvider {
     }
   }
 
-  async request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R> {
+  async request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
+  ): Promise<R> {
     switch (args.method) {
       case 'getProvider':
-        return this.handleGetProvider() as R;
+        return this.handleGetProvider() as any;
       case 'getNetworks':
-        return this.handleGetNetworks() as R;
+        return this.handleGetNetworks() as any;
       case 'getBlockCount':
-        return this.handleGetBlockCount(args.params as any) as R;
+        return this.handleGetBlockCount(args.params as any) as any;
       case 'getBlock':
-        return this.handleGetBlock(args.params as any) as R;
+        return this.handleGetBlock(args.params as any) as any;
       case 'getTransaction':
-        return this.handleGetTransaction(args.params as any) as R;
+        return this.handleGetTransaction(args.params as any) as any;
       case 'getApplicationLog':
-        return this.handleGetApplicationLog(args.params as any) as R;
+        return this.handleGetApplicationLog(args.params as any) as any;
       case 'getNep17Balances':
-        return this.handleGetNep17Balances(args.params as any) as R;
+        return this.handleGetNep17Balances(args.params as any) as any;
       case 'invokeRead':
-        return this.handleInvokeRead(args.params as any) as R;
+        return this.handleInvokeRead(args.params as any) as any;
       case 'invokeReadMulti':
-        return this.handleInvokeReadMulti(args.params as any) as R;
+        return this.handleInvokeReadMulti(args.params as any) as any;
       case 'broadcastTransaction':
-        return this.handleBroadcastTransaction(args.params as any) as R;
+        return this.handleBroadcastTransaction(args.params as any) as any;
       default:
-        throw new RpcError(getStandardErrorResponse(StandardErrorCodes.MethodNotFound));
+        throw new JsonRpcError(getStandardErrorJson(StandardErrorCodes.MethodNotFound));
     }
   }
 
@@ -106,12 +110,12 @@ export class NetworkProvider extends AbstractProvider {
   protected getNetworkConfig(network?: string, rejectNotDefault = false): NetworkConfig {
     const finalNetwork = network ?? this.defaultNetworkName;
     if (rejectNotDefault && finalNetwork !== this.defaultNetworkName) {
-      throw new RpcError(getDapiErrorResponse(DapiErrorCodes.UnsupportedNetwork));
+      throw new JsonRpcError(getDapiErrorJson(DapiErrorCodes.UnsupportedNetwork));
     }
 
     const networkConfig = this.networkConfigs.find(config => config.name === finalNetwork);
     if (!networkConfig) {
-      throw new RpcError(getDapiErrorResponse(DapiErrorCodes.UnsupportedNetwork));
+      throw new JsonRpcError(getDapiErrorJson(DapiErrorCodes.UnsupportedNetwork));
     }
     return networkConfig;
   }
@@ -131,8 +135,8 @@ export class NetworkProvider extends AbstractProvider {
     return {
       name: 'NetworkProvider',
       website: 'https://github.com/neo-ngd/neo-dapi-monorepo',
-      version: LIB_VERSION,
-      dapiVersion: LIB_VERSION,
+      version: VERSION,
+      dapiVersion: VERSION,
       compatibility: ['NEP-17'],
       extra: {},
     };
@@ -260,12 +264,8 @@ export class NetworkProvider extends AbstractProvider {
   }
 
   protected convertRemoteRpcError(error: Error): never {
-    throw new RpcError(
-      getDapiErrorResponse(
-        DapiErrorCodes.RemoteRpcError,
-        error.message,
-        formatErrorResponse(error),
-      ),
+    throw new JsonRpcError(
+      getDapiErrorJson(DapiErrorCodes.RemoteRpcError, error.message, formatErrorJson(error)),
     );
   }
 }

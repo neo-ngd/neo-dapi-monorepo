@@ -15,12 +15,12 @@ Historically, Provider implementations have exhibited conflicting interfaces and
 > The `request` method is intended as a transport- and protocol-agnostic wrapper function for Remote Procedure Calls (RPCs).
 
 ```typescript
-interface RequestArguments<T = unknown> {
+interface RequestArguments<P extends Params = Params> {
   method: string;
-  params?: T;
+  params?: P;
 }
 
-Provider.request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R>;
+Provider.request<R extends Json = Json, P extends Params = Params>(args: RequestArguments<P>): Promise<R>;
 ```
 
 The Provider should identify the requested RPC method by the value of `RequestArguments.method`.
@@ -31,7 +31,7 @@ RPC requests should be handled such that the returned Promise either resolves wi
 
 If resolved, the Promise should resolve with a result per the RPC method's specification.
 
-If the returned Promise rejects, it should reject with a `ProviderRpcError` as specified in the [RPC Errors](#rpc-errors) section below.
+If the returned Promise rejects, it should reject with a `ProviderError` as specified in the [Provider Errors](#provider-errors) section below.
 
 #### on
 
@@ -53,7 +53,7 @@ If the Provider becomes connected, the Provider should emit the event named `con
 
 See the section [Connectivity](#connectivity) for the definition of "disconnected".
 
-If the Provider becomes disconnected, the Provider should emit the event named `disconnect` with value `error: ProviderRpcError`, per the interfaced defined in the [RPC Errors](#rpc-errors) section. The value of the error's `code` property should follow the [status codes for `CloseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes).
+If the Provider becomes disconnected, the Provider should emit the event named `disconnect` with value `error: ProviderError`, per the interfaced defined in the [Provider Errors](#provider-errors) section. The value of the error's `code` property should follow the [status codes for `CloseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes).
 
 #### message
 
@@ -64,7 +64,7 @@ When emitted, the `message` event be emitted with an object argument of the foll
 ```typescript
 export interface ProviderMessage {
   type: string;
-  data?: unknown;
+  data?: Json;
 }
 ```
 
@@ -76,12 +76,12 @@ If the default network of the Provider changes, the Provider should emit the eve
 
 If the default account of the Provider changes, the Provider should emit the event named `accountChanged` with value `account: string`.
 
-### RPC Errors
+### Provider Errors
 
 ```typescript
-export interface ProviderRpcError extends Error {
+export interface ProviderError extends Error {
   code: number;
-  data?: unknown;
+  data?: Json;
 }
 ```
 
@@ -96,7 +96,7 @@ export interface ProviderRpcError extends Error {
 
 ### Error Standards
 
-`ProviderRpcError` codes and messages should follow these conventions, in order of priority:
+`ProviderError` codes and messages should follow these conventions, in order of priority:
 
 1. Any errors mandated by the erroring RPC method's specification
 

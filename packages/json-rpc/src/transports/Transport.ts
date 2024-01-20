@@ -1,15 +1,17 @@
 import { Connection } from '../connections/Connection';
 import {
-  ErrorResponse,
+  ErrorJson,
   EventDispatcher,
+  Json,
   Notification,
+  Params,
   Payload,
   Request,
   RequestArguments,
   Response,
 } from '../utils/types';
 
-export interface TransportEvents {
+export type TransportEvents = {
   connect(): void;
   disconnect(): void;
   payload(payload: Payload): void;
@@ -17,23 +19,21 @@ export interface TransportEvents {
   [id: number]: (response: Response) => void;
   notification(notification: Notification): void;
   error(error: Error): void;
-}
-
-type NewType = Connection;
+};
 
 export interface Transport extends EventDispatcher<TransportEvents> {
   connection: Connection;
-  connect(connection?: NewType): Promise<void>;
+  connect(connection?: Connection): Promise<void>;
   disconnect(): Promise<void>;
 
-  request<Result = unknown, Params = unknown>(
-    args: RequestArguments<Params>,
+  request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
     context?: unknown,
-  ): Promise<Result>;
+  ): Promise<R>;
 
-  notify<Params = unknown>(args: RequestArguments<Params>, context?: unknown): Promise<void>;
+  notify<P extends Params = Params>(args: RequestArguments<P>, context?: unknown): Promise<void>;
 
-  resolve<Result = unknown>(id: number, result: Result, context?: unknown): Promise<void>;
+  resolve<R extends Json = Json>(id: number, result: R, context?: unknown): Promise<void>;
 
-  reject(id: number, error: ErrorResponse, context?: unknown): Promise<void>;
+  reject(id: number, errorJson: ErrorJson, context?: unknown): Promise<void>;
 }

@@ -4,28 +4,25 @@ import {
   WebSocketConnection,
   WebSocketConnectionOptions,
 } from '../connections/WebSocketConnection';
-import { getStandardErrorResponse, RpcError, StandardErrorCodes } from '../utils/errors';
+import { getStandardErrorJson, JsonRpcError, StandardErrorCodes } from '../utils/errors';
 import {
-  formatJsonRpcError,
-  formatJsonRpcNotification,
-  formatJsonRpcRequest,
-  formatJsonRpcResult,
+  formatErrorResponse,
+  formatNotification,
+  formatRequest,
+  formatResultResponse,
 } from '../utils/formatters';
 import {
-  ErrorResponse,
+  ErrorJson,
+  Json,
   Notification,
+  Params,
   Payload,
   Request,
   RequestArguments,
   Response,
 } from '../utils/types';
 import { isHttpUrl } from '../utils/url';
-import {
-  isJsonRpcError,
-  isJsonRpcNotification,
-  isJsonRpcRequest,
-  isJsonRpcResponse,
-} from '../utils/validators';
+import { isErrorResponse, isNotification, isRequest, isResponse } from '../utils/validators';
 import { AbstractTransport } from './AbstractTransport';
 
 export type BaseTransportOptions = HttpConnectionOptions & WebSocketConnectionOptions;
@@ -49,23 +46,26 @@ export class BaseTransport extends AbstractTransport {
     await this.close();
   }
 
-  async request<Result = unknown, Params = unknown>(
-    args: RequestArguments<Params>,
+  async request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
     context?: unknown,
-  ): Promise<Result> {
-    return this.requestStrict(formatJsonRpcRequest(args.method, args.params), context);
+  ): Promise<R> {
+    return this.requestStrict(formatRequest(args.method, args.params), context);
   }
 
-  async notify<Params = unknown>(args: RequestArguments<Params>, context?: unknown): Promise<void> {
-    return this.notifyStrict(formatJsonRpcNotification(args.method, args.params), context);
+  async notify<P extends Params = Params>(
+    args: RequestArguments<P>,
+    context?: unknown,
+  ): Promise<void> {
+    return this.notifyStrict(formatNotification(args.method, args.params), context);
   }
 
-  async resolve<Result = unknown>(id: number, result: Result, context?: unknown): Promise<void> {
-    return this.respondStrict(formatJsonRpcResult(id, result), context);
+  async resolve<R extends Json = Json>(id: number, result: R, context?: unknown): Promise<void> {
+    return this.respondStrict(formatResultResponse(id, result), context);
   }
 
-  async reject(id: number, error: ErrorResponse, context?: unknown): Promise<void> {
-    return this.respondStrict(formatJsonRpcError(id, error), context);
+  async reject(id: number, errorJson: ErrorJson, context?: unknown): Promise<void> {
+    return this.respondStrict(formatErrorResponse(id, errorJson), context);
   }
 
   // ---------- Private ----------------------------------------------- //
@@ -78,10 +78,10 @@ export class BaseTransport extends AbstractTransport {
       : connection;
   }
 
-  private async requestStrict<Result = unknown, Params = unknown>(
-    request: Request<Params>,
+  private async requestStrict<R extends Json = Json, P extends Params = Params>(
+    request: Request<P>,
     context?: unknown,
-  ): Promise<Result> {
+  ): Promise<R> {
     if (!this.connection.connected) {
       await this.open();
     }
@@ -90,26 +90,26 @@ export class BaseTransport extends AbstractTransport {
         setTimeout(
           () =>
             reject(
-              new RpcError(
-                getStandardErrorResponse(StandardErrorCodes.CommunicationFailed, 'Request timeout'),
+              new JsonRpcError(
+                getStandardErrorJson(StandardErrorCodes.CommunicationFailed, 'Request timeout'),
               ),
             ),
           this.options.timeoutMs,
         );
       }
       this.events.once(request.id, response => {
-        if (isJsonRpcError(response)) {
-          reject(new RpcError(response.error));
+        if (isErrorResponse(response)) {
+          reject(new JsonRpcError(response.error));
         } else {
-          resolve(response.result as Result);
+          resolve(response.result as R);
         }
       });
       this.connection.send(request, context);
     });
   }
 
-  private async notifyStrict<Params = unknown>(
-    notification: Notification<Params>,
+  private async notifyStrict<P extends Params = Params>(
+    notification: Notification<P>,
     context?: unknown,
   ): Promise<void> {
     if (!this.connection.connected) {
@@ -118,8 +118,8 @@ export class BaseTransport extends AbstractTransport {
     await this.connection.send(notification, context);
   }
 
-  private async respondStrict<Result = unknown>(
-    response: Response<Result>,
+  private async respondStrict<R extends Json = Json>(
+    response: Response<R>,
     context?: unknown,
   ): Promise<void> {
     if (!this.connection.connected) {
@@ -130,11 +130,11 @@ export class BaseTransport extends AbstractTransport {
 
   private onConnectionPayload(payload: Payload): void {
     this.events.emit('payload', payload);
-    if (isJsonRpcRequest(payload)) {
+    if (isRequest(payload)) {
       this.events.emit('request', payload);
-    } else if (isJsonRpcNotification(payload)) {
+    } else if (isNotification(payload)) {
       this.events.emit('notification', payload);
-    } else if (isJsonRpcResponse(payload)) {
+    } else if (isResponse(payload)) {
       this.events.emit(payload.id, payload);
     }
   }

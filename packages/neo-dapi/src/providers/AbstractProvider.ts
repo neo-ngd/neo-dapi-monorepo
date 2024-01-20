@@ -1,5 +1,6 @@
+import { Json, Params, RequestArguments } from '@neongd/json-rpc';
 import EventEmitter from 'eventemitter3';
-import { Provider, ProviderEvents, RequestArguments } from './Provider';
+import { Provider, ProviderEvents } from './Provider';
 
 export abstract class AbstractProvider implements Provider {
   protected events = new EventEmitter<ProviderEvents>();
@@ -18,7 +19,9 @@ export abstract class AbstractProvider implements Provider {
     this.events.removeListener(event, fn);
   }
 
-  abstract request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R>;
+  abstract request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
+  ): Promise<R>;
 
   abstract close(): Promise<void>;
 }

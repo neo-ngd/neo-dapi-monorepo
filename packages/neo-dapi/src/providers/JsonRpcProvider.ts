@@ -1,6 +1,14 @@
-import { Notification, RpcError, Transport } from '@neongd/json-rpc';
+import {
+  Json,
+  JsonRpcError,
+  Notification,
+  Params,
+  RequestArguments,
+  Transport,
+} from '@neongd/json-rpc';
+import { formatErrorJson } from '@neongd/json-rpc';
 import { AbstractProvider } from './AbstractProvider';
-import { ProviderEvents, RequestArguments } from './Provider';
+import { ProviderEvents } from './Provider';
 
 export class JsonRpcProvider extends AbstractProvider {
   private closed = false;
@@ -10,8 +18,10 @@ export class JsonRpcProvider extends AbstractProvider {
     this.registerEventListeners();
   }
 
-  async request<R = unknown, P = unknown>(args: RequestArguments<P>): Promise<R> {
-    return this.transport.request<R, P>(args);
+  async request<R extends Json = Json, P extends Params = Params>(
+    args: RequestArguments<P>,
+  ): Promise<R> {
+    return this.transport.request(args);
   }
 
   async close(): Promise<void> {
@@ -39,8 +49,11 @@ export class JsonRpcProvider extends AbstractProvider {
       'accountChanged',
     ] as const;
     if (providerEvents.includes(notification.method as keyof ProviderEvents)) {
-      if (notification.method === 'disconnect' && notification.params != null) {
-        this.events.emit(notification.method, new RpcError(notification.params as any));
+      if (notification.method === 'disconnect') {
+        this.events.emit(
+          notification.method,
+          new JsonRpcError(formatErrorJson(notification.params)),
+        );
       } else {
         this.events.emit(notification.method as keyof ProviderEvents, notification.params as any);
       }

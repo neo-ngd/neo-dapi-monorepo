@@ -1,17 +1,17 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { getStandardErrorResponse, StandardErrorCodes } from '../utils/errors';
-import { formatJsonRpcError } from '../utils/formatters';
+import { getStandardErrorJson, StandardErrorCodes } from '../utils/errors';
+import { formatErrorResponse } from '../utils/formatters';
 import { parse, stringify } from '../utils/json';
 import { Logger, Payload } from '../utils/types';
 import { isHttpUrl } from '../utils/url';
-import { isJsonRpcPayload } from '../utils/validators';
+import { isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export interface HttpConnectionOptions {
+export type HttpConnectionOptions = {
   axiosConfig?: AxiosRequestConfig;
   timeoutMs?: number;
   logger?: Logger;
-}
+};
 
 export class HttpConnection extends AbstractConnection {
   private api: AxiosInstance | null = null;
@@ -102,11 +102,11 @@ export class HttpConnection extends AbstractConnection {
     if (this.options.logger) {
       this.options.logger.info(`received: ${stringify(data)}`);
     }
-    if (isJsonRpcPayload(payload)) {
+    if (isPayload(payload)) {
       this.events.emit('payload', payload);
     } else {
-      const errorResponse = getStandardErrorResponse(StandardErrorCodes.ParseError);
-      const payload = formatJsonRpcError(id, errorResponse);
+      const errorJson = getStandardErrorJson(StandardErrorCodes.ParseError);
+      const payload = formatErrorResponse(id, errorJson);
       this.events.emit('payload', payload);
     }
   }
@@ -115,11 +115,8 @@ export class HttpConnection extends AbstractConnection {
     if (this.options.logger) {
       this.options.logger.error('error', error);
     }
-    const errorResponse = getStandardErrorResponse(
-      StandardErrorCodes.CommunicationFailed,
-      error.message,
-    );
-    const payload = formatJsonRpcError(id, errorResponse);
+    const errorJson = getStandardErrorJson(StandardErrorCodes.CommunicationFailed, error.message);
+    const payload = formatErrorResponse(id, errorJson);
     this.events.emit('payload', payload);
   }
 }

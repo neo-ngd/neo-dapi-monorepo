@@ -1,5 +1,6 @@
+import { Json } from '@neongd/json-rpc';
 import EventEmitter from 'eventemitter3';
-import { UnionConcat } from '../utils/typeUtils';
+import { UnionConcat } from './typeUtils';
 
 export interface EventDispatcher<Events extends EventEmitter.ValidEventTypes> {
   on<T extends EventEmitter.EventNames<Events>>(
@@ -13,30 +14,30 @@ export interface EventDispatcher<Events extends EventEmitter.ValidEventTypes> {
   ): void;
 }
 
-export interface ProviderInformation {
+export type ProviderInformation = {
   name: string;
   website: string;
   version: string;
   dapiVersion: string;
   compatibility: string[];
-  extra: Record<string, unknown>;
-}
+  extra: Record<string, Json>;
+};
 
-export interface Networks {
+export type Networks = {
   networks: string[];
   defaultNetwork: string;
-}
+};
 
-export interface Account {
+export type Account = {
   address: string;
   publicKey: string;
   label?: string;
-}
+};
 
-export interface Witness {
+export type Witness = {
   invocation: string;
   verification: string;
-}
+};
 
 export type SignerScope =
   | 'None'
@@ -48,49 +49,49 @@ export type SignerScope =
 
 export type WitnessRuleAction = 'Deny' | 'Allow';
 
-export interface BooleanWitnessCondition {
+export type BooleanWitnessCondition = {
   type: 'Boolean';
   expression: boolean;
-}
+};
 
-export interface NotWitnessCondition {
+export type NotWitnessCondition = {
   type: 'Not';
   expression: WitnessCondition;
-}
+};
 
-export interface AndWitnessCondition {
+export type AndWitnessCondition = {
   type: 'And';
   expressions: WitnessCondition[];
-}
+};
 
-export interface OrWitnessCondition {
+export type OrWitnessCondition = {
   type: 'Or';
   expressions: WitnessCondition[];
-}
+};
 
-export interface ScriptHashWitnessCondition {
+export type ScriptHashWitnessCondition = {
   type: 'ScriptHash';
   hash: string;
-}
+};
 
-export interface GroupWitnessCondition {
+export type GroupWitnessCondition = {
   type: 'Group';
   group: string;
-}
+};
 
-export interface CalledByEntryWitnessCondition {
+export type CalledByEntryWitnessCondition = {
   type: 'CalledByEntry';
-}
+};
 
-export interface CalledByContractWitnessCondition {
+export type CalledByContractWitnessCondition = {
   type: 'CalledByContract';
   hash: string;
-}
+};
 
-export interface CalledByGroupWitnessCondition {
+export type CalledByGroupWitnessCondition = {
   type: 'CalledByGroup';
   group: string;
-}
+};
 
 export type WitnessCondition =
   | BooleanWitnessCondition
@@ -103,22 +104,22 @@ export type WitnessCondition =
   | CalledByContractWitnessCondition
   | CalledByGroupWitnessCondition;
 
-export interface WitnessRule {
+export type WitnessRule = {
   action: WitnessRuleAction;
   condition: WitnessCondition;
-}
+};
 
-export interface Signer {
+export type Signer = {
   account: string;
   scopes: UnionConcat<SignerScope, ','>;
   allowedContracts?: string[];
   allowedGroups?: string[];
   rules?: WitnessRule[];
-}
+};
 
-export interface HighPriorityAttribute {
+export type HighPriorityAttribute = {
   type: 'HighPriority';
-}
+};
 
 export type OracleResponseCode =
   | 'Success'
@@ -132,16 +133,16 @@ export type OracleResponseCode =
   | 'ContentTypeNotSupported'
   | 'Error';
 
-export interface OracleResponseAttribute {
+export type OracleResponseAttribute = {
   type: 'OracleResponse';
   id: number;
   code: OracleResponseCode;
   result: string;
-}
+};
 
 export type Attribute = HighPriorityAttribute | OracleResponseAttribute;
 
-export interface Transaction {
+export type Transaction = {
   hash: string;
   size: number;
   version: number;
@@ -157,9 +158,9 @@ export interface Transaction {
   blockHash: string;
   confirmations: number;
   blockTime: number;
-}
+};
 
-export interface Block {
+export type Block = {
   hash: string;
   size: number;
   version: number;
@@ -173,7 +174,7 @@ export interface Block {
   tx: Transaction[];
   confirmations: number;
   nextBlockHash: string;
-}
+};
 
 export type ArgumentType =
   | 'Any'
@@ -190,38 +191,38 @@ export type ArgumentType =
   | 'InteropInterface'
   | 'Void';
 
-export interface Argument {
+export type Argument = {
   type: ArgumentType;
-  value: unknown;
-}
+  value: Json;
+};
 
-export interface Notification {
+export type Notification = {
   contract: string;
   eventName: string;
   state: Argument;
-}
+};
 
-export interface Execution {
+export type Execution = {
   trigger: string;
   vmState: string;
   exception: string | null;
   gasConsumed: string;
   stack: Argument[];
   notifications: Notification[];
-}
+};
 
-export interface ApplicationLog {
+export type ApplicationLog = {
   txid: string;
   executions: Execution[];
-}
+};
 
-export interface Nep17Balance {
+export type Nep17Balance = {
   assetHash: string;
   amount: string;
-}
+};
 
-export interface Invocation {
+export type Invocation = {
   scriptHash: string;
   operation: string;
   args?: Argument[];
-}
+};

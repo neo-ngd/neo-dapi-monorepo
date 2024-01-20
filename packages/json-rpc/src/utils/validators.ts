@@ -1,25 +1,38 @@
-import { JsonRpcError, Notification, Payload, Request, Response, Result } from './types';
+import {
+  ErrorResponse,
+  Json,
+  Notification,
+  Params,
+  Payload,
+  Request,
+  Response,
+  ResultResponse,
+} from './types';
 
-export function isJsonRpcPayload(payload: unknown): payload is Payload {
+export function isPayload(payload: unknown): payload is Payload {
   return payload instanceof Object && 'jsonrpc' in payload && payload.jsonrpc === '2.0';
 }
 
-export function isJsonRpcRequest<T = unknown>(payload: Payload): payload is Request<T> {
+export function isRequest<P extends Params = Params>(payload: Payload): payload is Request<P> {
   return 'id' in payload && 'method' in payload;
 }
 
-export function isJsonRpcResult<T = unknown>(payload: Payload): payload is Result<T> {
+export function isResultResponse<R extends Json = Json>(
+  payload: Payload,
+): payload is ResultResponse<R> {
   return 'result' in payload;
 }
 
-export function isJsonRpcError(payload: Payload): payload is JsonRpcError {
+export function isErrorResponse(payload: Payload): payload is ErrorResponse {
   return 'error' in payload;
 }
 
-export function isJsonRpcResponse<T = unknown>(payload: Payload): payload is Response<T> {
-  return isJsonRpcResult(payload) || isJsonRpcError(payload);
+export function isResponse<R extends Json = Json>(payload: Payload): payload is Response<R> {
+  return isResultResponse(payload) || isErrorResponse(payload);
 }
 
-export function isJsonRpcNotification<T = unknown>(payload: Payload): payload is Notification<T> {
+export function isNotification<P extends Params = Params>(
+  payload: Payload,
+): payload is Notification<P> {
   return !('id' in payload) && 'method' in payload;
 }

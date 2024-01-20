@@ -2,12 +2,12 @@ import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from '../utils/json';
 import { Logger, Payload } from '../utils/types';
 import { isWebSocketUrl } from '../utils/url';
-import { isJsonRpcPayload } from '../utils/validators';
+import { isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export interface WebSocketConnectionOptions {
+export type WebSocketConnectionOptions = {
   logger?: Logger;
-}
+};
 
 export class WebSocketConnection extends AbstractConnection {
   private socket: WebSocket | null = null;
@@ -102,7 +102,7 @@ export class WebSocketConnection extends AbstractConnection {
     if (this.options.logger) {
       this.options.logger.info(`received: ${data}`);
     }
-    if (isJsonRpcPayload(payload)) {
+    if (isPayload(payload)) {
       this.events.emit('payload', payload);
     }
   }

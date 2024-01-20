@@ -1,10 +1,18 @@
 import {
-  getStandardErrorResponse,
+  getStandardErrorJson,
   isStandardErrorCode,
   isValidErrorCode,
   StandardErrorCodes,
 } from './errors';
-import { ErrorResponse, JsonRpcError, Notification, Request, Result } from './types';
+import {
+  ErrorJson,
+  ErrorResponse,
+  Json,
+  Notification,
+  Params,
+  Request,
+  ResultResponse,
+} from './types';
 
 let lastPayloadId = 0;
 
@@ -12,11 +20,11 @@ export function payloadId(): number {
   return ++lastPayloadId;
 }
 
-export function formatJsonRpcRequest<T = unknown>(
+export function formatRequest<P extends Params = Params>(
   method: string,
-  params?: T,
+  params: P,
   id?: number,
-): Request<T> {
+): Request<P> {
   return {
     id: id ?? payloadId(),
     jsonrpc: '2.0',
@@ -25,10 +33,10 @@ export function formatJsonRpcRequest<T = unknown>(
   };
 }
 
-export function formatJsonRpcNotification<T = unknown>(
+export function formatNotification<P extends Params = Params>(
   method: string,
-  params?: T,
-): Notification<T> {
+  params: P,
+): Notification<P> {
   return {
     jsonrpc: '2.0',
     method,
@@ -36,7 +44,10 @@ export function formatJsonRpcNotification<T = unknown>(
   };
 }
 
-export function formatJsonRpcResult<T = unknown>(id: number, result: T): Result<T> {
+export function formatResultResponse<R extends Json = Json>(
+  id: number,
+  result: R,
+): ResultResponse<R> {
   return {
     id,
     jsonrpc: '2.0',
@@ -44,7 +55,7 @@ export function formatJsonRpcResult<T = unknown>(id: number, result: T): Result<
   };
 }
 
-export function formatJsonRpcError(id: number, error: ErrorResponse): JsonRpcError {
+export function formatErrorResponse(id: number, error: ErrorJson): ErrorResponse {
   return {
     id,
     jsonrpc: '2.0',
@@ -52,10 +63,10 @@ export function formatJsonRpcError(id: number, error: ErrorResponse): JsonRpcErr
   };
 }
 
-export function formatErrorResponse(error: string | Error | ErrorResponse): ErrorResponse {
+export function formatErrorJson(error: unknown): ErrorJson {
   let code: number = StandardErrorCodes.InternalError;
-  let message: string = getStandardErrorResponse(StandardErrorCodes.InternalError).message;
-  let data: unknown;
+  let message: string = getStandardErrorJson(StandardErrorCodes.InternalError).message;
+  let data: Json | undefined;
 
   if (error == null) {
     // noop
@@ -66,10 +77,15 @@ export function formatErrorResponse(error: string | Error | ErrorResponse): Erro
     message = error.message;
     data = (error as any).data;
   } else {
-    code = isValidErrorCode(error.code) ? error.code : code;
+    code = isValidErrorCode((error as any).code) ? (error as any).code : code;
     message =
-      error.message ?? isStandardErrorCode(code) ? getStandardErrorResponse(code).message : message;
-    data = error.data;
+      (error as any).message != null
+        ? (error as any).message
+        : isStandardErrorCode(code)
+        ? getStandardErrorJson(code).message
+        : message;
+
+    data = (error as any).data;
   }
   return { code, message, data };
 }

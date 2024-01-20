@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "2.0.0-alpha.16",
+  "version": "2.0.0-alpha.17",
   "description": "Neo Dapi types and toolings",
   "keywords": [
     "neo",
@@ -34,7 +34,7 @@
     "build:umd": "webpack",
     "lint": "eslint . --max-warnings 0",
     "test": "jest",
-    "generate-version": "node -p \"'export const LIB_VERSION = \\'' + require('./package.json').version + '\\';'\" > src/version.ts"
+    "generate-version": "node -p \"'export const VERSION = \\'' + require('./package.json').version + '\\';'\" > src/version.ts"
   },
   "dependencies": {
     "@cityofzion/neon-core": "^5.5.1",

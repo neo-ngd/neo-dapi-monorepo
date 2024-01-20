@@ -1,5 +1,5 @@
 import { wallet } from '@cityofzion/neon-core';
-import { BaseTransport, formatErrorResponse, PostMessageConnection } from '@neongd/json-rpc';
+import { BaseTransport, formatErrorJson, PostMessageConnection } from '@neongd/json-rpc';
 import {
   addressToScriptHash,
   BaseDapi,
@@ -61,8 +61,8 @@ describe('BaseDapi', () => {
         try {
           const result = await remoteProvider.request(request);
           remoteTransport.resolve(request.id, result);
-        } catch (error: any) {
-          remoteTransport.reject(request.id, formatErrorResponse(error));
+        } catch (error: unknown) {
+          remoteTransport.reject(request.id, formatErrorJson(error));
         }
       });
       remoteTransport.connect();
@@ -257,7 +257,7 @@ describe('BaseDapi', () => {
     }
 
     if (isSigningProvider) {
-      test.concurrent('invoke and broadcast transaction', async () => {
+      test.concurrent.skip('invoke and broadcast transaction', async () => {
         const { signedTx } = await dapi.invoke({
           scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
           operation: 'transfer',

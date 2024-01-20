@@ -1,4 +1,4 @@
-import { ErrorResponse } from './types';
+import { ErrorJson, Json } from './types';
 
 export enum StandardErrorCodes {
   ParseError = -32700,
@@ -26,11 +26,11 @@ export function isStandardErrorCode(code: number): code is StandardErrorCodes {
   return Object.values(StandardErrorCodes).includes(code);
 }
 
-export function getStandardErrorResponse(
+export function getStandardErrorJson(
   code: StandardErrorCodes,
   message?: string,
-  data?: unknown,
-): ErrorResponse {
+  data?: Json,
+): ErrorJson {
   return {
     code,
     message: message ?? DEFAULT_ERROR_MESSAGE_MAP[code],
@@ -38,13 +38,13 @@ export function getStandardErrorResponse(
   };
 }
 
-export class RpcError extends Error implements ErrorResponse {
+export class JsonRpcError extends Error implements ErrorJson {
   code: number;
-  data?: unknown;
+  data?: Json;
 
-  constructor(error: ErrorResponse) {
-    super(error.message);
-    this.code = error.code;
-    this.data = error.data;
+  constructor(errorJson: ErrorJson) {
+    super(errorJson.message);
+    this.code = errorJson.code;
+    this.data = errorJson.data;
   }
 }

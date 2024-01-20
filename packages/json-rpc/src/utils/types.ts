@@ -12,46 +12,58 @@ export interface EventDispatcher<Events extends EventEmitter.ValidEventTypes> {
   ): void;
 }
 
+export type Json =
+  | null
+  | boolean
+  | number
+  | string
+  | Json[]
+  | {
+      [prop: string]: Json;
+    };
+
+export type Params = Json[] | Record<string, Json> | undefined;
+
+export type RequestArguments<P extends Params = Params> = undefined extends P
+  ? { method: string; params?: P }
+  : { method: string; params: P };
+
+export type Request<P extends Params = Params> = RequestArguments<P> & {
+  id: number;
+  jsonrpc: string;
+};
+
+export type ResultResponse<R extends Json = Json> = {
+  id: number;
+  jsonrpc: string;
+  result: R;
+};
+
+export type ErrorJson = {
+  code: number;
+  message: string;
+  data?: Json;
+};
+
+export type ErrorResponse = {
+  id: number;
+  jsonrpc: string;
+  error: ErrorJson;
+};
+
+export type Response<R extends Json = Json> = ResultResponse<R> | ErrorResponse;
+
+export type Notification<T extends Params = Params> = RequestArguments<T> & {
+  jsonrpc: string;
+};
+
+export type Payload<
+  RP extends Params = Params,
+  NP extends Params = Params,
+  R extends Json = Json,
+> = Request<RP> | Response<R> | Notification<NP>;
+
 export interface Logger {
   info(message: string): void;
   error(message: string, error: unknown): void;
 }
-
-export interface RequestArguments<T = unknown> {
-  method: string;
-  params?: T;
-}
-
-export interface Request<T = unknown> extends RequestArguments<T> {
-  id: number;
-  jsonrpc: string;
-}
-
-export interface Result<T = unknown> {
-  id: number;
-  jsonrpc: string;
-  result: T;
-}
-
-export interface ErrorResponse {
-  code: number;
-  message: string;
-  data?: unknown;
-}
-
-export interface JsonRpcError {
-  id: number;
-  jsonrpc: string;
-  error: ErrorResponse;
-}
-
-export type Response<T = unknown> = Result<T> | JsonRpcError;
-
-export interface Notification<T = unknown> extends RequestArguments<T> {
-  jsonrpc: string;
-}
-
-export type Payload<RP = unknown, NP = unknown, R = unknown> =
-  | Request<RP>
-  | Response<R>
-  | Notification<NP>;
