@@ -1,314 +1,200 @@
-import { UnionConcat } from '../utils/typeUtils';
+import {
+  Account,
+  ApplicationLog,
+  Argument,
+  Attribute,
+  Block,
+  Invocation,
+  Nep17Balance,
+  Networks,
+  ProviderInformation,
+  Signer,
+  Transaction,
+} from '../utils/types';
 
-export interface ProviderInformation {
-  name: string;
-  website: string;
-  version: string;
-  dapiVersion: string;
-  compatibility: string[];
-  extra: Record<string, unknown>;
+export type GetProviderResult = ProviderInformation;
+
+export type GetNetworksResult = Networks;
+
+export type GetAccountResult = Account;
+
+export interface GetBlockCountParams {
+  network?: string;
 }
 
-export interface Networks {
-  networks: string[];
-  defaultNetwork: string;
+export type GetBlockCountResult = number;
+
+export interface GetBlockParams {
+  blockIndex: number;
+  network?: string;
 }
 
-export interface Account {
-  address: string;
-  publicKey: string;
-  label?: string;
-}
+export type GetBlockResult = Block;
 
-export interface Witness {
-  invocation: string;
-  verification: string;
-}
-
-export type SignerScope =
-  | 'None'
-  | 'CalledByEntry'
-  | 'CustomContracts'
-  | 'CustomGroups'
-  | 'Global'
-  | 'WitnessRules';
-
-export type WitnessRuleAction = 'Deny' | 'Allow';
-
-export interface BooleanWitnessCondition {
-  type: 'Boolean';
-  expression: boolean;
-}
-
-export interface NotWitnessCondition {
-  type: 'Not';
-  expression: WitnessCondition;
-}
-
-export interface AndWitnessCondition {
-  type: 'And';
-  expressions: WitnessCondition[];
-}
-
-export interface OrWitnessCondition {
-  type: 'Or';
-  expressions: WitnessCondition[];
-}
-
-export interface ScriptHashWitnessCondition {
-  type: 'ScriptHash';
-  hash: string;
-}
-
-export interface GroupWitnessCondition {
-  type: 'Group';
-  group: string;
-}
-
-export interface CalledByEntryWitnessCondition {
-  type: 'CalledByEntry';
-}
-
-export interface CalledByContractWitnessCondition {
-  type: 'CalledByContract';
-  hash: string;
-}
-
-export interface CalledByGroupWitnessCondition {
-  type: 'CalledByGroup';
-  group: string;
-}
-
-export type WitnessCondition =
-  | BooleanWitnessCondition
-  | AndWitnessCondition
-  | NotWitnessCondition
-  | OrWitnessCondition
-  | ScriptHashWitnessCondition
-  | GroupWitnessCondition
-  | CalledByEntryWitnessCondition
-  | CalledByContractWitnessCondition
-  | CalledByGroupWitnessCondition;
-
-export interface WitnessRule {
-  action: WitnessRuleAction;
-  condition: WitnessCondition;
-}
-
-export interface Signer {
-  account: string;
-  scopes: UnionConcat<SignerScope, ','>;
-  allowedContracts?: string[];
-  allowedGroups?: string[];
-  rules?: WitnessRule[];
-}
-
-export interface HighPriorityAttribute {
-  type: 'HighPriority';
-}
-
-export type OracleResponseCode =
-  | 'Success'
-  | 'ProtocolNotSupported'
-  | 'ConsensusUnreachable'
-  | 'NotFound'
-  | 'Timeout'
-  | 'Forbidden'
-  | 'ResponseTooLarge'
-  | 'InsufficientFunds'
-  | 'ContentTypeNotSupported'
-  | 'Error';
-
-export interface OracleResponseAttribute {
-  type: 'OracleResponse';
-  id: number;
-  code: OracleResponseCode;
-  result: string;
-}
-
-export type Attribute = HighPriorityAttribute | OracleResponseAttribute;
-
-export interface Transaction {
-  hash: string;
-  size: number;
-  version: number;
-  nonce: number;
-  sender: string;
-  systemFee: string;
-  networkFee: string;
-  validUntilBlock: number;
-  signers: Signer[];
-  attributes: Attribute[];
-  script: string;
-  witnesses: Witness[];
-  blockHash: string;
-  confirmations: number;
-  blockTime: number;
-}
-
-export interface Block {
-  hash: string;
-  size: number;
-  version: number;
-  previousBlockHash: string;
-  merkleRoot: string;
-  time: number;
-  index: number;
-  primary: number;
-  nextConsensus: string;
-  witnesses: Witness[];
-  tx: Transaction[];
-  confirmations: number;
-  nextBlockHash: string;
-}
-
-export type ArgumentType =
-  | 'Any'
-  | 'Boolean'
-  | 'Integer'
-  | 'ByteArray'
-  | 'String'
-  | 'Hash160'
-  | 'Hash256'
-  | 'PublicKey'
-  | 'Signature'
-  | 'Array'
-  | 'Map'
-  | 'InteropInterface'
-  | 'Void';
-
-export interface Argument {
-  type: ArgumentType;
-  value: unknown;
-}
-
-export interface Notification {
-  contract: string;
-  eventName: string;
-  state: Argument;
-}
-
-export interface Execution {
-  trigger: string;
-  vmState: string;
-  exception: string | null;
-  gasConsumed: string;
-  stack: Argument[];
-  notifications: Notification[];
-}
-
-export interface ApplicationLog {
+export interface GetTransactionParams {
   txid: string;
-  executions: Execution[];
+  network?: string;
 }
 
-export interface Nep17Balance {
-  assetHash: string;
-  amount: string;
+export type GetTransactionResult = Transaction;
+
+export interface GetApplicationLogParams {
+  txid: string;
+  network?: string;
 }
 
-export interface Invocation {
+export type GetApplicationLogResult = ApplicationLog;
+
+export interface GetNep17BalancesParams {
+  address: string;
+  network?: string;
+}
+
+export type GetNep17BalancesResult = Nep17Balance[];
+
+export interface InvokeReadParams {
   scriptHash: string;
   operation: string;
   args?: Argument[];
+  signers?: Signer[];
+  network?: string;
+}
+
+export interface InvokeReadResult {
+  script: string;
+  state: string;
+  exception: string | null;
+  gasConsumed: string;
+  stack: Argument[];
+}
+
+export interface InvokeReadMultiParams {
+  invocations: Invocation[];
+  signers?: Signer[];
+  network?: string;
+}
+
+export interface InvokeReadMultiResult {
+  script: string;
+  state: string;
+  exception: string | null;
+  gasConsumed: string;
+  stack: Argument[];
+}
+
+export interface InvokeParams {
+  scriptHash: string;
+  operation: string;
+  args?: Argument[];
+  attributes?: Attribute[];
+  signers?: Signer[];
+  network?: string;
+  extraSystemFee?: string;
+  extraNetworkFee?: string;
+  broadcastOverride?: boolean;
+}
+
+export interface InvokeResult {
+  txid: string;
+  nodeUrl?: string;
+  signedTx?: string;
+}
+
+export interface InvokeMultiParams {
+  invocations: Invocation[];
+  attributes?: Attribute[];
+  signers?: Signer[];
+  network?: string;
+  extraSystemFee?: string;
+  extraNetworkFee?: string;
+  broadcastOverride?: boolean;
+}
+
+export interface InvokeMultiResult {
+  txid: string;
+  nodeUrl?: string;
+  signedTx?: string;
+}
+
+export interface SignMessageParams {
+  message: string;
+}
+
+export interface SignMessageResult {
+  salt: string;
+  signature: string;
+  publicKey: string;
+}
+
+export interface SignMessageWithoutSaltParams {
+  message: string;
+}
+
+export interface SignMessageWithoutSaltResult {
+  signature: string;
+  publicKey: string;
+}
+
+export interface SignTransactionParams {
+  version: number;
+  nonce: number;
+  systemFee: string;
+  networkFee: string;
+  validUntilBlock: number;
+  script: string;
+  invocations?: Invocation[];
+  attributes?: Attribute[];
+  signers?: Signer[];
+  network?: string;
+}
+
+export interface SignTransactionResult {
+  signature: string;
+  publicKey: string;
+}
+
+export interface BroadcastTransactionParams {
+  signedTx: string;
+  network?: string;
+}
+
+export interface BroadcastTransactionResult {
+  txid: string;
+  nodeUrl: string;
 }
 
 export interface Dapi {
-  getProvider(): Promise<ProviderInformation>;
+  getProvider(): Promise<GetProviderResult>;
 
-  getNetworks(): Promise<Networks>;
+  getNetworks(): Promise<GetNetworksResult>;
 
-  getAccount(): Promise<Account>;
+  getAccount(): Promise<GetAccountResult>;
 
-  getBlockCount(params: { network?: string }): Promise<number>;
+  getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult>;
 
-  getBlock(params: { blockIndex: number; network?: string }): Promise<Block>;
+  getBlock(params: GetBlockParams): Promise<GetBlockResult>;
 
-  getTransaction(params: { txid: string; network?: string }): Promise<Transaction>;
+  getTransaction(params: GetTransactionParams): Promise<GetTransactionResult>;
 
-  getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog>;
+  getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult>;
 
-  getNep17Balances(params: { address: string; network?: string }): Promise<Nep17Balance[]>;
+  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult>;
 
-  invokeRead(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }>;
+  invokeRead(params: InvokeReadParams): Promise<InvokeReadResult>;
 
-  invokeReadMulti(params: {
-    invocations: Invocation[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }>;
+  invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult>;
 
-  invoke(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }>;
+  invoke(params: InvokeParams): Promise<InvokeResult>;
 
-  invokeMulti(params: {
-    invocations: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }>;
+  invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult>;
 
-  signMessage(params: {
-    message: string;
-  }): Promise<{ salt: string; signature: string; publicKey: string }>;
+  signMessage(params: SignMessageParams): Promise<SignMessageResult>;
 
-  signMessageWithoutSalt(params: {
-    message: string;
-  }): Promise<{ signature: string; publicKey: string }>;
+  signMessageWithoutSalt(
+    params: SignMessageWithoutSaltParams,
+  ): Promise<SignMessageWithoutSaltResult>;
 
-  signTransaction(params: {
-    version: number;
-    nonce: number;
-    systemFee: string;
-    networkFee: string;
-    validUntilBlock: number;
-    script: string;
-    invocations?: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{ signature: string; publicKey: string }>;
+  signTransaction(params: SignTransactionParams): Promise<SignTransactionResult>;
 
-  broadcastTransaction(params: { signedTx: string; network?: string }): Promise<{
-    txid: string;
-    nodeUrl: string;
-  }>;
+  broadcastTransaction(params: BroadcastTransactionParams): Promise<BroadcastTransactionResult>;
 }

@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 import { sc, wallet } from '@cityofzion/neon-core';
-import { ApplicationLog, Block, Invocation, Signer, Transaction } from '../dapis/Dapi';
+import { ApplicationLog, Block, Invocation, Signer, Transaction } from './types';
 
 export function stringToHex(string: string): string {
   return Buffer.from(string).toString('hex');

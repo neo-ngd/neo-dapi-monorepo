@@ -2,12 +2,18 @@ import { CONST, tx, u, wallet } from '@cityofzion/neon-core';
 import { getStandardErrorResponse, RpcError, StandardErrorCodes } from '@neongd/json-rpc';
 import BigNumber from 'bignumber.js';
 import {
-  Account,
-  Argument,
-  Attribute,
-  Invocation,
-  ProviderInformation,
-  Signer,
+  GetAccountResult,
+  GetProviderResult,
+  InvokeMultiParams,
+  InvokeMultiResult,
+  InvokeParams,
+  InvokeResult,
+  SignMessageParams,
+  SignMessageResult,
+  SignMessageWithoutSaltParams,
+  SignMessageWithoutSaltResult,
+  SignTransactionParams,
+  SignTransactionResult,
 } from '../dapis/Dapi';
 import {
   addressToScriptHash,
@@ -16,6 +22,7 @@ import {
   signerToSignerJson,
   stringToHex,
 } from '../utils/convertors';
+import { Attribute, Invocation, Signer } from '../utils/types';
 import { NetworkConfig, NetworkProvider, NetworkProviderOptions } from './NetworkProvider';
 import { RequestArguments } from './Provider';
 
@@ -64,14 +71,14 @@ export class SigningNetworkProvider extends NetworkProvider {
     this.events.emit('accountChanged', this.account.address);
   }
 
-  protected async handleGetProvider(): Promise<ProviderInformation> {
+  protected async handleGetProvider(): Promise<GetProviderResult> {
     return {
       ...(await super.handleGetProvider()),
       name: 'SigningNetworkProvider',
     };
   }
 
-  protected async handleGetAccount(): Promise<Account> {
+  protected async handleGetAccount(): Promise<GetAccountResult> {
     return {
       address: this.account.address,
       publicKey: this.account.privateKey,
@@ -79,21 +86,7 @@ export class SigningNetworkProvider extends NetworkProvider {
     };
   }
 
-  protected async handleInvoke(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }> {
+  protected async handleInvoke(params: InvokeParams): Promise<InvokeResult> {
     const populateResult = await this.populateTransaction({
       invocations: [
         { scriptHash: params.scriptHash, operation: params.operation, args: params.args },
@@ -117,19 +110,7 @@ export class SigningNetworkProvider extends NetworkProvider {
     }
   }
 
-  protected async handleInvokeMulti(params: {
-    invocations: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }> {
+  protected async handleInvokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult> {
     const populateResult = await this.populateTransaction({
       invocations: params.invocations,
       attributes: params.attributes,
@@ -151,9 +132,7 @@ export class SigningNetworkProvider extends NetworkProvider {
     }
   }
 
-  protected async handleSignMessage(params: {
-    message: string;
-  }): Promise<{ salt: string; signature: string; publicKey: string }> {
+  protected async handleSignMessage(params: SignMessageParams): Promise<SignMessageResult> {
     const salt = u.ab2hexstring(u.generateRandomArray(16));
     const publicKey = this.account.publicKey;
     const parameterHexString = stringToHex(salt + params.message);
@@ -164,9 +143,9 @@ export class SigningNetworkProvider extends NetworkProvider {
     return { salt, signature, publicKey };
   }
 
-  protected async handleSignMessageWithoutSalt(params: {
-    message: string;
-  }): Promise<{ signature: string; publicKey: string }> {
+  protected async handleSignMessageWithoutSalt(
+    params: SignMessageWithoutSaltParams,
+  ): Promise<SignMessageWithoutSaltResult> {
     const publicKey = this.account.publicKey;
     const parameterHexString = stringToHex(params.message);
     const lengthHex = u.num2VarInt(parameterHexString.length / 2);
@@ -176,18 +155,9 @@ export class SigningNetworkProvider extends NetworkProvider {
     return { signature, publicKey };
   }
 
-  protected async handleSignTransaction(params: {
-    version: number;
-    nonce: number;
-    systemFee: string;
-    networkFee: string;
-    validUntilBlock: number;
-    script: string;
-    invocations?: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{ signature: string; publicKey: string }> {
+  protected async handleSignTransaction(
+    params: SignTransactionParams,
+  ): Promise<SignTransactionResult> {
     const populateResult = await this.populateTransaction(params);
 
     const { signature, publicKey } = await this.signTransaction(populateResult);

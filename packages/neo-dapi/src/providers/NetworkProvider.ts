@@ -8,15 +8,24 @@ import {
   Transport,
 } from '@neongd/json-rpc';
 import {
-  ApplicationLog,
-  Argument,
-  Block,
-  Invocation,
-  Nep17Balance,
-  Networks,
-  ProviderInformation,
-  Signer,
-  Transaction,
+  BroadcastTransactionParams,
+  BroadcastTransactionResult,
+  GetApplicationLogParams,
+  GetApplicationLogResult,
+  GetBlockCountParams,
+  GetBlockCountResult,
+  GetBlockParams,
+  GetBlockResult,
+  GetNep17BalancesParams,
+  GetNep17BalancesResult,
+  GetNetworksResult,
+  GetProviderResult,
+  GetTransactionParams,
+  GetTransactionResult,
+  InvokeReadMultiParams,
+  InvokeReadMultiResult,
+  InvokeReadParams,
+  InvokeReadResult,
 } from '../dapis/Dapi';
 import {
   applicationLogJsonToApplicationLog,
@@ -118,7 +127,7 @@ export class NetworkProvider extends AbstractProvider {
     return transport;
   }
 
-  protected async handleGetProvider(): Promise<ProviderInformation> {
+  protected async handleGetProvider(): Promise<GetProviderResult> {
     return {
       name: 'NetworkProvider',
       website: 'https://github.com/neo-ngd/neo-dapi-monorepo',
@@ -129,19 +138,19 @@ export class NetworkProvider extends AbstractProvider {
     };
   }
 
-  protected async handleGetNetworks(): Promise<Networks> {
+  protected async handleGetNetworks(): Promise<GetNetworksResult> {
     return {
       networks: this.networkConfigs.map(config => config.name),
       defaultNetwork: this.defaultNetworkName,
     };
   }
 
-  protected async handleGetBlockCount(params: { network?: string }): Promise<number> {
+  protected async handleGetBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult> {
     const transport = this.getTransport(params.network);
     return transport.request<number>({ method: 'getblockcount' }).catch(this.convertRemoteRpcError);
   }
 
-  protected async handleGetBlock(params: { blockIndex: number; network?: string }): Promise<Block> {
+  protected async handleGetBlock(params: GetBlockParams): Promise<GetBlockResult> {
     const transport = this.getTransport(params.network);
     const result = await transport
       .request<any>({
@@ -152,10 +161,9 @@ export class NetworkProvider extends AbstractProvider {
     return blockJsonToBlock(result);
   }
 
-  protected async handleGetTransaction(params: {
-    txid: string;
-    network?: string;
-  }): Promise<Transaction> {
+  protected async handleGetTransaction(
+    params: GetTransactionParams,
+  ): Promise<GetTransactionResult> {
     const transport = this.getTransport(params.network);
     const result = await transport
       .request({
@@ -166,10 +174,9 @@ export class NetworkProvider extends AbstractProvider {
     return transactionJsonToTransaction(result);
   }
 
-  protected async handleGetApplicationLog(params: {
-    txid: string;
-    network?: string;
-  }): Promise<ApplicationLog> {
+  protected async handleGetApplicationLog(
+    params: GetApplicationLogParams,
+  ): Promise<GetApplicationLogResult> {
     const transport = this.getTransport(params.network);
     const result = await transport
       .request<any>({
@@ -180,10 +187,9 @@ export class NetworkProvider extends AbstractProvider {
     return applicationLogJsonToApplicationLog(result);
   }
 
-  protected async handleGetNep17Balances(params: {
-    address: string;
-    network?: string;
-  }): Promise<Nep17Balance[]> {
+  protected async handleGetNep17Balances(
+    params: GetNep17BalancesParams,
+  ): Promise<GetNep17BalancesResult> {
     const transport = this.getTransport(params.network);
     const result = await transport
       .request<any>({
@@ -197,19 +203,7 @@ export class NetworkProvider extends AbstractProvider {
     }));
   }
 
-  protected async handleInvokeRead(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }> {
+  protected async handleInvokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
     const transport = this.getTransport(params.network);
     const result = await transport
       .request<any>({
@@ -231,17 +225,9 @@ export class NetworkProvider extends AbstractProvider {
     };
   }
 
-  protected async handleInvokeReadMulti(params: {
-    invocations: Invocation[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }> {
+  protected async handleInvokeReadMulti(
+    params: InvokeReadMultiParams,
+  ): Promise<InvokeReadMultiResult> {
     const script = invocationsToScript(params.invocations);
     const transport = this.getTransport(params.network);
     const result = await transport
@@ -259,13 +245,9 @@ export class NetworkProvider extends AbstractProvider {
     };
   }
 
-  protected async handleBroadcastTransaction(params: {
-    signedTx: string;
-    network?: string;
-  }): Promise<{
-    txid: string;
-    nodeUrl: string;
-  }> {
+  protected async handleBroadcastTransaction(
+    params: BroadcastTransactionParams,
+  ): Promise<BroadcastTransactionResult> {
     const networkConfig = this.getNetworkConfig(params.network);
     const transport = this.getTransport(params.network);
     const result = await transport

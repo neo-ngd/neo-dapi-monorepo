@@ -1,149 +1,103 @@
 import { Provider } from '../providers/Provider';
 import {
-  Account,
-  ApplicationLog,
-  Argument,
-  Attribute,
-  Block,
+  BroadcastTransactionParams,
+  BroadcastTransactionResult,
   Dapi,
-  Invocation,
-  Nep17Balance,
-  Networks,
-  ProviderInformation,
-  Signer,
-  Transaction,
+  GetAccountResult,
+  GetApplicationLogParams,
+  GetApplicationLogResult,
+  GetBlockCountParams,
+  GetBlockCountResult,
+  GetBlockParams,
+  GetBlockResult,
+  GetNep17BalancesParams,
+  GetNep17BalancesResult,
+  GetNetworksResult,
+  GetProviderResult,
+  GetTransactionParams,
+  GetTransactionResult,
+  InvokeMultiParams,
+  InvokeMultiResult,
+  InvokeParams,
+  InvokeReadMultiParams,
+  InvokeReadMultiResult,
+  InvokeReadParams,
+  InvokeReadResult,
+  InvokeResult,
+  SignMessageParams,
+  SignMessageResult,
+  SignMessageWithoutSaltParams,
+  SignMessageWithoutSaltResult,
+  SignTransactionParams,
+  SignTransactionResult,
 } from './Dapi';
 
 export class BaseDapi implements Dapi {
   constructor(protected provider: Provider, protected networkProvier = provider) {}
 
-  getProvider(): Promise<ProviderInformation> {
+  getProvider(): Promise<GetProviderResult> {
     return this.provider.request({ method: 'getProvider' });
   }
 
-  getNetworks(): Promise<Networks> {
+  getNetworks(): Promise<GetNetworksResult> {
     return this.provider.request({ method: 'getNetworks' });
   }
 
-  getAccount(): Promise<Account> {
+  getAccount(): Promise<GetAccountResult> {
     return this.provider.request({ method: 'getAccount' });
   }
 
-  getBlockCount(params: { network?: string }): Promise<number> {
+  getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult> {
     return this.networkProvier.request({ method: 'getBlockCount', params });
   }
 
-  getBlock(params: { blockIndex: number; network?: string }): Promise<Block> {
+  getBlock(params: GetBlockParams): Promise<GetBlockResult> {
     return this.networkProvier.request({ method: 'getBlock', params });
   }
 
-  getTransaction(params: { txid: string; network?: string }): Promise<Transaction> {
+  getTransaction(params: GetTransactionParams): Promise<GetTransactionResult> {
     return this.networkProvier.request({ method: 'getTransaction', params });
   }
 
-  getApplicationLog(params: { txid: string; network?: string }): Promise<ApplicationLog> {
+  getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult> {
     return this.networkProvier.request({ method: 'getApplicationLog', params });
   }
 
-  getNep17Balances(params: { address: string; network?: string }): Promise<Nep17Balance[]> {
+  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult> {
     return this.networkProvier.request({ method: 'getNep17Balances', params });
   }
 
-  invokeRead(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }> {
+  invokeRead(params: InvokeReadParams): Promise<InvokeReadResult> {
     return this.networkProvier.request({ method: 'invokeRead', params });
   }
 
-  invokeReadMulti(params: {
-    invocations: Invocation[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{
-    script: string;
-    state: string;
-    exception: string | null;
-    gasConsumed: string;
-    stack: Argument[];
-  }> {
+  invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult> {
     return this.networkProvier.request({ method: 'invokeReadMulti', params });
   }
 
-  invoke(params: {
-    scriptHash: string;
-    operation: string;
-    args?: Argument[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }> {
+  invoke(params: InvokeParams): Promise<InvokeResult> {
     return this.provider.request({ method: 'invoke', params });
   }
 
-  invokeMulti(params: {
-    invocations: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-    extraSystemFee?: string;
-    extraNetworkFee?: string;
-    broadcastOverride?: boolean;
-  }): Promise<{
-    txid: string;
-    nodeUrl?: string;
-    signedTx?: string;
-  }> {
+  invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult> {
     return this.provider.request({ method: 'invokeMulti', params });
   }
 
-  signMessage(params: {
-    message: string;
-  }): Promise<{ salt: string; signature: string; publicKey: string }> {
+  signMessage(params: SignMessageParams): Promise<SignMessageResult> {
     return this.provider.request({ method: 'signMessage', params });
   }
 
-  signMessageWithoutSalt(params: {
-    message: string;
-  }): Promise<{ signature: string; publicKey: string }> {
+  signMessageWithoutSalt(
+    params: SignMessageWithoutSaltParams,
+  ): Promise<SignMessageWithoutSaltResult> {
     return this.provider.request({ method: 'signMessageWithoutSalt', params });
   }
 
-  signTransaction(params: {
-    version: number;
-    nonce: number;
-    systemFee: string;
-    networkFee: string;
-    validUntilBlock: number;
-    script: string;
-    invocations?: Invocation[];
-    attributes?: Attribute[];
-    signers?: Signer[];
-    network?: string;
-  }): Promise<{ signature: string; publicKey: string }> {
+  signTransaction(params: SignTransactionParams): Promise<SignTransactionResult> {
     return this.provider.request({ method: 'signTransaction', params });
   }
 
-  broadcastTransaction(params: { signedTx: string; network?: string }): Promise<{
-    txid: string;
-    nodeUrl: string;
-  }> {
+  broadcastTransaction(params: BroadcastTransactionParams): Promise<BroadcastTransactionResult> {
     return this.networkProvier.request({ method: 'broadcastTransaction', params });
   }
 }
