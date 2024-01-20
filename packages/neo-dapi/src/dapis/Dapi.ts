@@ -13,77 +13,77 @@ import {
   Transaction,
 } from '../utils/types';
 
-export type GetProviderResult = ProviderInformation;
+export type GetProviderResult = Expand<ProviderInformation>;
 
-export type GetNetworksResult = Networks;
+export type GetNetworksResult = Expand<Networks>;
 
-export type GetAccountResult = Account;
+export type GetAccountResult = Expand<Account>;
 
-export interface GetBlockCountParams {
+export type GetBlockCountParams = Expand<{
   network?: string;
-}
+}>;
 
 export type GetBlockCountResult = number;
 
-export interface GetBlockParams {
+export type GetBlockParams = Expand<{
   blockIndex: number;
   network?: string;
-}
+}>;
 
-export type GetBlockResult = Block;
+export type GetBlockResult = Expand<Block>;
 
-export interface GetTransactionParams {
+export type GetTransactionParams = Expand<{
   txid: string;
   network?: string;
-}
+}>;
 
-export type GetTransactionResult = Transaction;
+export type GetTransactionResult = Expand<Transaction>;
 
-export interface GetApplicationLogParams {
+export type GetApplicationLogParams = Expand<{
   txid: string;
   network?: string;
-}
+}>;
 
-export type GetApplicationLogResult = ApplicationLog;
+export type GetApplicationLogResult = Expand<ApplicationLog>;
 
-export interface GetNep17BalancesParams {
+export type GetNep17BalancesParams = Expand<{
   address: string;
   network?: string;
-}
+}>;
 
-export type GetNep17BalancesResult = Nep17Balance[];
+export type GetNep17BalancesResult = Expand<Nep17Balance[]>;
 
-export interface InvokeReadParams {
+export type InvokeReadParams = Expand<{
   scriptHash: string;
   operation: string;
   args?: Argument[];
   signers?: Signer[];
   network?: string;
-}
+}>;
 
-export interface InvokeReadResult {
+export type InvokeReadResult = Expand<{
   script: string;
   state: string;
   exception: string | null;
   gasConsumed: string;
   stack: Argument[];
-}
+}>;
 
-export interface InvokeReadMultiParams {
+export type InvokeReadMultiParams = Expand<{
   invocations: Invocation[];
   signers?: Signer[];
   network?: string;
-}
+}>;
 
-export interface InvokeReadMultiResult {
+export type InvokeReadMultiResult = Expand<{
   script: string;
   state: string;
   exception: string | null;
   gasConsumed: string;
   stack: Argument[];
-}
+}>;
 
-export interface InvokeParams {
+export type InvokeParams = Expand<{
   scriptHash: string;
   operation: string;
   args?: Argument[];
@@ -93,15 +93,15 @@ export interface InvokeParams {
   extraSystemFee?: string;
   extraNetworkFee?: string;
   broadcastOverride?: boolean;
-}
+}>;
 
-export interface InvokeResult {
+export type InvokeResult = Expand<{
   txid: string;
   nodeUrl?: string;
   signedTx?: string;
-}
+}>;
 
-export interface InvokeMultiParams {
+export type InvokeMultiParams = Expand<{
   invocations: Invocation[];
   attributes?: Attribute[];
   signers?: Signer[];
@@ -109,34 +109,34 @@ export interface InvokeMultiParams {
   extraSystemFee?: string;
   extraNetworkFee?: string;
   broadcastOverride?: boolean;
-}
+}>;
 
-export interface InvokeMultiResult {
+export type InvokeMultiResult = Expand<{
   txid: string;
   nodeUrl?: string;
   signedTx?: string;
-}
+}>;
 
-export interface SignMessageParams {
+export type SignMessageParams = Expand<{
   message: string;
-}
+}>;
 
-export interface SignMessageResult {
+export type SignMessageResult = Expand<{
   salt: string;
   signature: string;
   publicKey: string;
-}
+}>;
 
-export interface SignMessageWithoutSaltParams {
+export type SignMessageWithoutSaltParams = Expand<{
   message: string;
-}
+}>;
 
-export interface SignMessageWithoutSaltResult {
+export type SignMessageWithoutSaltResult = Expand<{
   signature: string;
   publicKey: string;
-}
+}>;
 
-export interface SignTransactionParams {
+export type SignTransactionParams = Expand<{
   version: number;
   nonce: number;
   systemFee: string;
@@ -147,59 +147,55 @@ export interface SignTransactionParams {
   attributes?: Attribute[];
   signers?: Signer[];
   network?: string;
-}
+}>;
 
-export interface SignTransactionResult {
+export type SignTransactionResult = Expand<{
   signature: string;
   publicKey: string;
-}
+}>;
 
-export interface BroadcastTransactionParams {
+export type BroadcastTransactionParams = Expand<{
   signedTx: string;
   network?: string;
-}
+}>;
 
-export interface BroadcastTransactionResult {
+export type BroadcastTransactionResult = Expand<{
   txid: string;
   nodeUrl: string;
-}
+}>;
 
 export interface Dapi {
-  getProvider(): Promise<Expand<GetProviderResult>>;
+  getProvider(): Promise<GetProviderResult>;
 
-  getNetworks(): Promise<Expand<GetNetworksResult>>;
+  getNetworks(): Promise<GetNetworksResult>;
 
-  getAccount(): Promise<Expand<GetAccountResult>>;
+  getAccount(): Promise<GetAccountResult>;
 
-  getBlockCount(params: Expand<GetBlockCountParams>): Promise<Expand<GetBlockCountResult>>;
+  getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult>;
 
-  getBlock(params: Expand<GetBlockParams>): Promise<Expand<GetBlockResult>>;
+  getBlock(params: GetBlockParams): Promise<GetBlockResult>;
 
-  getTransaction(params: Expand<GetTransactionParams>): Promise<Expand<GetTransactionResult>>;
+  getTransaction(params: GetTransactionParams): Promise<GetTransactionResult>;
 
-  getApplicationLog(
-    params: Expand<GetApplicationLogParams>,
-  ): Promise<Expand<GetApplicationLogResult>>;
+  getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult>;
 
-  getNep17Balances(params: Expand<GetNep17BalancesParams>): Promise<Expand<GetNep17BalancesResult>>;
+  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult>;
 
-  invokeRead(params: Expand<InvokeReadParams>): Promise<Expand<InvokeReadResult>>;
+  invokeRead(params: InvokeReadParams): Promise<InvokeReadResult>;
 
-  invokeReadMulti(params: Expand<InvokeReadMultiParams>): Promise<Expand<InvokeReadMultiResult>>;
+  invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult>;
 
-  invoke(params: Expand<InvokeParams>): Promise<Expand<InvokeResult>>;
+  invoke(params: InvokeParams): Promise<InvokeResult>;
 
-  invokeMulti(params: Expand<InvokeMultiParams>): Promise<Expand<InvokeMultiResult>>;
+  invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult>;
 
-  signMessage(params: Expand<SignMessageParams>): Promise<Expand<SignMessageResult>>;
+  signMessage(params: SignMessageParams): Promise<SignMessageResult>;
 
   signMessageWithoutSalt(
-    params: Expand<SignMessageWithoutSaltParams>,
-  ): Promise<Expand<SignMessageWithoutSaltResult>>;
+    params: SignMessageWithoutSaltParams,
+  ): Promise<SignMessageWithoutSaltResult>;
 
-  signTransaction(params: Expand<SignTransactionParams>): Promise<Expand<SignTransactionResult>>;
+  signTransaction(params: SignTransactionParams): Promise<SignTransactionResult>;
 
-  broadcastTransaction(
-    params: Expand<BroadcastTransactionParams>,
-  ): Promise<Expand<BroadcastTransactionResult>>;
+  broadcastTransaction(params: BroadcastTransactionParams): Promise<BroadcastTransactionResult>;
 }
