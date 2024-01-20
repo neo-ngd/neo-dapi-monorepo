@@ -1,3 +1,4 @@
+import { Expand } from '../utils/typeUtils';
 import {
   Account,
   ApplicationLog,
@@ -164,37 +165,41 @@ export interface BroadcastTransactionResult {
 }
 
 export interface Dapi {
-  getProvider(): Promise<GetProviderResult>;
+  getProvider(): Promise<Expand<GetProviderResult>>;
 
-  getNetworks(): Promise<GetNetworksResult>;
+  getNetworks(): Promise<Expand<GetNetworksResult>>;
 
-  getAccount(): Promise<GetAccountResult>;
+  getAccount(): Promise<Expand<GetAccountResult>>;
 
-  getBlockCount(params: GetBlockCountParams): Promise<GetBlockCountResult>;
+  getBlockCount(params: Expand<GetBlockCountParams>): Promise<Expand<GetBlockCountResult>>;
 
-  getBlock(params: GetBlockParams): Promise<GetBlockResult>;
+  getBlock(params: Expand<GetBlockParams>): Promise<Expand<GetBlockResult>>;
 
-  getTransaction(params: GetTransactionParams): Promise<GetTransactionResult>;
+  getTransaction(params: Expand<GetTransactionParams>): Promise<Expand<GetTransactionResult>>;
 
-  getApplicationLog(params: GetApplicationLogParams): Promise<GetApplicationLogResult>;
+  getApplicationLog(
+    params: Expand<GetApplicationLogParams>,
+  ): Promise<Expand<GetApplicationLogResult>>;
 
-  getNep17Balances(params: GetNep17BalancesParams): Promise<GetNep17BalancesResult>;
+  getNep17Balances(params: Expand<GetNep17BalancesParams>): Promise<Expand<GetNep17BalancesResult>>;
 
-  invokeRead(params: InvokeReadParams): Promise<InvokeReadResult>;
+  invokeRead(params: Expand<InvokeReadParams>): Promise<Expand<InvokeReadResult>>;
 
-  invokeReadMulti(params: InvokeReadMultiParams): Promise<InvokeReadMultiResult>;
+  invokeReadMulti(params: Expand<InvokeReadMultiParams>): Promise<Expand<InvokeReadMultiResult>>;
 
-  invoke(params: InvokeParams): Promise<InvokeResult>;
+  invoke(params: Expand<InvokeParams>): Promise<Expand<InvokeResult>>;
 
-  invokeMulti(params: InvokeMultiParams): Promise<InvokeMultiResult>;
+  invokeMulti(params: Expand<InvokeMultiParams>): Promise<Expand<InvokeMultiResult>>;
 
-  signMessage(params: SignMessageParams): Promise<SignMessageResult>;
+  signMessage(params: Expand<SignMessageParams>): Promise<Expand<SignMessageResult>>;
 
   signMessageWithoutSalt(
-    params: SignMessageWithoutSaltParams,
-  ): Promise<SignMessageWithoutSaltResult>;
+    params: Expand<SignMessageWithoutSaltParams>,
+  ): Promise<Expand<SignMessageWithoutSaltResult>>;
 
-  signTransaction(params: SignTransactionParams): Promise<SignTransactionResult>;
+  signTransaction(params: Expand<SignTransactionParams>): Promise<Expand<SignTransactionResult>>;
 
-  broadcastTransaction(params: BroadcastTransactionParams): Promise<BroadcastTransactionResult>;
+  broadcastTransaction(
+    params: Expand<BroadcastTransactionParams>,
+  ): Promise<Expand<BroadcastTransactionResult>>;
 }
