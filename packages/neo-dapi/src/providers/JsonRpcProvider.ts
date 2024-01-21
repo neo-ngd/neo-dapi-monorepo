@@ -41,13 +41,7 @@ export class JsonRpcProvider extends AbstractProvider {
   }
 
   private onNotification(notification: Notification): void {
-    const providerEvents = [
-      'connect',
-      'disconnect',
-      'message',
-      'networkChanged',
-      'accountChanged',
-    ] as const;
+    const providerEvents = ['connect', 'disconnect', 'message', 'networkChanged', 'accountChanged'];
     if (providerEvents.includes(notification.method as keyof ProviderEvents)) {
       if (notification.method === 'disconnect') {
         this.events.emit(

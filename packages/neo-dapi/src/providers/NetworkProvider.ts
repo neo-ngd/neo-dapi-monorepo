@@ -60,7 +60,7 @@ export class NetworkProvider extends AbstractProvider {
   ) {
     super();
     if (!networkConfigs.find(config => config.name === defaultNetworkName)) {
-      throw new Error(`Unknown network name ${defaultNetworkName}`);
+      throw new Error(`Network ${defaultNetworkName} is not in network configs`);
     }
   }
 
@@ -101,7 +101,7 @@ export class NetworkProvider extends AbstractProvider {
 
   changeNetwork(network: string): void {
     if (!this.networkConfigs.find(config => config.name === network)) {
-      throw new Error(`Unknown network name ${network}`);
+      throw new Error(`Network ${network} is not in network configs`);
     }
     this.defaultNetworkName = network;
     this.events.emit('networkChanged', network);

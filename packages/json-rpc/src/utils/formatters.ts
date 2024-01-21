@@ -28,17 +28,6 @@ export function formatRequest<P extends Params = Params>(
   };
 }
 
-export function formatNotification<P extends Params = Params>(
-  method: string,
-  params: P,
-): Notification<P> {
-  return {
-    jsonrpc: '2.0',
-    method,
-    params,
-  };
-}
-
 export function formatResultResponse<R extends Json = Json>(
   id: number,
   result: R,
@@ -58,23 +47,32 @@ export function formatErrorResponse(id: number, error: ErrorJson): ErrorResponse
   };
 }
 
+export function formatNotification<P extends Params = Params>(
+  method: string,
+  params: P,
+): Notification<P> {
+  return {
+    jsonrpc: '2.0',
+    method,
+    params,
+  };
+}
+
 export function formatErrorJson(error: unknown): ErrorJson {
   let code: number = StandardErrorCodes.InternalError;
   let message: string = getStandardErrorJson(StandardErrorCodes.InternalError).message;
   let data: Json | undefined;
 
-  if (error == null) {
-    // noop
-  } else if (typeof error === 'string') {
+  if (typeof error === 'string') {
     message = error;
   } else if (error instanceof Error) {
-    code = isValidErrorCode((error as any).code) ? (error as any).code : code;
+    code = 'code' in error && isValidErrorCode(error.code) ? error.code : code;
     message = error.message;
-    data = (error as any).data;
-  } else {
-    code = isValidErrorCode((error as any).code) ? (error as any).code : code;
-    message = (error as any).message != null ? (error as any).message : message;
-    data = (error as any).data;
+    data = 'data' in error ? (error.data as Json) : data;
+  } else if (error instanceof Object) {
+    code = 'code' in error && isValidErrorCode(error.code) ? error.code : code;
+    message = 'message' in error && typeof error.message === 'string' ? error.message : message;
+    data = 'data' in error ? (error.data as Json) : data;
   }
   return { code, message, data };
 }

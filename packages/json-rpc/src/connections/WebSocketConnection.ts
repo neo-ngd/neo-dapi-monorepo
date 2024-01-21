@@ -34,10 +34,9 @@ export class WebSocketConnection extends AbstractConnection {
   }
 
   public async close(): Promise<void> {
-    if (!this.socket) {
-      throw new Error('Already disconnected');
+    if (this.socket) {
+      this.socket.close();
     }
-    this.socket.close();
     this.onClose();
   }
 
