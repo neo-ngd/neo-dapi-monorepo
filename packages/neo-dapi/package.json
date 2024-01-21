@@ -1,6 +1,6 @@
 {
   "name": "@neongd/neo-dapi",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.22",
   "description": "Neo Dapi types and toolings",
   "keywords": [
     "neo",
@@ -25,16 +25,15 @@
     "docs"
   ],
   "scripts": {
-    "postinstall": "npm run generate-version",
-    "prebuild": "npm run generate-version && rimraf dist",
+    "prepare": "node -p $'`export const VERSION = \\'${require(\\'./package.json\\').version}\\';`' > src/version.ts",
+    "prebuild": "rimraf dist",
     "build": "run-s build:types build:cjs build:esm build:umd",
     "build:types": "tsc -p tsconfig.types.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:umd": "webpack",
     "lint": "eslint . --max-warnings 0",
-    "test": "jest",
-    "generate-version": "node -p \"'export const VERSION = \\'' + require('./package.json').version + '\\';'\" > src/version.ts"
+    "test": "jest"
   },
   "dependencies": {
     "@cityofzion/neon-core": "^5.5.1",

@@ -21,8 +21,13 @@ import {
   RequestArguments,
   Response,
 } from '../utils/types';
-import { isHttpUrl } from '../utils/url';
-import { isErrorResponse, isNotification, isRequest, isResponse } from '../utils/validators';
+import {
+  isErrorResponse,
+  isHttpUrl,
+  isNotification,
+  isRequest,
+  isResponse,
+} from '../utils/validators';
 import { AbstractTransport } from './AbstractTransport';
 
 export type BaseTransportOptions = HttpConnectionOptions & WebSocketConnectionOptions;

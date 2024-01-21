@@ -1,8 +1,7 @@
 import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from '../utils/json';
 import { Logger, Payload } from '../utils/types';
-import { isWebSocketUrl } from '../utils/url';
-import { isPayload } from '../utils/validators';
+import { isPayload, isWebSocketUrl } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
 export type WebSocketConnectionOptions = {

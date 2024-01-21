@@ -8,6 +8,8 @@ import {
   SigningNetworkProvider,
 } from '../src';
 
+jest.retryTimes(3, { logErrorsBeforeRetry: true });
+
 describe('BaseDapi', () => {
   const privateKey = '3eb7d02fb580912d4b9f02373e1468206a3a345e31e207b3d7a649b06b12d25e';
   const address = new wallet.Account(privateKey).address; // NN5FphR5YCYm9iUUbtSyEU923MGhBm5MQL

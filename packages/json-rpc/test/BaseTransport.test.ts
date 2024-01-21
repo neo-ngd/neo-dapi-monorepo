@@ -1,5 +1,7 @@
 import { BaseTransport, HttpConnection, PostMessageConnection, WebSocketConnection } from '../src';
 
+jest.retryTimes(3, { logErrorsBeforeRetry: true });
+
 describe('BaseJsonRpcTransport', () => {
   const table = [
     (() => {

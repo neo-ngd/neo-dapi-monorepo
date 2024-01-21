@@ -10,5 +10,4 @@ export * from './utils/errors';
 export * from './utils/formatters';
 export * from './utils/json';
 export * from './utils/types';
-export * from './utils/url';
 export * from './utils/validators';

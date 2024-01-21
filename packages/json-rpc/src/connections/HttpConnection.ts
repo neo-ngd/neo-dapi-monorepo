@@ -3,8 +3,7 @@ import { getStandardErrorJson, StandardErrorCodes } from '../utils/errors';
 import { formatErrorResponse } from '../utils/formatters';
 import { parse, stringify } from '../utils/json';
 import { Logger, Payload } from '../utils/types';
-import { isHttpUrl } from '../utils/url';
-import { isPayload } from '../utils/validators';
+import { isHttpUrl, isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
 export type HttpConnectionOptions = {

@@ -36,3 +36,11 @@ export function isNotification<P extends Params = Params>(
 ): payload is Notification<P> {
   return !('id' in payload) && 'method' in payload;
 }
+
+export function isHttpUrl(url: string): boolean {
+  return /^https?:/.test(url);
+}
+
+export function isWebSocketUrl(url: string): boolean {
+  return /^wss?:/.test(url);
+}
