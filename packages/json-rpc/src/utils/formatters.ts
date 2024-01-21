@@ -1,9 +1,4 @@
-import {
-  getStandardErrorJson,
-  isStandardErrorCode,
-  isValidErrorCode,
-  StandardErrorCodes,
-} from './errors';
+import { getStandardErrorJson, isValidErrorCode, StandardErrorCodes } from './errors';
 import {
   ErrorJson,
   ErrorResponse,
@@ -78,13 +73,7 @@ export function formatErrorJson(error: unknown): ErrorJson {
     data = (error as any).data;
   } else {
     code = isValidErrorCode((error as any).code) ? (error as any).code : code;
-    message =
-      (error as any).message != null
-        ? (error as any).message
-        : isStandardErrorCode(code)
-        ? getStandardErrorJson(code).message
-        : message;
-
+    message = (error as any).message != null ? (error as any).message : message;
     data = (error as any).data;
   }
   return { code, message, data };
