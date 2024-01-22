@@ -2,15 +2,16 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getStandardErrorJson, StandardErrorCodes } from '../utils/errors';
 import { formatErrorResponse } from '../utils/formatters';
 import { parse, stringify } from '../utils/json';
+import { Expand } from '../utils/typeUtils';
 import { Logger, Payload } from '../utils/types';
 import { isHttpUrl, isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export type HttpConnectionOptions = {
+export type HttpConnectionOptions = Expand<{
   axiosConfig?: AxiosRequestConfig;
   timeoutMs?: number;
   logger?: Logger;
-};
+}>;
 
 export class HttpConnection extends AbstractConnection {
   private api: AxiosInstance | null = null;

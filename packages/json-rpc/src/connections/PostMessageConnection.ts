@@ -1,11 +1,12 @@
 import { parse, stringify } from '../utils/json';
+import { Expand } from '../utils/typeUtils';
 import { Logger, Payload } from '../utils/types';
 import { isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export type PostMessageConnectionOptions = {
+export type PostMessageConnectionOptions = Expand<{
   logger?: Logger;
-};
+}>;
 
 export type PostMessage = (message: string) => void;
 

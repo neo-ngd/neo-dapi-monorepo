@@ -1,12 +1,13 @@
 import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from '../utils/json';
+import { Expand } from '../utils/typeUtils';
 import { Logger, Payload } from '../utils/types';
 import { isPayload, isWebSocketUrl } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
-export type WebSocketConnectionOptions = {
+export type WebSocketConnectionOptions = Expand<{
   logger?: Logger;
-};
+}>;
 
 export class WebSocketConnection extends AbstractConnection {
   private socket: WebSocket | null = null;

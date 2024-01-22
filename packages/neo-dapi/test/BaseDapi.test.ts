@@ -37,7 +37,7 @@ describe('BaseDapi', () => {
         networkConfigs,
         'TestNet',
         privateKey,
-        'Test Account',
+        'TestAccount',
       );
       return { name: 'SigningNetworkProvider', provider, isSigningProvider: true, cleanup: null };
     })(),
@@ -48,7 +48,7 @@ describe('BaseDapi', () => {
         networkConfigs,
         'TestNet',
         privateKey,
-        'Test Account',
+        'TestAccount',
       );
       const remoteConnection = new PostMessageConnection(
         message => channel.port2.postMessage(message),

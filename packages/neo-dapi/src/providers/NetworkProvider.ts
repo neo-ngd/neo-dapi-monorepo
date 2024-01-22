@@ -39,6 +39,7 @@ import {
   transactionJsonToTransaction,
 } from '../utils/convertors';
 import { DapiErrorCodes, getDapiErrorJson } from '../utils/errors';
+import { Expand } from '../utils/typeUtils';
 import { VERSION } from '../version';
 import { AbstractProvider } from './AbstractProvider';
 
@@ -48,19 +49,19 @@ export type NetworkConfig = {
   magicNumber: number;
 };
 
-export type NetworkProviderOptions = BaseTransportOptions;
+export type NetworkProviderOptions = Expand<BaseTransportOptions>;
 
 export class NetworkProvider extends AbstractProvider {
   protected transports: Partial<Record<string, Transport>> = {};
 
   constructor(
     protected networkConfigs: NetworkConfig[],
-    protected defaultNetworkName: string,
+    protected defaultNetwork: string,
     protected options: NetworkProviderOptions = {},
   ) {
     super();
-    if (!networkConfigs.find(config => config.name === defaultNetworkName)) {
-      throw new Error(`Network ${defaultNetworkName} is not in network configs`);
+    if (!networkConfigs.find(config => config.name === defaultNetwork)) {
+      throw new Error(`Network ${defaultNetwork} is not in network configs`);
     }
   }
 
@@ -103,13 +104,13 @@ export class NetworkProvider extends AbstractProvider {
     if (!this.networkConfigs.find(config => config.name === network)) {
       throw new Error(`Network ${network} is not in network configs`);
     }
-    this.defaultNetworkName = network;
+    this.defaultNetwork = network;
     this.events.emit('networkChanged', network);
   }
 
   protected getNetworkConfig(network?: string, rejectNotDefault = false): NetworkConfig {
-    const finalNetwork = network ?? this.defaultNetworkName;
-    if (rejectNotDefault && finalNetwork !== this.defaultNetworkName) {
+    const finalNetwork = network ?? this.defaultNetwork;
+    if (rejectNotDefault && finalNetwork !== this.defaultNetwork) {
       throw new JsonRpcError(getDapiErrorJson(DapiErrorCodes.UnsupportedNetwork));
     }
 
@@ -145,7 +146,7 @@ export class NetworkProvider extends AbstractProvider {
   protected async handleGetNetworks(): Promise<GetNetworksResult> {
     return {
       networks: this.networkConfigs.map(config => config.name),
-      defaultNetwork: this.defaultNetworkName,
+      defaultNetwork: this.defaultNetwork,
     };
   }
 

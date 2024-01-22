@@ -29,23 +29,24 @@ import {
   signerToSignerJson,
   stringToHex,
 } from '../utils/convertors';
+import { Expand } from '../utils/typeUtils';
 import { Attribute, Invocation, Signer } from '../utils/types';
 import { NetworkConfig, NetworkProvider, NetworkProviderOptions } from './NetworkProvider';
 
-export type SigningNetworkProviderOptions = NetworkProviderOptions;
+export type SigningNetworkProviderOptions = Expand<NetworkProviderOptions>;
 
 export class SigningNetworkProvider extends NetworkProvider {
   account: wallet.Account;
 
   constructor(
     networkConfigs: NetworkConfig[],
-    defaultNetworkName: string,
-    accountPrivateKey: string,
-    protected accountLabel?: string,
+    defaultNetwork: string,
+    privateKey: string,
+    protected label?: string,
     protected options: SigningNetworkProviderOptions = {},
   ) {
-    super(networkConfigs, defaultNetworkName, options);
-    this.account = new wallet.Account(accountPrivateKey);
+    super(networkConfigs, defaultNetwork, options);
+    this.account = new wallet.Account(privateKey);
   }
 
   async request<R extends Json = Json, P extends Params = Params>(
@@ -73,9 +74,9 @@ export class SigningNetworkProvider extends NetworkProvider {
     }
   }
 
-  changeAccount(accountPrivateKey: string, accountLabel?: string): void {
-    this.account = new wallet.Account(accountPrivateKey);
-    this.accountLabel = accountLabel;
+  changeAccount(privateKey: string, label?: string): void {
+    this.account = new wallet.Account(privateKey);
+    this.label = label;
     this.events.emit('accountChanged', this.account.address);
   }
 
@@ -90,7 +91,7 @@ export class SigningNetworkProvider extends NetworkProvider {
     return {
       address: this.account.address,
       publicKey: this.account.privateKey,
-      label: this.accountLabel,
+      label: this.label,
     };
   }
 

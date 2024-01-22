@@ -11,6 +11,7 @@ import {
   formatRequest,
   formatResultResponse,
 } from '../utils/formatters';
+import { Expand } from '../utils/typeUtils';
 import {
   ErrorJson,
   Json,
@@ -30,7 +31,7 @@ import {
 } from '../utils/validators';
 import { AbstractTransport } from './AbstractTransport';
 
-export type BaseTransportOptions = HttpConnectionOptions & WebSocketConnectionOptions;
+export type BaseTransportOptions = Expand<HttpConnectionOptions & WebSocketConnectionOptions>;
 
 export class BaseTransport extends AbstractTransport {
   public connection: Connection;
