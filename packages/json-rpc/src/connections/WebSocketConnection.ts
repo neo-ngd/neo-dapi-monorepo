@@ -77,8 +77,6 @@ export class WebSocketConnection extends AbstractConnection {
     this.socket.send(stringify(payload));
   }
 
-  // ---------- Private ----------------------------------------------- //
-
   private onError(error: Error) {
     if (this.options.logger) {
       this.options.logger.error('error', error);

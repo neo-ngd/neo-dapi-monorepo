@@ -53,8 +53,6 @@ export class PostMessageConnection extends AbstractConnection {
     this.postMessage(stringify(payload));
   }
 
-  // ---------- Private ----------------------------------------------- /
-
   private onMessage(message: string) {
     const payload = parse(message, null);
     if (this.options.logger) {

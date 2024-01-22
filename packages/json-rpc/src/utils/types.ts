@@ -33,7 +33,7 @@ export type Request<P extends Params = Params> = RequestArguments<P> & {
   jsonrpc: string;
 };
 
-export type Notification<T extends Params = Params> = RequestArguments<T> & {
+export type Notification<P extends Params = Params> = RequestArguments<P> & {
   jsonrpc: string;
 };
 

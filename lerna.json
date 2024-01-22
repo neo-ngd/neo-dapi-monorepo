@@ -1,9 +1,12 @@
 {
-  "version": "2.0.0-alpha.28",
+  "version": "2.0.0-alpha.34",
   "npmClient": "pnpm",
   "command": {
     "publish": {
-      "allowBranch": ["master", "next"]
+      "allowBranch": [
+        "master",
+        "next"
+      ]
     }
   }
 }

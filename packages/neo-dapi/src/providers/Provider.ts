@@ -3,12 +3,12 @@ import { EventDispatcher } from '../utils/types';
 
 export interface ProviderError extends Error {
   code: number;
-  data?: unknown;
+  data?: Json;
 }
 
 export type ProviderMessage = {
   type: string;
-  data?: unknown;
+  data?: Json;
 };
 
 export type ProviderEvents = {

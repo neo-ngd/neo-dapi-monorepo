@@ -74,8 +74,6 @@ export class BaseTransport extends AbstractTransport {
     return this.respondStrict(formatErrorResponse(id, errorJson), context);
   }
 
-  // ---------- Private ----------------------------------------------- //
-
   private parseConnection(connection: string | Connection) {
     return typeof connection === 'string'
       ? isHttpUrl(connection)

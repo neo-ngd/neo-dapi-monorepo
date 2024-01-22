@@ -38,7 +38,7 @@ export function getStandardErrorJson(
   };
 }
 
-export class JsonRpcError extends Error implements ErrorJson {
+export class JsonRpcError extends Error {
   code: number;
   data?: Json;
 

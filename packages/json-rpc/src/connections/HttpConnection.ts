@@ -1,9 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { getStandardErrorJson, StandardErrorCodes } from '../utils/errors';
 import { formatErrorResponse } from '../utils/formatters';
-import { parse, stringify } from '../utils/json';
+import { stringify } from '../utils/json';
 import { Expand } from '../utils/typeUtils';
-import { Logger, Payload } from '../utils/types';
+import { Json, Logger, Payload } from '../utils/types';
 import { isHttpUrl, isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
@@ -62,11 +62,10 @@ export class HttpConnection extends AbstractConnection {
       .catch(err => 'id' in payload && this.onReject(payload.id, err));
   }
 
-  // ---------- Private ----------------------------------------------- //
-  private onResolve(id: number, data: unknown) {
-    const payload = typeof data === 'string' ? parse(data, {}) : data;
+  private onResolve(id: number, data: Json) {
+    const payload = data;
     if (this.options.logger) {
-      this.options.logger.info(`received: ${typeof data === 'string' ? data : stringify(data)}`);
+      this.options.logger.info(`received: ${stringify(data)}`);
     }
     if (isPayload(payload)) {
       this.events.emit('payload', payload);
