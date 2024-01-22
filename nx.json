@@ -1,11 +1,8 @@
 {
   "targetDefaults": {
-    "prebuild": {
-      "cache": true
-    },
     "build": {
       "cache": true,
-      "dependsOn": ["^build", "prebuild"],
+      "dependsOn": ["^build", "prepare", "prebuild"],
       "outputs": ["{projectRoot}/dist"]
     },
     "lint": {
