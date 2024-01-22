@@ -14,16 +14,18 @@ import {
 export type TransportEvents = {
   connect(): void;
   disconnect(): void;
+  error(error: Error): void;
   payload(payload: Payload): void;
   request(request: Request): void;
-  [id: number]: (response: Response) => void;
   notification(notification: Notification): void;
-  error(error: Error): void;
+  [id: number]: (response: Response) => void;
 };
 
 export interface Transport extends EventDispatcher<TransportEvents> {
   connection: Connection;
+
   connect(connection?: Connection): Promise<void>;
+
   disconnect(): Promise<void>;
 
   request<R extends Json = Json, P extends Params = Params>(

@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from '../utils/json';
 import { Expand } from '../utils/typeUtils';
@@ -10,40 +11,65 @@ export type WebSocketConnectionOptions = Expand<{
 }>;
 
 export class WebSocketConnection extends AbstractConnection {
+  private socketPromise: Promise<void> | null = null;
   private socket: WebSocket | null = null;
-
-  private registering = false;
 
   constructor(public url: string, private options: WebSocketConnectionOptions = {}) {
     super();
     if (!isWebSocketUrl(url)) {
       throw new Error(`Provided URL is not compatible with WebSocket connection: ${url}`);
     }
-    this.url = url;
+  }
+
+  get connecting(): boolean {
+    return !!this.socketPromise;
   }
 
   get connected(): boolean {
     return !!this.socket;
   }
 
-  get connecting(): boolean {
-    return this.registering;
-  }
-
-  public async open(url: string = this.url): Promise<void> {
-    this.socket = await this.register(url);
+  public async open(): Promise<void> {
+    if (this.socketPromise) {
+      return this.socketPromise;
+    }
+    this.socketPromise = new Promise((resolve, reject) => {
+      const socket = new WebSocket(this.url);
+      socket.onopen = () => {
+        this.socketPromise = null;
+        this.socket = socket;
+        this.socket.onclose = () => this.close();
+        this.socket.onerror = error => this.onError(error);
+        this.socket.onmessage = event => this.onMessage(event.data);
+        this.events.emit('open');
+        resolve();
+      };
+      socket.onerror = error => {
+        this.socketPromise = null;
+        reject(error);
+      };
+    });
+    await this.socketPromise;
   }
 
   public async close(): Promise<void> {
+    if (this.socketPromise) {
+      await Promise.allSettled([this.socketPromise]);
+    }
     if (this.socket) {
+      this.socket.onopen = () => undefined;
+      this.socket.onclose = () => undefined;
+      this.socket.onerror = () => undefined;
+      this.socket.onmessage = () => undefined;
       this.socket.close();
     }
-    this.onClose();
+    this.socket = null;
+    this.events.emit('close');
   }
 
   public async send(payload: Payload, _context?: unknown): Promise<void> {
     if (!this.socket) {
-      this.socket = await this.register();
+      throw Error('Socket is not inited');
     }
     if (this.options.logger) {
       this.options.logger.info(`sending: ${stringify(payload)}`);
@@ -53,53 +79,17 @@ export class WebSocketConnection extends AbstractConnection {
 
   // ---------- Private ----------------------------------------------- //
 
-  private async register(url = this.url): Promise<WebSocket> {
-    if (!isWebSocketUrl(url)) {
-      throw new Error(`Provided URL is not compatible with WebSocket connection: ${url}`);
-    }
-    if (this.registering) {
-      return new Promise((resolve, reject) => {
-        this.events.once('open', () => {
-          if (!this.socket) {
-            return reject(new Error('WebSocket connection is missing or invalid'));
-          }
-          resolve(this.socket);
-        });
-      });
-    }
-    this.url = url;
-    this.registering = true;
-
-    return new Promise((resolve, reject) => {
-      const socket = new WebSocket(url);
-      socket.onopen = () => {
-        this.onOpen(socket);
-        resolve(socket);
-      };
-      socket.onerror = error => {
-        this.events.emit('error', error);
-        reject(error);
-      };
-    });
-  }
-
-  private onOpen(socket: WebSocket) {
-    socket.onmessage = event => this.onPayload(event.data);
-    socket.onclose = () => this.onClose();
-    this.socket = socket;
-    this.registering = false;
-    this.events.emit('open');
-  }
-
-  private onClose() {
-    this.socket = null;
-    this.events.emit('close');
-  }
-
-  private onPayload(data: unknown) {
-    const payload = typeof data === 'string' ? parse(data, {}) : data;
+  private onError(error: Error) {
     if (this.options.logger) {
-      this.options.logger.info(`received: ${data}`);
+      this.options.logger.error('error', error);
+    }
+    this.events.emit('error', error);
+  }
+
+  private onMessage(data: string | Buffer | ArrayBuffer) {
+    const payload = parse(data.toString(), null);
+    if (this.options.logger) {
+      this.options.logger.info(`received: ${data.toString()}`);
     }
     if (isPayload(payload)) {
       this.events.emit('payload', payload);

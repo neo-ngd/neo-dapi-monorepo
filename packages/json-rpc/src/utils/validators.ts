@@ -17,6 +17,12 @@ export function isRequest<P extends Params = Params>(payload: Payload): payload 
   return 'id' in payload && 'method' in payload;
 }
 
+export function isNotification<P extends Params = Params>(
+  payload: Payload,
+): payload is Notification<P> {
+  return !('id' in payload) && 'method' in payload;
+}
+
 export function isResultResponse<R extends Json = Json>(
   payload: Payload,
 ): payload is ResultResponse<R> {
@@ -29,12 +35,6 @@ export function isErrorResponse(payload: Payload): payload is ErrorResponse {
 
 export function isResponse<R extends Json = Json>(payload: Payload): payload is Response<R> {
   return isResultResponse(payload) || isErrorResponse(payload);
-}
-
-export function isNotification<P extends Params = Params>(
-  payload: Payload,
-): payload is Notification<P> {
-  return !('id' in payload) && 'method' in payload;
 }
 
 export function isHttpUrl(url: string): boolean {

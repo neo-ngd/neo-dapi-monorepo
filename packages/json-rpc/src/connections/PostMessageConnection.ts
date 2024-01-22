@@ -19,7 +19,7 @@ export type AddMessageListener = (listener: MessageListener) => Disposer | void;
 export class PostMessageConnection extends AbstractConnection {
   private disposer: Disposer | null = null;
 
-  private registering = false;
+  connected = false;
 
   constructor(
     private postMessage: PostMessage,
@@ -29,10 +29,8 @@ export class PostMessageConnection extends AbstractConnection {
     super();
   }
 
-  connected = false;
-
   get connecting(): boolean {
-    return this.registering;
+    return false;
   }
 
   async open(): Promise<void> {
@@ -43,6 +41,7 @@ export class PostMessageConnection extends AbstractConnection {
 
   async close(): Promise<void> {
     this.disposer?.();
+    this.disposer = null;
     this.connected = false;
     this.events.emit('close');
   }
@@ -57,10 +56,10 @@ export class PostMessageConnection extends AbstractConnection {
   // ---------- Private ----------------------------------------------- /
 
   private onMessage(message: string) {
+    const payload = parse(message, null);
     if (this.options.logger) {
       this.options.logger.info(`received: ${message}`);
     }
-    const payload = parse(message, null);
     if (isPayload(payload)) {
       this.events.emit('payload', payload);
     }

@@ -33,6 +33,10 @@ export type Request<P extends Params = Params> = RequestArguments<P> & {
   jsonrpc: string;
 };
 
+export type Notification<T extends Params = Params> = RequestArguments<T> & {
+  jsonrpc: string;
+};
+
 export type ResultResponse<R extends Json = Json> = {
   id: number;
   jsonrpc: string;
@@ -53,15 +57,11 @@ export type ErrorResponse = {
 
 export type Response<R extends Json = Json> = ResultResponse<R> | ErrorResponse;
 
-export type Notification<T extends Params = Params> = RequestArguments<T> & {
-  jsonrpc: string;
-};
-
 export type Payload<
   RP extends Params = Params,
   NP extends Params = Params,
   R extends Json = Json,
-> = Request<RP> | Response<R> | Notification<NP>;
+> = Request<RP> | Notification<NP> | Response<R>;
 
 export interface Logger {
   info(message: string): void;

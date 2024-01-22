@@ -28,6 +28,17 @@ export function formatRequest<P extends Params = Params>(
   };
 }
 
+export function formatNotification<P extends Params = Params>(
+  method: string,
+  params: P,
+): Notification<P> {
+  return {
+    jsonrpc: '2.0',
+    method,
+    params,
+  };
+}
+
 export function formatResultResponse<R extends Json = Json>(
   id: number,
   result: R,
@@ -44,17 +55,6 @@ export function formatErrorResponse(id: number, error: ErrorJson): ErrorResponse
     id,
     jsonrpc: '2.0',
     error,
-  };
-}
-
-export function formatNotification<P extends Params = Params>(
-  method: string,
-  params: P,
-): Notification<P> {
-  return {
-    jsonrpc: '2.0',
-    method,
-    params,
   };
 }
 

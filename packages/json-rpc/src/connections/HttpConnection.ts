@@ -16,65 +16,24 @@ export type HttpConnectionOptions = Expand<{
 export class HttpConnection extends AbstractConnection {
   private api: AxiosInstance | null = null;
 
-  private registering = false;
-
   constructor(public url: string, private options: HttpConnectionOptions = {}) {
     super();
     if (!isHttpUrl(url)) {
       throw new Error(`Provided URL is not compatible with HTTP connection: ${url}`);
     }
-    this.url = url;
+  }
+
+  get connecting(): boolean {
+    return false;
   }
 
   get connected(): boolean {
     return !!this.api;
   }
 
-  get connecting(): boolean {
-    return this.registering;
-  }
-
-  public async open(url: string = this.url): Promise<void> {
-    this.api = await this.register(url);
-  }
-
-  public async close(): Promise<void> {
-    this.onClose();
-  }
-
-  public async send(payload: Payload, _context?: unknown): Promise<void> {
-    if (!this.api) {
-      this.api = await this.register();
-    }
-    if (this.options.logger) {
-      this.options.logger.info(`sending: ${stringify(payload)}`);
-    }
-    this.api
-      .post('/', payload)
-      .then(res => 'id' in payload && this.onPayload(payload.id, res.data))
-      .catch(err => 'id' in payload && this.onError(payload.id, err));
-  }
-
-  // ---------- Private ----------------------------------------------- //
-
-  private async register(url = this.url): Promise<AxiosInstance> {
-    if (!isHttpUrl(url)) {
-      throw new Error(`Provided URL is not compatible with HTTP connection: ${url}`);
-    }
-    if (this.registering) {
-      return new Promise((resolve, reject) => {
-        this.events.once('open', () => {
-          if (!this.api) {
-            return reject(new Error('HTTP connection is missing or invalid'));
-          }
-          resolve(this.api);
-        });
-      });
-    }
-    this.url = url;
-    this.registering = true;
-    const api = axios.create({
-      baseURL: url,
+  public async open(): Promise<void> {
+    this.api = axios.create({
+      baseURL: this.url,
       timeout: this.options.timeoutMs,
       headers: {
         Accept: 'application/json',
@@ -82,25 +41,32 @@ export class HttpConnection extends AbstractConnection {
       },
       ...this.options.axiosConfig,
     });
-    this.onOpen(api);
-    return api;
-  }
-
-  private onOpen(api: AxiosInstance) {
-    this.api = api;
-    this.registering = false;
     this.events.emit('open');
   }
 
-  private onClose() {
+  public async close(): Promise<void> {
     this.api = null;
     this.events.emit('close');
   }
 
-  private onPayload(id: number, data: unknown) {
+  public async send(payload: Payload, _context?: unknown): Promise<void> {
+    if (!this.api) {
+      throw Error('Api is not inited');
+    }
+    if (this.options.logger) {
+      this.options.logger.info(`sending: ${stringify(payload)}`);
+    }
+    this.api
+      .post('/', payload)
+      .then(res => 'id' in payload && this.onResolve(payload.id, res.data))
+      .catch(err => 'id' in payload && this.onReject(payload.id, err));
+  }
+
+  // ---------- Private ----------------------------------------------- //
+  private onResolve(id: number, data: unknown) {
     const payload = typeof data === 'string' ? parse(data, {}) : data;
     if (this.options.logger) {
-      this.options.logger.info(`received: ${stringify(data)}`);
+      this.options.logger.info(`received: ${typeof data === 'string' ? data : stringify(data)}`);
     }
     if (isPayload(payload)) {
       this.events.emit('payload', payload);
@@ -111,7 +77,7 @@ export class HttpConnection extends AbstractConnection {
     }
   }
 
-  private onError(id: number, error: Error) {
+  private onReject(id: number, error: Error) {
     if (this.options.logger) {
       this.options.logger.error('error', error);
     }

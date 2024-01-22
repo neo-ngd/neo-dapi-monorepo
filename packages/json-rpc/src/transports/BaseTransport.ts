@@ -134,6 +134,41 @@ export class BaseTransport extends AbstractTransport {
     await this.connection.send(response, context);
   }
 
+  private async open(connection: Connection = this.connection) {
+    if (this.connection === connection && this.connection.connected) {
+      return;
+    }
+    if (this.connection.connected) {
+      await this.close();
+    }
+    this.connection = connection;
+    await this.connection.open().catch(error => {
+      throw new JsonRpcError(
+        getStandardErrorJson(StandardErrorCodes.CommunicationFailed, error.message),
+      );
+    });
+    this.connection.on('close', this.onConnectionClose);
+    this.connection.on('error', this.onConnectionError);
+    this.connection.on('payload', this.onConnectionPayload);
+    this.events.emit('connect');
+  }
+
+  private async close() {
+    this.connection.removeListener('close', this.onConnectionClose);
+    this.connection.removeListener('error', this.onConnectionError);
+    this.connection.removeListener('payload', this.onConnectionPayload);
+    await this.connection.close();
+    this.events.emit('disconnect');
+  }
+
+  private onConnectionClose() {
+    this.close();
+  }
+
+  private onConnectionError(error: Error) {
+    this.events.emit('error', error);
+  }
+
   private onConnectionPayload(payload: Payload): void {
     this.events.emit('payload', payload);
     if (isRequest(payload)) {
@@ -143,36 +178,5 @@ export class BaseTransport extends AbstractTransport {
     } else if (isResponse(payload)) {
       this.events.emit(payload.id, payload);
     }
-  }
-
-  private onConnectionClose() {
-    this.events.emit('disconnect');
-  }
-
-  private onConnectionError(error: Error) {
-    this.events.emit('error', error);
-  }
-
-  private async open(connection: Connection = this.connection) {
-    if (this.connection === connection && this.connection.connected) {
-      return;
-    }
-    if (this.connection.connected) {
-      this.close();
-    }
-    this.connection = connection;
-    await this.connection.open();
-    this.connection.on('payload', this.onConnectionPayload);
-    this.connection.on('close', this.onConnectionClose);
-    this.connection.on('error', this.onConnectionError);
-    this.events.emit('connect');
-  }
-
-  private async close() {
-    await this.connection.close();
-    this.connection.removeListener('payload', this.onConnectionPayload);
-    this.connection.removeListener('close', this.onConnectionClose);
-    this.connection.removeListener('error', this.onConnectionError);
-    this.events.emit('disconnect');
   }
 }
