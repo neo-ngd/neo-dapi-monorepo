@@ -29,6 +29,7 @@ import {
   signerToSignerJson,
   stringToHex,
 } from '../utils/convertors';
+import { DapiErrorCodes, getDapiErrorJson } from '../utils/errors';
 import { Expand } from '../utils/typeUtils';
 import { Attribute, Invocation, Signer } from '../utils/types';
 import { NetworkConfig, NetworkProvider, NetworkProviderOptions } from './NetworkProvider';
@@ -244,12 +245,20 @@ export class SigningNetworkProvider extends NetworkProvider {
 
     let systemFee = params.systemFee;
     if (systemFee == null) {
-      const { gasconsumed: estimatedSystemFee } = await transport
+      const {
+        gasconsumed: estimatedSystemFee,
+        state,
+        exception,
+      } = await transport
         .request<any>({
           method: 'invokescript',
           params: [hexToBase64(script), signers.map(signerToSignerJson)],
         })
         .catch(this.convertRemoteRpcError);
+
+      if (state !== 'HALT') {
+        throw new JsonRpcError(getDapiErrorJson(DapiErrorCodes.RemoteRpcError, exception));
+      }
 
       systemFee = new BigNumber(estimatedSystemFee)
         .times(1.01)
