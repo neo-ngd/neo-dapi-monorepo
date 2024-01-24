@@ -29,11 +29,10 @@ export class PostMessageConnection extends AbstractConnection {
     super();
   }
 
-  get connecting(): boolean {
-    return false;
-  }
-
   async open(): Promise<void> {
+    if (this.connected) {
+      return;
+    }
     this.disposer = this.addMessageListener(this.onMessage.bind(this)) ?? null;
     this.connected = true;
     this.events.emit('open');

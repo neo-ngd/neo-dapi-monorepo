@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import { Lock } from 'async-await-mutex-lock';
 import { w3cwebsocket as WebSocket } from 'websocket';
 import { parse, stringify } from '../utils/json';
 import { Expand } from '../utils/typeUtils';
@@ -11,7 +12,7 @@ export type WebSocketConnectionOptions = Expand<{
 }>;
 
 export class WebSocketConnection extends AbstractConnection {
-  private socketPromise: Promise<void> | null = null;
+  private lock = new Lock();
   private socket: WebSocket | null = null;
 
   constructor(public url: string, private options: WebSocketConnectionOptions = {}) {
@@ -21,50 +22,46 @@ export class WebSocketConnection extends AbstractConnection {
     }
   }
 
-  get connecting(): boolean {
-    return !!this.socketPromise;
-  }
-
   get connected(): boolean {
     return !!this.socket;
   }
 
   public async open(): Promise<void> {
-    if (this.socketPromise) {
-      return this.socketPromise;
+    await this.lock.acquire();
+    try {
+      if (this.connected) {
+        return;
+      }
+      const socket = await new Promise<WebSocket>((resolve, reject) => {
+        const socket = new WebSocket(this.url);
+        socket.onopen = () => resolve(socket);
+        socket.onerror = error => reject(error);
+      });
+      this.socket = socket;
+      this.socket.onclose = () => this.close();
+      this.socket.onerror = error => this.onError(error);
+      this.socket.onmessage = event => this.onMessage(event.data);
+      this.events.emit('open');
+    } finally {
+      this.lock.release();
     }
-    this.socketPromise = new Promise((resolve, reject) => {
-      const socket = new WebSocket(this.url);
-      socket.onopen = () => {
-        this.socketPromise = null;
-        this.socket = socket;
-        this.socket.onclose = () => this.close();
-        this.socket.onerror = error => this.onError(error);
-        this.socket.onmessage = event => this.onMessage(event.data);
-        this.events.emit('open');
-        resolve();
-      };
-      socket.onerror = error => {
-        this.socketPromise = null;
-        reject(error);
-      };
-    });
-    await this.socketPromise;
   }
 
   public async close(): Promise<void> {
-    if (this.socketPromise) {
-      await Promise.allSettled([this.socketPromise]);
+    await this.lock.acquire();
+    try {
+      if (this.socket) {
+        this.socket.onopen = () => undefined;
+        this.socket.onclose = () => undefined;
+        this.socket.onerror = () => undefined;
+        this.socket.onmessage = () => undefined;
+        this.socket.close();
+      }
+      this.socket = null;
+      this.events.emit('close');
+    } catch {
+      this.lock.release();
     }
-    if (this.socket) {
-      this.socket.onopen = () => undefined;
-      this.socket.onclose = () => undefined;
-      this.socket.onerror = () => undefined;
-      this.socket.onmessage = () => undefined;
-      this.socket.close();
-    }
-    this.socket = null;
-    this.events.emit('close');
   }
 
   public async send(payload: Payload, _context?: unknown): Promise<void> {

@@ -14,7 +14,7 @@ export type HttpConnectionOptions = Expand<{
 }>;
 
 export class HttpConnection extends AbstractConnection {
-  private api: AxiosInstance | null = null;
+  private axiosInstance: AxiosInstance | null = null;
 
   constructor(public url: string, private options: HttpConnectionOptions = {}) {
     super();
@@ -23,16 +23,15 @@ export class HttpConnection extends AbstractConnection {
     }
   }
 
-  get connecting(): boolean {
-    return false;
-  }
-
   get connected(): boolean {
-    return !!this.api;
+    return !!this.axiosInstance;
   }
 
   public async open(): Promise<void> {
-    this.api = axios.create({
+    if (this.connected) {
+      return;
+    }
+    this.axiosInstance = axios.create({
       baseURL: this.url,
       timeout: this.options.timeoutMs,
       headers: {
@@ -45,18 +44,18 @@ export class HttpConnection extends AbstractConnection {
   }
 
   public async close(): Promise<void> {
-    this.api = null;
+    this.axiosInstance = null;
     this.events.emit('close');
   }
 
   public async send(payload: Payload, _context?: unknown): Promise<void> {
-    if (!this.api) {
-      throw Error('Api is not inited');
+    if (!this.axiosInstance) {
+      throw Error('Axios instance is not inited');
     }
     if (this.options.logger) {
       this.options.logger.info(`sending: ${stringify(payload)}`);
     }
-    this.api
+    this.axiosInstance
       .post('/', payload)
       .then(res => 'id' in payload && this.onResolve(payload.id, res.data))
       .catch(err => 'id' in payload && this.onReject(payload.id, err));

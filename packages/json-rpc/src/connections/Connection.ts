@@ -9,7 +9,6 @@ export type ConnectionEvents = {
 
 export interface Connection extends EventDispatcher<ConnectionEvents> {
   connected: boolean;
-  connecting: boolean;
 
   open(): Promise<void>;
 

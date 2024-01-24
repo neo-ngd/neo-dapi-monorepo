@@ -1,3 +1,4 @@
+import { Lock } from 'async-await-mutex-lock';
 import { Connection } from '../connections/Connection';
 import { HttpConnection, HttpConnectionOptions } from '../connections/HttpConnection';
 import {
@@ -34,6 +35,7 @@ import { AbstractTransport } from './AbstractTransport';
 export type BaseTransportOptions = Expand<HttpConnectionOptions & WebSocketConnectionOptions>;
 
 export class BaseTransport extends AbstractTransport {
+  private lock = new Lock();
   public connection: Connection;
 
   constructor(connection: string | Connection, private options: BaseTransportOptions = {}) {
@@ -133,30 +135,40 @@ export class BaseTransport extends AbstractTransport {
   }
 
   private async open(connection: Connection = this.connection) {
-    if (this.connection === connection && this.connection.connected) {
-      return;
+    await this.lock.acquire();
+    try {
+      if (this.connection === connection && this.connection.connected) {
+        return;
+      }
+      if (this.connection.connected) {
+        await this.close();
+      }
+      this.connection = connection;
+      await this.connection.open().catch(error => {
+        throw new JsonRpcError(
+          getStandardErrorJson(StandardErrorCodes.CommunicationFailed, error.message),
+        );
+      });
+      this.connection.on('close', this.onConnectionClose);
+      this.connection.on('error', this.onConnectionError);
+      this.connection.on('payload', this.onConnectionPayload);
+      this.events.emit('connect');
+    } finally {
+      this.lock.release();
     }
-    if (this.connection.connected) {
-      await this.close();
-    }
-    this.connection = connection;
-    await this.connection.open().catch(error => {
-      throw new JsonRpcError(
-        getStandardErrorJson(StandardErrorCodes.CommunicationFailed, error.message),
-      );
-    });
-    this.connection.on('close', this.onConnectionClose);
-    this.connection.on('error', this.onConnectionError);
-    this.connection.on('payload', this.onConnectionPayload);
-    this.events.emit('connect');
   }
 
   private async close() {
-    this.connection.removeListener('close', this.onConnectionClose);
-    this.connection.removeListener('error', this.onConnectionError);
-    this.connection.removeListener('payload', this.onConnectionPayload);
-    await this.connection.close();
-    this.events.emit('disconnect');
+    await this.lock.acquire();
+    try {
+      this.connection.removeListener('close', this.onConnectionClose);
+      this.connection.removeListener('error', this.onConnectionError);
+      this.connection.removeListener('payload', this.onConnectionPayload);
+      await this.connection.close();
+      this.events.emit('disconnect');
+    } finally {
+      this.lock.release();
+    }
   }
 
   private onConnectionClose() {

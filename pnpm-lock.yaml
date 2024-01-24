@@ -17,6 +17,9 @@ importers:
 
   packages/json-rpc:
     dependencies:
+      async-await-mutex-lock:
+        specifier: ^1.0.10
+        version: 1.0.10
       axios:
         specifier: ^1.6.5
         version: 1.6.5
@@ -2063,6 +2066,10 @@ packages:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /async-await-mutex-lock@1.0.10:
+    resolution: {integrity: sha512-HJOfObEYDecjNsr6+8TOoUW7biAkexkIIgYTdaAAWZ3Q4N2xFfWL/Avbfp8YQc/7vChuWPF1R9aSpmJPXx2Jkw==}
+    dev: false
 
   /async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}

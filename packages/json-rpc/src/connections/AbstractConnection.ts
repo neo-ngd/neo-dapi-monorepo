@@ -4,7 +4,6 @@ import { Connection, ConnectionEvents } from './Connection';
 
 export abstract class AbstractConnection implements Connection {
   abstract connected: boolean;
-  abstract connecting: boolean;
 
   protected events = new EventEmitter<ConnectionEvents>();
 
