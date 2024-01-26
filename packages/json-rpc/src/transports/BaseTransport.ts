@@ -35,8 +35,9 @@ import { AbstractTransport } from './AbstractTransport';
 export type BaseTransportOptions = Expand<HttpConnectionOptions & WebSocketConnectionOptions>;
 
 export class BaseTransport extends AbstractTransport {
-  private lock = new Lock();
   public connection: Connection;
+  private connected = false;
+  private lock = new Lock();
 
   constructor(connection: string | Connection, private options: BaseTransportOptions = {}) {
     super();
@@ -88,7 +89,7 @@ export class BaseTransport extends AbstractTransport {
     request: Request<P>,
     context?: unknown,
   ): Promise<R> {
-    if (!this.connection.connected) {
+    if (!this.connected) {
       await this.open();
     }
     return new Promise((resolve, reject) => {
@@ -118,7 +119,7 @@ export class BaseTransport extends AbstractTransport {
     notification: Notification<P>,
     context?: unknown,
   ): Promise<void> {
-    if (!this.connection.connected) {
+    if (!this.connected) {
       await this.open();
     }
     await this.connection.send(notification, context);
@@ -128,7 +129,7 @@ export class BaseTransport extends AbstractTransport {
     response: Response<R>,
     context?: unknown,
   ): Promise<void> {
-    if (!this.connection.connected) {
+    if (!this.connected) {
       await this.open();
     }
     await this.connection.send(response, context);
@@ -137,11 +138,12 @@ export class BaseTransport extends AbstractTransport {
   private async open(connection: Connection = this.connection) {
     await this.lock.acquire();
     try {
-      if (this.connection === connection && this.connection.connected) {
-        return;
-      }
-      if (this.connection.connected) {
-        await this.close();
+      if (this.connected) {
+        if (this.connection === connection) {
+          return;
+        } else {
+          await this.close(true);
+        }
       }
       this.connection = connection;
       await this.connection.open().catch(error => {
@@ -152,22 +154,31 @@ export class BaseTransport extends AbstractTransport {
       this.connection.on('close', this.onConnectionClose);
       this.connection.on('error', this.onConnectionError);
       this.connection.on('payload', this.onConnectionPayload);
+      this.connected = true;
       this.events.emit('connect');
     } finally {
       this.lock.release();
     }
   }
 
-  private async close() {
-    await this.lock.acquire();
+  private async close(noLock = false) {
+    if (!noLock) {
+      await this.lock.acquire();
+    }
     try {
+      if (!this.connected) {
+        return;
+      }
       this.connection.removeListener('close', this.onConnectionClose);
       this.connection.removeListener('error', this.onConnectionError);
       this.connection.removeListener('payload', this.onConnectionPayload);
       await this.connection.close();
+      this.connected = false;
       this.events.emit('disconnect');
     } finally {
-      this.lock.release();
+      if (!noLock) {
+        this.lock.release();
+      }
     }
   }
 

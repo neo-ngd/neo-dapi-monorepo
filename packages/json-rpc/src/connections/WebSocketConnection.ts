@@ -12,8 +12,8 @@ export type WebSocketConnectionOptions = Expand<{
 }>;
 
 export class WebSocketConnection extends AbstractConnection {
-  private lock = new Lock();
   private socket: WebSocket | null = null;
+  private lock = new Lock();
 
   constructor(public url: string, private options: WebSocketConnectionOptions = {}) {
     super();
@@ -32,12 +32,11 @@ export class WebSocketConnection extends AbstractConnection {
       if (this.connected) {
         return;
       }
-      const socket = await new Promise<WebSocket>((resolve, reject) => {
+      this.socket = await new Promise<WebSocket>((resolve, reject) => {
         const socket = new WebSocket(this.url);
         socket.onopen = () => resolve(socket);
         socket.onerror = error => reject(error);
       });
-      this.socket = socket;
       this.socket.onclose = () => this.close();
       this.socket.onerror = error => this.onError(error);
       this.socket.onmessage = event => this.onMessage(event.data);
@@ -50,6 +49,9 @@ export class WebSocketConnection extends AbstractConnection {
   public async close(): Promise<void> {
     await this.lock.acquire();
     try {
+      if (!this.connected) {
+        return;
+      }
       if (this.socket) {
         this.socket.onopen = () => undefined;
         this.socket.onclose = () => undefined;

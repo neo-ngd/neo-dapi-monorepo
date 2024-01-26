@@ -44,6 +44,9 @@ export class HttpConnection extends AbstractConnection {
   }
 
   public async close(): Promise<void> {
+    if (!this.connected) {
+      return;
+    }
     this.axiosInstance = null;
     this.events.emit('close');
   }

@@ -39,6 +39,9 @@ export class PostMessageConnection extends AbstractConnection {
   }
 
   async close(): Promise<void> {
+    if (!this.connected) {
+      return;
+    }
     this.disposer?.();
     this.disposer = null;
     this.connected = false;
