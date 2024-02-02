@@ -24,7 +24,7 @@ export class HttpConnection extends AbstractConnection {
   }
 
   get connected(): boolean {
-    return !!this.axiosInstance;
+    return !(this.axiosInstance == null);
   }
 
   public async open(): Promise<void> {
@@ -52,10 +52,10 @@ export class HttpConnection extends AbstractConnection {
   }
 
   public async send(payload: Payload, _context?: unknown): Promise<void> {
-    if (!this.axiosInstance) {
+    if (this.axiosInstance == null) {
       throw Error('Axios instance is not inited');
     }
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`sending: ${stringify(payload)}`);
     }
     this.axiosInstance
@@ -66,7 +66,7 @@ export class HttpConnection extends AbstractConnection {
 
   private onResolve(id: number, data: Json) {
     const payload = data;
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`received: ${stringify(data)}`);
     }
     if (isPayload(payload)) {
@@ -79,7 +79,7 @@ export class HttpConnection extends AbstractConnection {
   }
 
   private onReject(id: number, error: Error) {
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.error('error', error);
     }
     const errorJson = getStandardErrorJson(StandardErrorCodes.CommunicationFailed, error.message);

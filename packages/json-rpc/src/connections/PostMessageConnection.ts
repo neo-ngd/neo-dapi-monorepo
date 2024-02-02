@@ -49,7 +49,7 @@ export class PostMessageConnection extends AbstractConnection {
   }
 
   async send(payload: Payload, _context?: unknown): Promise<void> {
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`sending: ${stringify(payload)}`);
     }
     this.postMessage(stringify(payload));
@@ -57,7 +57,7 @@ export class PostMessageConnection extends AbstractConnection {
 
   private onMessage(message: string) {
     const payload = parse(message, null);
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`received: ${message}`);
     }
     if (isPayload(payload)) {

@@ -213,7 +213,8 @@ export class SigningNetworkProvider extends NetworkProvider {
       validUntilBlock = blockCount + 5000;
     }
 
-    const invocationsScript = params.invocations && invocationsToScript(params.invocations);
+    const invocationsScript =
+      params.invocations != null ? invocationsToScript(params.invocations) : null;
 
     let script: string;
     if (params.script != null) {

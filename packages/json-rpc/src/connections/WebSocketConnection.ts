@@ -23,7 +23,7 @@ export class WebSocketConnection extends AbstractConnection {
   }
 
   get connected(): boolean {
-    return !!this.socket;
+    return this.socket != null;
   }
 
   public async open(): Promise<void> {
@@ -52,7 +52,7 @@ export class WebSocketConnection extends AbstractConnection {
       if (!this.connected) {
         return;
       }
-      if (this.socket) {
+      if (this.socket != null) {
         this.socket.onopen = () => undefined;
         this.socket.onclose = () => undefined;
         this.socket.onerror = () => undefined;
@@ -67,17 +67,17 @@ export class WebSocketConnection extends AbstractConnection {
   }
 
   public async send(payload: Payload, _context?: unknown): Promise<void> {
-    if (!this.socket) {
+    if (this.socket == null) {
       throw Error('Socket is not inited');
     }
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`sending: ${stringify(payload)}`);
     }
     this.socket.send(stringify(payload));
   }
 
   private onError(error: Error) {
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.error('error', error);
     }
     this.events.emit('error', error);
@@ -85,7 +85,7 @@ export class WebSocketConnection extends AbstractConnection {
 
   private onMessage(data: string | Buffer | ArrayBuffer) {
     const payload = parse(data.toString(), null);
-    if (this.options.logger) {
+    if (this.options.logger != null) {
       this.options.logger.info(`received: ${data.toString()}`);
     }
     if (isPayload(payload)) {

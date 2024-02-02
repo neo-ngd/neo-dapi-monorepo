@@ -32,7 +32,10 @@ module.exports = {
         ],
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-        '@typescript-eslint/strict-boolean-expressions': ['error'],
+        '@typescript-eslint/strict-boolean-expressions': [
+          'error',
+          { allowString: false, allowNumber: false, allowNullableObject: false },
+        ],
       },
     },
   ],

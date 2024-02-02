@@ -60,7 +60,7 @@ export class NetworkProvider extends AbstractProvider {
     protected options: NetworkProviderOptions = {},
   ) {
     super();
-    if (!networkConfigs.find(config => config.name === defaultNetwork)) {
+    if (networkConfigs.find(config => config.name === defaultNetwork) == null) {
       throw new Error(`Network ${defaultNetwork} is not in network configs`);
     }
   }
@@ -101,7 +101,7 @@ export class NetworkProvider extends AbstractProvider {
   }
 
   changeNetwork(network: string): void {
-    if (!this.networkConfigs.find(config => config.name === network)) {
+    if (this.networkConfigs.find(config => config.name === network) == null) {
       throw new Error(`Network ${network} is not in network configs`);
     }
     this.defaultNetwork = network;
@@ -115,7 +115,7 @@ export class NetworkProvider extends AbstractProvider {
     }
 
     const networkConfig = this.networkConfigs.find(config => config.name === finalNetwork);
-    if (!networkConfig) {
+    if (networkConfig == null) {
       throw new JsonRpcError(getDapiErrorJson(DapiErrorCodes.UnsupportedNetwork));
     }
     return networkConfig;
@@ -125,7 +125,7 @@ export class NetworkProvider extends AbstractProvider {
     const networkConfig = this.getNetworkConfig(network, rejectNotDefault);
     let transport = this.transports[networkConfig.name];
 
-    if (!transport) {
+    if (transport == null) {
       transport = new BaseTransport(networkConfig.nodeUrl, this.options);
       this.transports[networkConfig.name] = transport;
     }
