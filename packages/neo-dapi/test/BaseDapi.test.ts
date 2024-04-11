@@ -92,7 +92,7 @@ describe('BaseDapi', () => {
   describe.each(table)('with $name', ({ provider, isSigningProvider, cleanup }) => {
     const dapi = new BaseDapi(provider);
 
-    test.concurrent('get provider', async () => {
+    test('get provider', async () => {
       const result = await dapi.getProvider();
       expect(result).toEqual({
         name: expect.toBeString(),
@@ -104,7 +104,7 @@ describe('BaseDapi', () => {
       });
     });
 
-    test.concurrent('get networks', async () => {
+    test('get networks', async () => {
       const result = await dapi.getNetworks();
       expect(result).toEqual({
         networks: expect.toSatisfyAll(item => (expect(item).toBeString(), true)),
@@ -113,7 +113,7 @@ describe('BaseDapi', () => {
     });
 
     if (isSigningProvider) {
-      test.concurrent('get account', async () => {
+      test('get account', async () => {
         const result = await dapi.getAccount();
         expect(result).toEqual({
           address: expect.toBeString(),
@@ -123,36 +123,36 @@ describe('BaseDapi', () => {
       });
     }
 
-    test.concurrent('get block count', async () => {
+    test('get block count', async () => {
       const result = await dapi.getBlockCount({});
       expect(result).toBeNumber();
     });
 
-    test.concurrent('get block', async () => {
+    test('get block', async () => {
       const result = await dapi.getBlock({ blockIndex: 0 });
       expect(result).toBeObject();
     });
 
-    test.concurrent('get transaction', async () => {
+    test('get transaction', async () => {
       const result = await dapi.getTransaction({
         txid: '0xfd7da54b831091d3dc261bdf8042d868427cd3480345328ba59d33b10e3c0905',
       });
       expect(result).toBeObject();
     });
 
-    test.concurrent('get application log', async () => {
+    test('get application log', async () => {
       const result = await dapi.getApplicationLog({
         txid: '0xfd7da54b831091d3dc261bdf8042d868427cd3480345328ba59d33b10e3c0905',
       });
       expect(result).toBeObject();
     });
 
-    test.concurrent('get nep17 balances', async () => {
+    test('get nep17 balances', async () => {
       const result = await dapi.getNep17Balances({ address });
       expect(result).toBeArray();
     });
 
-    test.concurrent('invoke read', async () => {
+    test('invoke read', async () => {
       const result = await dapi.invokeRead({
         scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
         operation: 'balanceOf',
@@ -161,7 +161,7 @@ describe('BaseDapi', () => {
       expect(result).toBeObject();
     });
 
-    test.concurrent('invoke read multi', async () => {
+    test('invoke read multi', async () => {
       const result = await dapi.invokeReadMulti({
         invocations: [
           {
@@ -175,7 +175,7 @@ describe('BaseDapi', () => {
     });
 
     if (isSigningProvider) {
-      test.concurrent('invoke', async () => {
+      test('invoke', async () => {
         const result = await dapi.invoke({
           scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
           operation: 'transfer',
@@ -192,7 +192,7 @@ describe('BaseDapi', () => {
     }
 
     if (isSigningProvider) {
-      test.concurrent('invoke multi', async () => {
+      test('invoke multi', async () => {
         const result = await dapi.invokeMulti({
           invocations: [
             {
@@ -213,7 +213,7 @@ describe('BaseDapi', () => {
     }
 
     if (isSigningProvider) {
-      test.concurrent('sign message', async () => {
+      test('sign message', async () => {
         const result = await dapi.signMessage({ message: 'Hello' });
         expect(result).toEqual({
           salt: expect.toBeString(),
@@ -224,14 +224,14 @@ describe('BaseDapi', () => {
     }
 
     if (isSigningProvider) {
-      test.concurrent('sign message without salt', async () => {
+      test('sign message without salt', async () => {
         const result = await dapi.signMessageWithoutSalt({ message: 'Hello' });
         expect(result).toEqual({ signature: expect.toBeString(), publicKey: expect.toBeString() });
       });
     }
 
     if (isSigningProvider) {
-      test.concurrent('sign transaction', async () => {
+      test('sign transaction', async () => {
         const result = await dapi.signTransaction({
           version: 0,
           nonce: 2515023354,
@@ -259,7 +259,7 @@ describe('BaseDapi', () => {
     }
 
     if (isSigningProvider) {
-      test.concurrent.skip('invoke and broadcast transaction', async () => {
+      test.skip('invoke and broadcast transaction', async () => {
         const { signedTx } = await dapi.invoke({
           scriptHash: '0xd2a4cff31913016155e38e474a2c06d08be276cf',
           operation: 'transfer',

@@ -48,7 +48,7 @@ describe('BaseJsonRpcTransport', () => {
   describe.each(table)('with $name', ({ connection, cleanup }) => {
     const transport = new BaseTransport(connection);
 
-    test.concurrent('get block number', async () => {
+    test('get block number', async () => {
       const result = await transport.request({ method: 'eth_blockNumber' });
       expect(result).toBeString();
     });
