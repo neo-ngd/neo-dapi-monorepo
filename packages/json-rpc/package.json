@@ -34,10 +34,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "async-await-mutex-lock": "^1.0.10",
-    "axios": "^1.6.5",
+    "async-await-mutex-lock": "^1.0.11",
+    "axios": "^1.7.4",
     "eventemitter3": "^5.0.1",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.35"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
