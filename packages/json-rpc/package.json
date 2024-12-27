@@ -1,6 +1,6 @@
 {
   "name": "@neongd/json-rpc",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Json-rpc types and toolings",
   "keywords": [
     "jsonrpc"
