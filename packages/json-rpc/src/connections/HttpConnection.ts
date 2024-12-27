@@ -3,7 +3,7 @@ import { getStandardErrorJson, StandardErrorCodes } from '../utils/errors';
 import { formatErrorResponse } from '../utils/formatters';
 import { stringify } from '../utils/json';
 import { Expand } from '../utils/typeUtils';
-import { Json, Logger, Payload } from '../utils/types';
+import { Logger, Payload } from '../utils/types';
 import { isHttpUrl, isPayload } from '../utils/validators';
 import { AbstractConnection } from './AbstractConnection';
 
@@ -64,7 +64,7 @@ export class HttpConnection extends AbstractConnection {
       .catch(err => 'id' in payload && this.onReject(payload.id, err));
   }
 
-  private onResolve(id: number, data: Json) {
+  private onResolve(id: number, data: unknown) {
     const payload = data;
     if (this.options.logger != null) {
       this.options.logger.info(`received: ${stringify(data)}`);

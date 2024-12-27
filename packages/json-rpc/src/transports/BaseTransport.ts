@@ -15,7 +15,6 @@ import {
 import { Expand } from '../utils/typeUtils';
 import {
   ErrorJson,
-  Json,
   Notification,
   Params,
   Payload,
@@ -55,7 +54,7 @@ export class BaseTransport extends AbstractTransport {
     await this.close();
   }
 
-  async request<R extends Json = Json, P extends Params = Params>(
+  async request<R = unknown, P extends Params = Params>(
     args: RequestArguments<P>,
     context?: unknown,
   ): Promise<R> {
@@ -69,7 +68,7 @@ export class BaseTransport extends AbstractTransport {
     return this.notifyStrict(formatNotification(args.method, args.params), context);
   }
 
-  async resolve<R extends Json = Json>(id: number, result: R, context?: unknown): Promise<void> {
+  async resolve<R = unknown>(id: number, result: R, context?: unknown): Promise<void> {
     return this.respondStrict(formatResultResponse(id, result), context);
   }
 
@@ -85,7 +84,7 @@ export class BaseTransport extends AbstractTransport {
       : connection;
   }
 
-  private async requestStrict<R extends Json = Json, P extends Params = Params>(
+  private async requestStrict<R = unknown, P extends Params = Params>(
     request: Request<P>,
     context?: unknown,
   ): Promise<R> {
@@ -125,7 +124,7 @@ export class BaseTransport extends AbstractTransport {
     await this.connection.send(notification, context);
   }
 
-  private async respondStrict<R extends Json = Json>(
+  private async respondStrict<R = unknown>(
     response: Response<R>,
     context?: unknown,
   ): Promise<void> {

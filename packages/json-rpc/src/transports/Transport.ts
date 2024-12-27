@@ -2,7 +2,6 @@ import { Connection } from '../connections/Connection';
 import {
   ErrorJson,
   EventDispatcher,
-  Json,
   Notification,
   Params,
   Payload,
@@ -28,14 +27,14 @@ export interface Transport extends EventDispatcher<TransportEvents> {
 
   disconnect(): Promise<void>;
 
-  request<R extends Json = Json, P extends Params = Params>(
+  request<R = unknown, P extends Params = Params>(
     args: RequestArguments<P>,
     context?: unknown,
   ): Promise<R>;
 
   notify<P extends Params = Params>(args: RequestArguments<P>, context?: unknown): Promise<void>;
 
-  resolve<R extends Json = Json>(id: number, result: R, context?: unknown): Promise<void>;
+  resolve<R = unknown>(id: number, result: R, context?: unknown): Promise<void>;
 
   reject(id: number, errorJson: ErrorJson, context?: unknown): Promise<void>;
 }

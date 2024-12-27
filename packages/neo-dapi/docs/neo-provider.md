@@ -20,7 +20,7 @@ interface RequestArguments<P extends Params = Params> {
   params?: P;
 }
 
-Provider.request<R extends Json = Json, P extends Params = Params>(args: RequestArguments<P>): Promise<R>;
+Provider.request<R = unknown, P extends Params = Params>(args: RequestArguments<P>): Promise<R>;
 ```
 
 The Provider should identify the requested RPC method by the value of `RequestArguments.method`.
@@ -64,7 +64,7 @@ When emitted, the `message` event be emitted with an object argument of the foll
 ```typescript
 export interface ProviderMessage {
   type: string;
-  data?: Json;
+  data?: unknown;
 }
 ```
 
@@ -81,7 +81,7 @@ If the default account of the Provider changes, the Provider should emit the eve
 ```typescript
 export interface ProviderError extends Error {
   code: number;
-  data?: Json;
+  data?: unknown;
 }
 ```
 

@@ -3,7 +3,6 @@ import {
   BaseTransportOptions,
   formatErrorJson,
   getStandardErrorJson,
-  Json,
   JsonRpcError,
   Params,
   RequestArguments,
@@ -65,9 +64,7 @@ export class NetworkProvider extends AbstractProvider {
     }
   }
 
-  async request<R extends Json = Json, P extends Params = Params>(
-    args: RequestArguments<P>,
-  ): Promise<R> {
+  async request<R = unknown, P extends Params = Params>(args: RequestArguments<P>): Promise<R> {
     switch (args.method) {
       case 'getProvider':
         return this.handleGetProvider() as any;

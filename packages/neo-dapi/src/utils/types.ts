@@ -1,4 +1,3 @@
-import { Json } from '@neongd/json-rpc';
 import EventEmitter from 'eventemitter3';
 import { UnionConcat } from './typeUtils';
 
@@ -20,7 +19,7 @@ export type ProviderInformation = {
   version: string;
   dapiVersion: string;
   compatibility: string[];
-  extra: Record<string, Json>;
+  extra: Record<string, unknown>;
 };
 
 export type Networks = {
@@ -193,7 +192,7 @@ export type ArgumentType =
 
 export type Argument = {
   type: ArgumentType;
-  value: Json;
+  value: unknown;
 };
 
 export type Notification = {

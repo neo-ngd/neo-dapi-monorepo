@@ -1,13 +1,5 @@
 import { getStandardErrorJson, isValidErrorCode, StandardErrorCodes } from './errors';
-import {
-  ErrorJson,
-  ErrorResponse,
-  Json,
-  Notification,
-  Params,
-  Request,
-  ResultResponse,
-} from './types';
+import { ErrorJson, ErrorResponse, Notification, Params, Request, ResultResponse } from './types';
 
 let lastPayloadId = 0;
 
@@ -39,10 +31,7 @@ export function formatNotification<P extends Params = Params>(
   };
 }
 
-export function formatResultResponse<R extends Json = Json>(
-  id: number,
-  result: R,
-): ResultResponse<R> {
+export function formatResultResponse<R = unknown>(id: number, result: R): ResultResponse<R> {
   return {
     id,
     jsonrpc: '2.0',
@@ -61,14 +50,14 @@ export function formatErrorResponse(id: number, error: ErrorJson): ErrorResponse
 export function formatErrorJson(error: unknown): ErrorJson {
   let code: number = StandardErrorCodes.InternalError;
   let message: string = getStandardErrorJson(StandardErrorCodes.InternalError).message;
-  let data: Json | undefined;
+  let data: unknown;
 
   if (typeof error === 'string') {
     message = error;
   } else if (error instanceof Object) {
     code = 'code' in error && isValidErrorCode(error.code) ? error.code : code;
     message = 'message' in error && typeof error.message === 'string' ? error.message : message;
-    data = 'data' in error ? (error.data as Json) : data;
+    data = 'data' in error ? error.data : data;
   }
   return { code, message, data };
 }

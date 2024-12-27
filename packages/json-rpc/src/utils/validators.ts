@@ -1,6 +1,5 @@
 import {
   ErrorResponse,
-  Json,
   Notification,
   Params,
   Payload,
@@ -23,9 +22,7 @@ export function isNotification<P extends Params = Params>(
   return !('id' in payload) && 'method' in payload;
 }
 
-export function isResultResponse<R extends Json = Json>(
-  payload: Payload,
-): payload is ResultResponse<R> {
+export function isResultResponse<R = unknown>(payload: Payload): payload is ResultResponse<R> {
   return 'result' in payload;
 }
 
@@ -33,7 +30,7 @@ export function isErrorResponse(payload: Payload): payload is ErrorResponse {
   return 'error' in payload;
 }
 
-export function isResponse<R extends Json = Json>(payload: Payload): payload is Response<R> {
+export function isResponse<R = unknown>(payload: Payload): payload is Response<R> {
   return isResultResponse(payload) || isErrorResponse(payload);
 }
 

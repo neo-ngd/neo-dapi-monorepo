@@ -1,10 +1,8 @@
-import { Json } from './types';
-
-export function stringify(value: Json): string {
+export function stringify(value: unknown): string {
   return JSON.stringify(value);
 }
 
-export function parse(string: string, defaultValue?: Json): Json {
+export function parse(string: string, defaultValue?: unknown): unknown {
   try {
     return JSON.parse(string);
   } catch (error) {

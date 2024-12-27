@@ -12,17 +12,7 @@ export interface EventDispatcher<Events extends EventEmitter.ValidEventTypes> {
   ): void;
 }
 
-export type Json =
-  | null
-  | boolean
-  | number
-  | string
-  | Json[]
-  | {
-      [prop: string]: Json;
-    };
-
-export type Params = Json[] | Record<string, Json> | undefined;
+export type Params = unknown[] | Record<string, unknown> | undefined;
 
 export type RequestArguments<P extends Params = Params> = undefined extends P
   ? { method: string; params?: P }
@@ -37,7 +27,7 @@ export type Notification<P extends Params = Params> = RequestArguments<P> & {
   jsonrpc: string;
 };
 
-export type ResultResponse<R extends Json = Json> = {
+export type ResultResponse<R = unknown> = {
   id: number;
   jsonrpc: string;
   result: R;
@@ -46,7 +36,7 @@ export type ResultResponse<R extends Json = Json> = {
 export type ErrorJson = {
   code: number;
   message: string;
-  data?: Json;
+  data?: unknown;
 };
 
 export type ErrorResponse = {
@@ -55,13 +45,12 @@ export type ErrorResponse = {
   error: ErrorJson;
 };
 
-export type Response<R extends Json = Json> = ResultResponse<R> | ErrorResponse;
+export type Response<R = unknown> = ResultResponse<R> | ErrorResponse;
 
-export type Payload<
-  RP extends Params = Params,
-  NP extends Params = Params,
-  R extends Json = Json,
-> = Request<RP> | Notification<NP> | Response<R>;
+export type Payload<RP extends Params = Params, NP extends Params = Params, R = unknown> =
+  | Request<RP>
+  | Notification<NP>
+  | Response<R>;
 
 export interface Logger {
   info(message: string): void;

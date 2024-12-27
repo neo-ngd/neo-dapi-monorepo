@@ -1,14 +1,14 @@
-import { Json, Params, RequestArguments } from '@neongd/json-rpc';
+import { Params, RequestArguments } from '@neongd/json-rpc';
 import { EventDispatcher } from '../utils/types';
 
 export interface ProviderError extends Error {
   code: number;
-  data?: Json;
+  data?: unknown;
 }
 
 export type ProviderMessage = {
   type: string;
-  data?: Json;
+  data?: unknown;
 };
 
 export type ProviderEvents = {
@@ -20,5 +20,5 @@ export type ProviderEvents = {
 };
 
 export interface Provider extends EventDispatcher<ProviderEvents> {
-  request<R extends Json = Json, P extends Params = Params>(args: RequestArguments<P>): Promise<R>;
+  request<R = unknown, P extends Params = Params>(args: RequestArguments<P>): Promise<R>;
 }

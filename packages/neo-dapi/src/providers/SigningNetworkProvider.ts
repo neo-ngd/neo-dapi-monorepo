@@ -1,7 +1,6 @@
 import { CONST, tx, u, wallet } from '@cityofzion/neon-core';
 import {
   getStandardErrorJson,
-  Json,
   JsonRpcError,
   Params,
   RequestArguments,
@@ -50,9 +49,7 @@ export class SigningNetworkProvider extends NetworkProvider {
     this.account = new wallet.Account(privateKey);
   }
 
-  async request<R extends Json = Json, P extends Params = Params>(
-    args: RequestArguments<P>,
-  ): Promise<R> {
+  async request<R = unknown, P extends Params = Params>(args: RequestArguments<P>): Promise<R> {
     switch (args.method) {
       case 'getProvider':
         return this.handleGetProvider() as any;

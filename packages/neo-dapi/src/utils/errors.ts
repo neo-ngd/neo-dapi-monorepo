@@ -1,4 +1,4 @@
-import { ErrorJson, Json } from '@neongd/json-rpc';
+import { ErrorJson } from '@neongd/json-rpc';
 
 export enum DapiErrorCodes {
   UserRejected = -32001,
@@ -20,7 +20,11 @@ export function isDapiErrorCode(code: number): code is DapiErrorCodes {
   return Object.values(DapiErrorCodes).includes(code);
 }
 
-export function getDapiErrorJson(code: DapiErrorCodes, message?: string, data?: Json): ErrorJson {
+export function getDapiErrorJson(
+  code: DapiErrorCodes,
+  message?: string,
+  data?: unknown,
+): ErrorJson {
   return {
     code,
     message: message ?? DEFAULT_ERROR_MESSAGE_MAP[code],

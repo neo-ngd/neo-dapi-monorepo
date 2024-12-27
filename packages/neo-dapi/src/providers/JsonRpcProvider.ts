@@ -1,11 +1,4 @@
-import {
-  Json,
-  JsonRpcError,
-  Notification,
-  Params,
-  RequestArguments,
-  Transport,
-} from '@neongd/json-rpc';
+import { JsonRpcError, Notification, Params, RequestArguments, Transport } from '@neongd/json-rpc';
 import { formatErrorJson } from '@neongd/json-rpc';
 import { AbstractProvider } from './AbstractProvider';
 import { ProviderEvents } from './Provider';
@@ -18,9 +11,7 @@ export class JsonRpcProvider extends AbstractProvider {
     this.registerEventListeners();
   }
 
-  async request<R extends Json = Json, P extends Params = Params>(
-    args: RequestArguments<P>,
-  ): Promise<R> {
+  async request<R = unknown, P extends Params = Params>(args: RequestArguments<P>): Promise<R> {
     return this.transport.request(args);
   }
 
