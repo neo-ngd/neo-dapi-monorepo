@@ -9,7 +9,12 @@ import {
 } from './types';
 
 export function isPayload(payload: unknown): payload is Payload {
-  return payload instanceof Object && 'jsonrpc' in payload && payload.jsonrpc === '2.0';
+  return (
+    payload != null &&
+    typeof payload === 'object' &&
+    'jsonrpc' in payload &&
+    payload.jsonrpc === '2.0'
+  );
 }
 
 export function isRequest<P extends Params = Params>(payload: Payload): payload is Request<P> {

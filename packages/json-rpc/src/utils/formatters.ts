@@ -54,7 +54,7 @@ export function formatErrorJson(error: unknown): ErrorJson {
 
   if (typeof error === 'string') {
     message = error;
-  } else if (error instanceof Object) {
+  } else if (error != null && typeof error === 'object') {
     code = 'code' in error && isValidErrorCode(error.code) ? error.code : code;
     message = 'message' in error && typeof error.message === 'string' ? error.message : message;
     data = 'data' in error ? error.data : data;
